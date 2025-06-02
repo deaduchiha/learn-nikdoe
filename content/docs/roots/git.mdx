@@ -1,0 +1,174 @@
+---
+title: "Git & GitHub Complete Guide"
+description: "Welcome to the ultimate beginner-friendly, practical guide to mastering Git & GitHub. This guide covers everything you need step-by-step, enriched with best practices and real-world scenarios."
+---
+
+## 📌 1. Understanding Git & GitHub
+
+**Git** is a distributed version control system that helps track changes in your code. **GitHub** is a platform that hosts Git repositories, enabling seamless collaboration.
+
+---
+
+## 📌 2. Installing Git
+
+Download Git from [git-scm.com](https://git-scm.com/downloads).
+
+- Follow default installation settings.
+- Verify your installation by typing:
+
+```bash
+git --version
+```
+
+---
+
+## 📌 3. Basic Configuration
+
+Configure your identity in Git:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+Check your settings:
+
+```bash
+git config --list
+```
+
+---
+
+## 📌 4. Creating Your First Repository
+
+Initialize your repository:
+
+```bash
+mkdir my-first-repo
+cd my-first-repo
+git init
+```
+
+Add a README:
+
+```bash
+echo "# My First Project 🚀" > README.md
+```
+
+Add and commit your changes:
+
+```bash
+git add .
+git commit -m "Initial commit"
+```
+
+---
+
+## 📌 5. Connecting to GitHub
+
+Create a repository on GitHub:
+
+- Log in to [github.com](https://github.com).
+- Click "New Repository".
+- Name your repo and leave the rest at default.
+
+Link your local repo:
+
+```bash
+git remote add origin your_github_repo_url
+```
+
+Push your code to GitHub:
+
+```bash
+git push -u origin main
+```
+
+---
+
+## 📌 6. Branching & Merging
+
+Create a new branch:
+
+```bash
+git checkout -b feature-branch
+```
+
+Switch branches:
+
+```bash
+git checkout main
+```
+
+Merge branches:
+
+```bash
+git merge feature-branch
+```
+
+Delete a branch:
+
+```bash
+git branch -d feature-branch
+```
+
+---
+
+## 📌 7. Handling Conflicts
+
+Conflicts occur when merging branches with overlapping changes.
+
+- Git marks conflicts within files clearly.
+
+Example conflict markers:
+
+```
+<<<<<<< HEAD
+This is your current branch change
+=======
+This is the other branch change
+>>>>>>>
+```
+
+Resolve by editing the file manually and saving it. Then:
+
+```bash
+git add .
+git commit -m "Resolve merge conflict"
+```
+
+---
+
+## 📌 8. Best Practices
+
+- **Commit frequently:** Keep commits small and meaningful.
+- **Descriptive commit messages:** Clearly explain what changes and why.
+- **Pull regularly:** Always keep your local branch updated.
+- **Use `.gitignore`:** Ignore files like `node_modules`, `.env`, etc.
+
+---
+
+## 📌 9. Homework: Practical Exercises
+
+Perform these tasks to strengthen your skills:
+
+1. **Create & Clone:**
+
+   - Create a GitHub repository, clone it locally, add files, commit, and push.
+
+2. **Branching & Merging:**
+
+   - Create two branches, make different changes, and practice merging.
+
+3. **Conflict Simulation:**
+
+   - Simulate a conflict by modifying the same line in two branches, then merge and resolve.
+
+4. **Real-World Scenario:**
+
+   - Imagine you're collaborating with a friend. Simulate two people pushing conflicting changes, resolve these conflicts, and document the process clearly.
+
+---
+
+🎯 **Checkpoint:**
+After completing this guide, you'll confidently handle essential Git & GitHub operations, manage collaboration, and resolve conflicts like a pro!

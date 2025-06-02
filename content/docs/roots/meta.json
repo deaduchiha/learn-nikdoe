@@ -1,0 +1,6 @@
+{
+  "title": "Roots",
+  "icon": "Layers",
+  "defaultOpen": true,
+  "pages": ["tools-foundation", "git"]
+}
