@@ -1,0 +1,244 @@
+---
+
+title: "Modern Layout & Design Systems"
+
+description: "Modern layout, design tokens, fluid type & spacing, dark‑mode tokens, and Tailwind CSS v4 responsive techniques."
+---------
+
+export const Homework = ({ children }) => (
+  <div className="rounded-lg border-l-4 border-pink-400 bg-pink-50 dark:bg-pink-950/50 p-4 mt-6 mb-8">
+    <strong className="block text-pink-700 dark:text-pink-300 mb-2">📚 Homework</strong>
+    {children}
+  </div>
+);
+
+# 🌸 BLOSSOM — Modern Layout & Design Systems
+
+<blockquote className="italic border-l-4 border-pink-400 pl-4">Module 4 of the <strong>nikode</strong> front‑end curriculum. Learn how design systems turn raw CSS into scalable user interfaces that look great on any device and in any color scheme.</blockquote>
+
+---
+
+## 📈 Learning Outcomes
+
+By the end of this module you will be able to:
+
+1. **Author and reuse design tokens** with CSS custom properties.
+2. Size anything with math – using `calc()` and `clamp()`.
+3. Create **fluid typography & spacing scales** that grow smoothly between break‑points.
+4. Ship an automatic **dark‑mode** experience with `prefers-color-scheme`.
+5. Combine **Tailwind CSS v4** with native CSS functions for responsive layouts.
+6. Refactor an existing project and publish a **mini component library** with **shadcn/ui**.
+
+---
+
+## 1  Custom Properties (CSS Variables)
+
+> **Why?** Custom properties cascade like any other CSS rule and are perfect for theming. Browsers resolve them once, so there’s _no runtime cost_ after load.
+
+### 1.1  Syntax
+
+```css
+:root {
+  /* 🌸 Blossom brand palette */
+  --color-brand-50: #fdf2f8;
+  --color-brand-500: #ec4899;
+  --radius-base: 0.75rem; /* 12 px */
+}
+
+.card {
+  border-radius: var(--radius-base);
+  background: var(--color-brand-50);
+  color: var(--color-brand-500);
+}
+```
+
+### 1.2  Best Practice
+
+- Define **all** design tokens inside `:root` first.
+- Group by category (`color-*`, `spacing-*`, `radius-*`).
+- Prefix tokens to avoid collision (`--nikode-*`).
+
+<Homework>
+  Convert the colors in your last mini‑project to custom properties.
+</Homework>
+
+---
+
+## 2  `calc()` & `clamp()` — Math in CSS
+
+### 2.1  `calc()`
+
+Mix any supported length / percentage:
+
+```css
+.sidebar {
+  width: calc(100% / 3 - 1rem);
+}
+```
+
+### 2.2  `clamp(min, ideal, max)`
+
+Keeps a value inside boundaries. Perfect for fluid sizing.
+
+```css
+h1 {
+  font-size: clamp(1.75rem, 1.2rem + 3vw, 3rem);
+}
+```
+
+### 2.3  Fluid Spacing Helper
+
+```css
+:root {
+  --space-s: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+  --space-m: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  --space-l: clamp(2rem, 1.6rem + 2vw, 3rem);
+}
+```
+
+<Homework>
+  Create `--space-xl` and `--space-2xl` tokens using `clamp()`.
+</Homework>
+
+---
+
+## 3  Fluid Type & Spacing Scales
+
+### 3.1  The Problem
+
+Break‑points cause _jumps_ in font‑size and rhythm.
+
+### 3.2  The Solution
+
+Use `clamp()` so values grow smoothly between a **min** and **max** screen width.
+
+| Screen‑Width | Formula                  | Example Result |
+| ------------ | ------------------------ | -------------- |
+| \< 375 px    | `min`                    | 1.75 rem       |
+| 375–1280 px  | `ideal` (`1.2rem + 3vw`) | fluid          |
+| \> 1280 px   | `max`                    | 3 rem          |
+
+_(See [Smashing Mag – Fluid Type](https://www.smashingmagazine.com/2022/01/css-fluid-typography/).)_
+
+> **Tip:** Remove `clamp()`. Resize the viewport. Watch the text jump!
+
+---
+
+## 4  Dark‑Mode Tokens
+
+### 4.1  Detect Preference
+
+```css
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f172a; /* slate‑900 */
+    --color-fg: #f8fafc; /* slate‑50  */
+  }
+}
+```
+
+### 4.2  Token Swap Strategy
+
+1. Keep **semantic** names (`--color-bg`) not brand shades.
+2. Override only what changes.
+3. Let all components reference semantic tokens.
+
+<Homework>Create a light/dark switch in plain CSS (no JS).</Homework>
+
+---
+
+## 5  Responsive Design with Tailwind CSS v4 + CSS Functions
+
+### 5.1  Install & Configure
+
+```bash
+npm install -D tailwindcss@next
+npx tailwindcss init
+```
+
+Enable experimental features:
+
+```js title="tailwind.config.js"
+export default {
+  experimental: {
+    optimizeUniversalDefaults: true,
+  },
+  theme: {
+    fontSize: {
+      base: "clamp(1rem, 0.9rem + 0.3vw, 1.125rem)",
+    },
+  },
+};
+```
+
+### 5.2  Utility + Function = ❤️
+
+```html
+<div
+  class="prose max-w-none p-[theme(spacing.4)] text-[clamp(1rem,0.9rem+0.3vw,1.125rem)]"
+>
+  ...
+</div>
+```
+
+Tailwind passes unknown strings straight to CSS – giving you **full power** with predictable token naming.
+
+---
+
+## 🌦️  Mini‑Project — Weather Dashboard Refactor
+
+### Objective
+
+Turn your static weather dashboard (from Module 2) into a **fully responsive, dark‑mode aware** app powered by Tailwind v4 and a small component library built with **shadcn/ui**.
+
+### Setup Checklist
+
+1. **Fork the starter repo** (`nikode/weather-dashboard`).
+2. Upgrade Tailwind → v4 beta.
+3. Scaffold shadcn/ui: `npx shadcn-ui init`.
+
+### Milestones
+
+| #   | Task                                                           | Hints                                  |
+| --- | -------------------------------------------------------------- | -------------------------------------- |
+| 1   | Extract design tokens                                          | Start in `globals.css` under `:root`.  |
+| 2   | Replace layout with Tailwind utilities                         | Use `grid` and `minmax()` for columns. |
+| 3   | Add `prefers-color-scheme` dark layer                          | Swap semantic tokens only.             |
+| 4   | Publish **Button**, **Card** & **MetricBadge** via `shadcn/ui` | Follow the shadcn CLI prompts.         |
+
+### Deliverables
+
+- GitHub URL + live Vercel link.
+- Short Loom video (max 3 min) explaining token strategy.
+
+<Homework>
+  Stretch goal: Animate metric cards with Framer Motion when data refreshes.
+</Homework>
+
+---
+
+## 📝 Homework Recap
+
+1. **Tokenize** colors (HW 1).
+2. **Space & Scale** with `clamp()` (HW 2).
+3. **Auto Dark Mode** (HW 3).
+4. **Finish mini‑project** and submit pull request.
+
+Time‑box each exercise to **25 minutes**; take a 5‑minute break after each Pomodoro.
+
+---
+
+## 📚  Further Reading & Reference
+
+- Tailwind CSS Official Docs — _Design System_ & _Dark Mode_ guides.
+- [Smashing Magazine — Fluid / Responsive Type Tutorial](https://www.smashingmagazine.com/2022/01/css-fluid-typography/).
+- CSS‑Tricks — _A Complete Guide to Custom Properties_.
+- shadcn/ui — _CLI & Theming Docs_.
+
+---
+
+### 🌺 You’re Ready to Blossom!
+
+Push your repo, share your progress in **#nikode-showcase** and help a fellow learner by reviewing one pull request. 🌸
+
+> **Next Up:** Module 5 – _Pollinate_: Animations & Interaction.
