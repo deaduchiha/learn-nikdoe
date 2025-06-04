@@ -1,0 +1,1418 @@
+---
+title: "JavaScript Fundamentals Branch"
+description: "A clear, step-by-step guide covering ES2024 syntax, data types, closures, DOM, events, fetch, async/await, JSON, and mini-projects."
+date: "2025-06-04"
+sidebar_position: 3
+keywords:
+  - javascript
+  - ES2024
+  - fundamentals
+  - DOM
+  - fetch
+---
+
+## Introduction
+
+Welcome to a comprehensive, step-by-step guide to learning modern JavaScript. This document is structured to take you from absolute beginner to confident practitioner of JavaScript ES2024. Each section includes:
+
+- **Simple, clear explanations** that anyone in the world can understand.
+- **Best practices** and pro tips.
+- **Multiple code examples** to illustrate key ideas.
+- **Homework exercises** at the end of each part to reinforce learning.
+
+Feel free to follow each section in order. If you’re new to programming entirely, start at Section 1; if you already know some basics, you may skip ahead. By the end of this guide, you will have built mini-projects (Rock–Paper–Scissors, Weather Dashboard) and have solid foundations for any JavaScript task.
+
+---
+
+## Section 1: Setting Up Your Environment
+
+### 1.1 Why Setup Matters
+
+Before you write any JavaScript, you need:
+
+1. A modern browser (Chrome, Firefox, Edge, Safari).
+2. A code editor (VS Code recommended).
+3. Basic tooling:
+
+   - **Node.js** (to run JavaScript on your computer and install tools).
+   - **ESLint** (find problems in your code).
+   - **Prettier** (automatically format code).
+
+Setting up right ensures you write clean, consistent code.
+
+### 1.2 Installing Node.js
+
+1. Go to [nodejs.org](https://nodejs.org/) and download the latest **LTS** version.
+2. Install by following the installer prompts.
+3. Verify in terminal/command prompt:
+
+   ```bash
+   node --version
+   npm --version
+   ```
+
+   You should see a version number for each.
+
+### 1.3 Choosing and Configuring Your Editor
+
+- **VS Code** (free, popular, many extensions).
+- Install these extensions:
+
+  - **ESLint** by Dirk Baeumer
+  - **Prettier - Code formatter** by Prettier
+  - **JavaScript (ES6) code snippets**
+
+In VS Code settings, enable “Format on Save”:
+
+1. Press `Ctrl+,` (Windows/Linux) or `Cmd+,` (macOS).
+2. Search for “format on save” and check the box.
+3. Ensure Prettier is the default formatter: search “default formatter” → select “Prettier”.
+
+### 1.4 Initial Project Folder
+
+1. Create a folder, e.g., `js-fundamentals/`.
+2. Inside, run:
+
+   ```bash
+   npm init -y
+   npm install eslint prettier --save-dev
+   npx eslint --init
+   ```
+
+3. Choose:
+
+   - “To check syntax, find problems, and enforce code style”.
+   - “JavaScript modules (import/export)”.
+   - Browser environment.
+   - Use **ESLint recommended rules**.
+   - Choose JSON config format.
+
+4. Create `.prettierrc` with:
+
+   ```json
+   {
+     "singleQuote": true,
+     "semi": true,
+     "trailingComma": "es5"
+   }
+   ```
+
+5. Add scripts in `package.json`:
+
+   ```jsonc
+   "scripts": {
+     "lint": "eslint .",
+     "format": "prettier --write ."
+   }
+   ```
+
+### 1.5 Live Server (Optional)
+
+To run and auto-reload your HTML/JS in the browser:
+
+1. In VS Code, install “Live Server” extension by Ritwick Dey.
+2. Open your `index.html`, right-click, “Open with Live Server”.
+
+---
+
+### Homework for Section 1
+
+1. **Install Node.js** and confirm versions of `node` and `npm`.
+2. **Set up ESLint & Prettier** in a new folder. Create a small `index.js` file that deliberately breaks a lint rule (e.g., missing semicolon) and run `npm run lint`.
+3. **Create an `index.html`** that links to `index.js` and open it with Live Server. Write a `console.log('Hello, JavaScript!')` and ensure it appears in browser DevTools.
+
+---
+
+## Section 2: JavaScript Basics (Syntax & Data Types)
+
+### 2.1 Hello, JavaScript!
+
+In your `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Fundamentals</title>
+  </head>
+  <body>
+    <script src="./index.js" type="module"></script>
+  </body>
+</html>
+```
+
+- The `type="module"` attribute enables ES2024 module syntax later.
+- All JavaScript code goes in `index.js`.
+
+### 2.2 Variables: `let`, `const`, `var`
+
+- **`let`**: block-scoped variable you can reassign.
+- **`const`**: block-scoped constant (cannot reassign).
+- **`var`**: function-scoped (avoid using in modern code).
+
+```js
+let name = "Alice";
+name = "Bob";
+
+const PI = 3.14159;
+// PI = 3; // ❌ Error
+
+var oldVar = 123;
+```
+
+**Best Practice**:
+
+- Default to **`const`**.
+- Use **`let`** only when you need to reassign.
+- Do not use **`var`** anymore.
+
+### 2.3 Data Types
+
+There are 7 primitive types:
+
+1. **Number**: `42`, `3.14`
+2. **String**: `'hello'`, `"world"`, `` `template ${expr}` ``
+3. **Boolean**: `true`, `false`
+4. **Null**: `null` (explicit “no value”)
+5. **Undefined**: `undefined` (variable declared but no value)
+6. **Symbol**: `Symbol('id')` (unique identifier)
+7. **BigInt**: `123456789012345678901234567890n`
+
+And one non-primitive:
+
+- **Object**: `{}`, `[]`, `function(){}`
+
+```js
+const age = 30; // Number
+const greeting = "Hi!"; // String
+const isAdmin = false; // Boolean
+let noValue = null; // Null
+let notDefined; // Undefined
+const id = Symbol("id"); // Symbol
+const bigNum = 9007199254740991n; // BigInt
+
+const user = {
+  name: "Alice",
+  age: 30,
+};
+```
+
+### 2.4 Type Checking & Conversion
+
+- Use `typeof` to check type:
+
+  ```js
+  console.log(typeof 123); // "number"
+  console.log(typeof "hello"); // "string"
+  console.log(typeof {}); // "object"
+  console.log(typeof null); // "object" (a known quirk)
+  ```
+
+- **`null`** is its own type but `typeof null` returns `"object"`.
+- Convert types:
+
+  ```js
+  String(123); // "123"
+  Number("456"); // 456
+  Boolean(0); // false
+  ```
+
+**Best Practice**:
+
+- Avoid implicit conversions like `'5' * 2`. Use explicit conversion to prevent unexpected bugs.
+
+### 2.5 Template Literals
+
+Use backticks (`` ` ``) to embed expressions:
+
+```js
+const user = "Alice";
+const greeting = `Hello, ${user}! Today is ${new Date().toDateString()}.`;
+console.log(greeting);
+```
+
+- Supports multi-line strings without `\n`.
+
+### 2.6 Comments
+
+- Single-line: `// comment`
+- Multi-line: `/* comment */`
+
+Use comments sparingly and only when they clarify. Aim for **self-documenting code**: meaningful variable/function names that explain intent.
+
+---
+
+### Homework for Section 2
+
+1. Declare variables with all data types (Number, String, Boolean, Null, Undefined, Symbol, BigInt). Log their types with `typeof`.
+2. Write a function `convertToNumber(str)` that takes a string and returns a number or logs an error if conversion fails.
+3. Create a template literal that includes at least two expressions and spans two lines.
+
+---
+
+## Section 3: Control Flow (Conditionals & Loops)
+
+### 3.1 `if` / `else if` / `else`
+
+```js
+const score = 85;
+
+if (score >= 90) {
+  console.log("Grade: A");
+} else if (score >= 80) {
+  console.log("Grade: B");
+} else if (score >= 70) {
+  console.log("Grade: C");
+} else {
+  console.log("Grade: F");
+}
+```
+
+**Best Practice**:
+
+- Use `===` (strict equality) instead of `==`.
+- Always include `else` or explicitly handle default cases.
+
+### 3.2 Ternary Operator
+
+Short form of `if/else`:
+
+```js
+const isMember = true;
+const cost = isMember ? "$2.00" : "$10.00";
+console.log(cost); // "$2.00"
+```
+
+### 3.3 `switch` Statement
+
+Alternative for multiple conditions:
+
+```js
+const day = "Tuesday";
+
+switch (day) {
+  case "Monday":
+    console.log("Start of week");
+    break;
+  case "Tuesday":
+  case "Wednesday":
+  case "Thursday":
+    console.log("Midweek");
+    break;
+  case "Friday":
+    console.log("Almost weekend");
+    break;
+  default:
+    console.log("Weekend");
+}
+```
+
+**Best Practice**:
+
+- Always include `break` unless intentionally “falling through”.
+- Use `default` to catch unhandled cases.
+
+### 3.4 Loops
+
+#### 3.4.1 `for` Loop
+
+```js
+for (let i = 0; i < 5; i++) {
+  console.log(`i = ${i}`);
+}
+```
+
+#### 3.4.2 `while` Loop
+
+```js
+let count = 0;
+while (count < 3) {
+  console.log(count);
+  count++;
+}
+```
+
+#### 3.4.3 `do…while` Loop
+
+Executes at least once:
+
+```js
+let x = 0;
+do {
+  console.log(x);
+  x++;
+} while (x < 3);
+```
+
+#### 3.4.4 Looping with Arrays: `for…of`
+
+```js
+const nums = [1, 2, 3];
+for (const n of nums) {
+  console.log(n);
+}
+```
+
+#### 3.4.5 Looping with Objects: `for…in` (Not as common)
+
+```js
+const user = { name: "Alice", age: 30 };
+for (const key in user) {
+  console.log(`${key} = ${user[key]}`);
+}
+```
+
+**Best Practice**:
+
+- Use `for…of` for arrays.
+- Avoid `for…in` for arrays (it iterates keys, not values).
+- Prefer array methods (`.forEach`, `.map`, etc.) when appropriate (see Section 5).
+
+---
+
+### Homework for Section 3
+
+1. Write a function `getLetterGrade(score)` that returns “A”, “B”, “C”, “D”, or “F” using `if/else` statements.
+2. Rewrite `getLetterGrade` using a `switch` statement (hint: you can use `Math.floor(score / 10)`).
+3. Given an array `const fruits = ['apple', 'banana', 'cherry']`, use a `for…of` loop to log each fruit. Then rewrite using `.forEach()`.
+
+---
+
+## Section 4: Functions, Scope & Closures
+
+### 4.1 Function Declarations vs. Expressions
+
+#### 4.1.1 Function Declaration
+
+```js
+function add(a, b) {
+  return a + b;
+}
+console.log(add(2, 3)); // 5
+```
+
+- **Hoisted**: Can call before declaration.
+
+#### 4.1.2 Function Expression
+
+```js
+const multiply = function (a, b) {
+  return a * b;
+};
+console.log(multiply(2, 3)); // 6
+```
+
+- **Not hoisted**: Cannot call before definition.
+
+#### 4.1.3 Arrow Functions (ES6+)
+
+```js
+const subtract = (a, b) => a - b;
+console.log(subtract(5, 2)); // 3
+```
+
+- No own `this`, `arguments`.
+- Use when you need concise syntax, especially for callbacks.
+
+**Best Practice**:
+
+- Use function declarations for “named” functions you reuse.
+- Use arrow functions for small, anonymous callbacks.
+
+### 4.2 Parameters, Default Values & Rest
+
+```js
+function greet(name = "Guest") {
+  return `Hello, ${name}!`;
+}
+console.log(greet()); // "Hello, Guest!"
+console.log(greet("Alice")); // "Hello, Alice!"
+```
+
+Rest parameters: collect multiple args into an array:
+
+```js
+function sum(...nums) {
+  return nums.reduce((total, n) => total + n, 0);
+}
+console.log(sum(1, 2, 3, 4)); // 10
+```
+
+### 4.3 Scope: Global vs. Local
+
+- **Global scope**: variables declared outside any function.
+- **Local scope**: variables inside a function or block (with `let`/`const`).
+
+```js
+const globalVar = "I am global";
+
+function foo() {
+  const localVar = "I am local";
+  console.log(globalVar); // works
+  console.log(localVar);
+}
+
+foo();
+// console.log(localVar); // ❌ ReferenceError
+```
+
+**Best Practice**:
+
+- Minimize global variables.
+- Keep data inside functions/blocks as much as possible.
+
+### 4.4 Closures
+
+A **closure** is when a function “remembers” variables from its outer scope even after that outer function has finished executing.
+
+```js
+function makeCounter() {
+  let count = 0;
+  return function () {
+    count++;
+    console.log(count);
+  };
+}
+
+const counter = makeCounter();
+counter(); // 1
+counter(); // 2
+```
+
+Here, the inner function retains access to `count` even after `makeCounter()` has returned.
+Closures are powerful for:
+
+- **Data privacy**
+- **Factory functions**
+- **Callbacks maintaining state**
+
+---
+
+### Homework for Section 4
+
+1. Write a function `multiplyFactory(x)` that returns a new function which takes one argument `y` and returns `x * y`. Test it by creating `const double = multiplyFactory(2)` and logging `double(5)`.
+2. Explain in your own words why closures are useful. Write one short paragraph.
+3. Create a function `createUserManager()` that keeps an internal `users` array (empty initially) and returns two functions: `addUser(name)` (pushes into array) and `listUsers()` (logs all user names). Demonstrate they share the same `users` state.
+
+---
+
+## Section 5: Arrays & Objects (Methods, Destructuring & Spread)
+
+### 5.1 Arrays
+
+#### 5.1.1 Creating & Accessing
+
+```js
+const numbers = [1, 2, 3, 4];
+console.log(numbers[0]); // 1
+console.log(numbers.length); // 4
+```
+
+#### 5.1.2 Common Array Methods
+
+1. **`push` / `pop`** – add/remove at end
+2. **`shift` / `unshift`** – remove/add at start
+3. **`slice`** – shallow copy part of array
+4. **`splice`** – add/remove any position
+5. **`forEach`** – execute on each element
+
+   ```js
+   numbers.forEach((n, idx) => {
+     console.log(`Index ${idx}: ${n}`);
+   });
+   ```
+
+6. **`map`** – return new array by transforming each element
+
+   ```js
+   const doubled = numbers.map((n) => n * 2);
+   // [2, 4, 6, 8]
+   ```
+
+7. **`filter`** – return new array with only items matching a condition
+
+   ```js
+   const evens = numbers.filter((n) => n % 2 === 0);
+   // [2, 4]
+   ```
+
+8. **`reduce`** – accumulate values
+
+   ```js
+   const sum = numbers.reduce((total, n) => total + n, 0);
+   // 10
+   ```
+
+9. **`find` / `findIndex`** – locate first matching element or index
+10. **`some` / `every`** – boolean checks
+
+**Best Practice**:
+
+- Prefer non-mutating methods (e.g., `map`, `filter`, `slice`) over mutating ones (`splice`, `push`) unless you explicitly want to change the original array.
+
+### 5.2 Objects
+
+#### 5.2.1 Creating & Accessing
+
+```js
+const user = {
+  name: "Alice",
+  age: 30,
+  isActive: true,
+};
+
+// Access:
+console.log(user.name);
+console.log(user["age"]);
+```
+
+#### 5.2.2 Object Methods
+
+1. **`Object.keys(obj)`** → array of keys
+2. **`Object.values(obj)`** → array of values
+3. **`Object.entries(obj)`** → array of `[key, value]` pairs
+4. **`obj.hasOwnProperty(key)`** → boolean
+
+```js
+const keys = Object.keys(user); // ['name', 'age', 'isActive']
+const entries = Object.entries(user); // [['name','Alice'], ['age',30], ...]
+```
+
+**Best Practice**:
+
+- Use **destructuring** when pulling multiple properties.
+
+### 5.3 Destructuring
+
+#### 5.3.1 Array Destructuring
+
+```js
+const coords = [10, 20];
+const [x, y] = coords;
+console.log(x, y); // 10 20
+
+// Skip items:
+const [first, , third] = [1, 2, 3];
+console.log(first, third); // 1 3
+```
+
+#### 5.3.2 Object Destructuring
+
+```js
+const user = { name: "Alice", age: 30 };
+const { name, age } = user;
+console.log(name, age); // Alice 30
+
+// Rename and default:
+const { name: userName, role = "guest" } = user;
+console.log(userName, role); // Alice guest
+```
+
+### 5.4 Spread Syntax
+
+#### 5.4.1 Arrays
+
+```js
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5];
+console.log(arr2); // [1,2,3,4,5]
+
+// Copy without reference:
+const copy = [...arr1];
+```
+
+#### 5.4.2 Objects
+
+```js
+const user = { name: "Alice", age: 30 };
+const updatedUser = { ...user, age: 31, city: "Berlin" };
+console.log(updatedUser); // { name: 'Alice', age: 31, city: 'Berlin' }
+```
+
+**Best Practice**:
+
+- Use spread to **copy** arrays/objects rather than mutating originals.
+- Avoid deep mutations—use libraries or structured cloning for complex nested data.
+
+---
+
+### Homework for Section 5
+
+1. Given `const nums = [1, 2, 3, 4, 5]`, create a new array of squares (`[1, 4, 9, 16, 25]`) using `.map()`.
+2. Given `const students = [{ name: 'A', score: 85 }, { name: 'B', score: 92 }, { name: 'C', score: 78 }]`, use `.filter()` to find only those with a score ≥ 80.
+3. Write a function `mergeObjects(obj1, obj2)` that returns a new object with properties of both, using spread. Test it with `{ a: 1, b: 2 }` and `{ b: 3, c: 4 }`, and explain which value for `b` appears.
+
+---
+
+## Section 6: ES2024 Syntax & Advanced Concepts
+
+> This section covers modern features introduced up to ES2024. If your runtime does not support them yet, you can use tools like Babel to compile.
+
+### 6.1 Modules (`import` / `export`)
+
+#### 6.1.1 Named Exports
+
+```js
+// mathUtils.js
+export function add(a, b) {
+  return a + b;
+}
+export const PI = 3.14159;
+
+// index.js
+import { add, PI } from "./mathUtils.js";
+console.log(add(2, 3), PI);
+```
+
+#### 6.1.2 Default Exports
+
+```js
+// logger.js
+export default function log(message) {
+  console.log("[LOG]:", message);
+}
+
+// index.js
+import log from "./logger.js";
+log("Hello");
+```
+
+**Best Practice**:
+
+- Use named exports when exporting multiple things.
+- Use default export when the file has a single main purpose.
+
+### 6.2 Optional Chaining (`?.`)
+
+Avoid errors when accessing deeply nested properties:
+
+```js
+const user = { profile: { name: "Alice" } };
+console.log(user.profile?.email); // undefined, no error
+
+// Chaining multiple levels:
+console.log(user.address?.street?.name); // undefined
+```
+
+### 6.3 Nullish Coalescing (`??`)
+
+Use `??` to provide default only when left side is `null` or `undefined`:
+
+```js
+const input = "";
+const value = input ?? "Default";
+console.log(value); // "" (because empty string is not null/undefined)
+
+const maybe = null;
+const result = maybe ?? 42;
+console.log(result); // 42
+```
+
+### 6.4 Destructuring & Renaming (Refresher)
+
+Already covered, but note you can use with nested objects:
+
+```js
+const data = {
+  user: {
+    name: "Alice",
+    address: { city: "Berlin", zip: "10115" },
+  },
+};
+
+const {
+  user: {
+    address: { city },
+  },
+} = data;
+console.log(city); // "Berlin"
+```
+
+### 6.5 Dynamic `import()`
+
+Load modules dynamically (promises):
+
+```js
+async function loadModule() {
+  const math = await import("./mathUtils.js");
+  console.log(math.add(2, 3));
+}
+loadModule();
+```
+
+Useful for code-splitting in web apps.
+
+### 6.6 BigInt & `Symbol` (Refresher)
+
+- **BigInt** for very large integers:
+
+  ```js
+  const huge = 9007199254740991n * 2n;
+  console.log(huge);
+  ```
+
+- **Symbol** for unique keys in objects:
+
+  ```js
+  const ID = Symbol("id");
+  const user = { [ID]: 123 };
+  console.log(user[ID]);
+  ```
+
+### 6.7 Spread & Rest in Function Parameters
+
+We saw rest (`...args`); also use spread to pass arrays into function calls:
+
+```js
+function sum(a, b, c) {
+  return a + b + c;
+}
+
+const nums = [1, 2, 3];
+console.log(sum(...nums)); // 6
+```
+
+---
+
+### Homework for Section 6
+
+1. Create two files: `circle.js` exporting `area(radius)` (area = π r²) and `circumference(radius)`. In `index.js`, import and use both.
+2. Given `const obj = { a: 1, b: null }`, log `b ?? 10`. Then change `b` to `0` and log again. Explain the difference.
+3. Write an async function `loadData(url)` that dynamically imports `fetchWrapper.js` (which exports a `fetchJSON` function) and uses it to get JSON from the given URL. (You can mock `fetchWrapper.js` for practice.)
+
+---
+
+## Section 7: Working with the DOM & Events
+
+### 7.1 What Is the DOM?
+
+- The **Document Object Model (DOM)** is an in-memory representation of the HTML page.
+- Each HTML element becomes a **node** in a tree. JavaScript can query and modify this tree.
+
+### 7.2 Selecting Elements
+
+```js
+// By ID
+const title = document.getElementById("title");
+
+// By class
+const items = document.getElementsByClassName("item"); // HTMLCollection
+
+// By CSS selector
+const main = document.querySelector("#main");
+const buttons = document.querySelectorAll(".btn"); // NodeList
+```
+
+**Best Practice**:
+
+- Use `querySelector`/`querySelectorAll` for flexibility.
+- Cache selections if reused:
+
+  ```js
+  const submitBtn = document.querySelector("#submit");
+  ```
+
+### 7.3 Changing Content & Attributes
+
+```js
+const heading = document.querySelector("h1");
+heading.textContent = "Welcome to JS!"; // Changes text
+
+const link = document.querySelector("a");
+link.setAttribute("href", "https://example.com");
+link.textContent = "Visit Example";
+```
+
+### 7.4 Manipulating Styles & Classes
+
+```js
+const box = document.querySelector(".box");
+
+// Inline style
+box.style.backgroundColor = "lightblue";
+box.style.padding = "10px";
+
+// Class list
+box.classList.add("active");
+box.classList.remove("inactive");
+box.classList.toggle("hidden");
+```
+
+### 7.5 Creating & Inserting Elements
+
+```js
+const newEl = document.createElement("p");
+newEl.textContent = "This is a new paragraph.";
+
+const container = document.querySelector("#container");
+container.appendChild(newEl);
+
+// Or insert before a specific node:
+const reference = document.querySelector("#referenceNode");
+container.insertBefore(newEl, reference);
+```
+
+### 7.6 Removing Elements
+
+```js
+const toRemove = document.querySelector(".old-item");
+toRemove.remove(); // Modern browsers
+
+// Or:
+toRemove.parentNode.removeChild(toRemove);
+```
+
+### 7.7 Events
+
+#### 7.7.1 Adding Event Listeners
+
+```js
+const btn = document.querySelector("#myButton");
+
+btn.addEventListener("click", function (event) {
+  console.log("Button clicked!", event);
+});
+```
+
+- Common events: `click`, `input`, `submit`, `mouseover`, `keydown`, etc.
+
+#### 7.7.2 Event Object
+
+```js
+document.addEventListener("keydown", (e) => {
+  console.log(`Key pressed: ${e.key}`);
+});
+```
+
+- `e.target`: the element that triggered the event.
+- `e.preventDefault()`: stop default browser behavior (e.g., link navigation).
+
+#### 7.7.3 Delegation
+
+Instead of adding listeners to each item, attach one to a parent:
+
+```js
+const list = document.querySelector("ul");
+list.addEventListener("click", (e) => {
+  if (e.target && e.target.matches("li")) {
+    console.log("List item clicked:", e.target.textContent);
+  }
+});
+```
+
+**Best Practice**:
+
+- Use event delegation for dynamic lists to avoid too many listeners.
+
+---
+
+### Homework for Section 7
+
+1. In `index.html`, create a list of items (`<ul><li>Item 1</li><li>Item 2</li>…</ul>`). Write JS that logs the item text when any `<li>` is clicked, using **event delegation**.
+2. Build a simple button that changes its own text to “Clicked!” when pressed. Add a CSS class `.clicked` that changes its color; toggle that class inside the event listener.
+3. Create an input box and a paragraph. As you type in the input, update the paragraph in real time with `input` event.
+
+---
+
+## Section 8: Working with Fetch API & Asynchronous JavaScript
+
+### 8.1 Promises
+
+A **Promise** represents an asynchronous operation:
+
+```js
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const success = true;
+    if (success) {
+      resolve("Data loaded");
+    } else {
+      reject("Error occurred");
+    }
+  }, 1000);
+});
+
+promise.then((msg) => console.log(msg)).catch((err) => console.error(err));
+```
+
+### 8.2 Fetch API
+
+`fetch` returns a Promise that resolves with a **Response** object.
+
+```js
+fetch("https://api.example.com/data")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((data) => console.log(data))
+  .catch((err) => console.error("Fetch Error:", err));
+```
+
+**Best Practice**:
+
+- Always check `response.ok` before parsing.
+- Handle network errors in `.catch`.
+
+### 8.3 `async` / `await`
+
+Syntactic sugar over Promises:
+
+```js
+async function getData() {
+  try {
+    const response = await fetch("https://api.example.com/data");
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+  } catch (err) {
+    console.error("Fetch Error:", err);
+  }
+}
+
+getData();
+```
+
+- Code reads like synchronous code.
+- Wrap in `try/catch` to handle errors.
+
+### 8.4 JSON (JavaScript Object Notation)
+
+- Data interchange format.
+- Convert JS object to JSON: `JSON.stringify(obj)`.
+- Parse JSON string: `JSON.parse(jsonString)`.
+
+```js
+const obj = { name: "Alice", age: 30 };
+const json = JSON.stringify(obj); // '{"name":"Alice","age":30}'
+const parsed = JSON.parse(json); // { name: 'Alice', age: 30 }
+```
+
+### 8.5 Loading & Error States
+
+When building UIs that fetch data (e.g., Weather Dashboard), handle:
+
+1. **Loading state**: Show “Loading…” spinner/text.
+2. **Successful state**: Display data.
+3. **Error state**: Show friendly error message.
+
+Example pattern:
+
+```js
+const resultDiv = document.querySelector("#result");
+const button = document.querySelector("#load");
+
+button.addEventListener("click", async () => {
+  resultDiv.textContent = "Loading...";
+  try {
+    const response = await fetch("https://api.example.com/data");
+    if (!response.ok) throw new Error("Network error");
+    const data = await response.json();
+    resultDiv.textContent = `Data: ${data.info}`;
+  } catch (err) {
+    resultDiv.textContent = `Error: ${err.message}`;
+  }
+});
+```
+
+---
+
+### Homework for Section 8
+
+1. Write an `async` function `fetchUser(userId)` that fetches from `https://jsonplaceholder.typicode.com/users/{userId}` and logs the user’s name. Handle errors.
+2. On a webpage, create a button “Load Joke”. When clicked, fetch a random joke from `https://official-joke-api.appspot.com/random_joke` and display it. Show “Loading…” while waiting and “Error” if fetch fails.
+3. Explain in a short paragraph the difference between `.then/.catch` and `async/await`. Include an example converting a `.then` chain into `async/await`.
+
+---
+
+## Section 9: ES2024 Advanced Topics (Optional Deep Dive)
+
+> If you want more advanced knowledge beyond fundamentals, explore these topics.
+
+### 9.1 Proxy & Reflect
+
+- **Proxy**: Intercept operations on objects (get, set, etc.).
+
+  ```js
+  const target = { name: "Alice" };
+  const handler = {
+    get(obj, prop) {
+      console.log(`Accessing ${prop}`);
+      return obj[prop];
+    },
+  };
+  const proxy = new Proxy(target, handler);
+  console.log(proxy.name); // Logs “Accessing name” then “Alice”
+  ```
+
+- **Reflect**: Provides default implementations for object operations:
+
+  ```js
+  Reflect.get(target, "name"); // "Alice"
+  ```
+
+### 9.2 Generators
+
+Functions that can pause and resume:
+
+```js
+function* generatorExample() {
+  yield 1;
+  yield 2;
+  return 3;
+}
+
+const gen = generatorExample();
+console.log(gen.next()); // { value: 1, done: false }
+console.log(gen.next()); // { value: 2, done: false }
+console.log(gen.next()); // { value: 3, done: true }
+```
+
+Used for implementing iterators, async flows (older style).
+
+### 9.3 Optional: Web Workers
+
+Run JS in background threads:
+
+```js
+// worker.js
+self.addEventListener("message", (e) => {
+  const result = e.data * 2;
+  self.postMessage(result);
+});
+
+// main.js
+const worker = new Worker("worker.js");
+worker.postMessage(10);
+worker.onmessage = (e) => {
+  console.log(e.data); // 20
+};
+```
+
+Good for CPU-heavy tasks without blocking UI.
+
+### 9.4 Optional: Internationalization (Intl)
+
+Built-in `Intl` object for formatting numbers, dates:
+
+```js
+const formatter = new Intl.NumberFormat("de-DE", {
+  style: "currency",
+  currency: "EUR",
+});
+console.log(formatter.format(123456.789)); // "123.456,79 €"
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+console.log(dateFormatter.format(new Date())); // "June 4, 2025"
+```
+
+---
+
+### Homework for Section 9
+
+1. Create a proxy for an object `{ a: 1, b: 2 }` that logs every time you read or write a property. Test reading and writing.
+2. Write a generator function `range(start, end)` that yields each integer from `start` to `end` inclusive. Iterate over it with `for…of`.
+3. (Optional) Build a simple Web Worker that calculates the nth Fibonacci number for a large `n` without freezing the main thread.
+
+---
+
+## Section 10: Mini-Project 1 – Rock–Paper–Scissors
+
+Build a simple Rock–Paper–Scissors game in vanilla JS with DOM interactions.
+
+### 10.1 Setup HTML
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rock–Paper–Scissors</title>
+    <style>
+      /* Basic styles for buttons and result */
+      #choices button {
+        margin: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+      }
+      #result {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Rock–Paper–Scissors</h1>
+    <div id="choices">
+      <button data-choice="rock">Rock</button>
+      <button data-choice="paper">Paper</button>
+      <button data-choice="scissors">Scissors</button>
+    </div>
+    <div id="result">Make your choice!</div>
+    <script src="./rps.js" type="module"></script>
+  </body>
+</html>
+```
+
+### 10.2 Core Logic (`rps.js`)
+
+```js
+// rps.js
+const buttons = document.querySelectorAll("#choices button");
+const resultDiv = document.querySelector("#result");
+const choices = ["rock", "paper", "scissors"];
+
+function getComputerChoice() {
+  const idx = Math.floor(Math.random() * choices.length);
+  return choices[idx];
+}
+
+function decideWinner(player, computer) {
+  if (player === computer) return "It's a tie!";
+  if (
+    (player === "rock" && computer === "scissors") ||
+    (player === "paper" && computer === "rock") ||
+    (player === "scissors" && computer === "paper")
+  ) {
+    return "You win!";
+  }
+  return "Computer wins!";
+}
+
+buttons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const playerChoice = btn.dataset.choice;
+    const computerChoice = getComputerChoice();
+    const result = decideWinner(playerChoice, computerChoice);
+    resultDiv.textContent = `You chose ${playerChoice}. Computer chose ${computerChoice}. ${result}`;
+  });
+});
+```
+
+### 10.3 Best Practices and Tips
+
+- **Early return** in `decideWinner` to avoid nested `if`.
+- Use \*_data-_ attributes\*\* (`data-choice`) instead of relying on button text.
+- Keep logic (game rules) separate from UI updates.
+
+---
+
+### Homework for Section 10
+
+1. Add a **scoreboard**: track number of wins, losses, ties. Display it below the result.
+2. Disable buttons for 2 seconds after each round, then re-enable, to prevent rapid clicking.
+3. Add a “Reset Score” button that clears the scoreboard.
+
+---
+
+## Section 11: Mini-Project 2 – Weather Dashboard
+
+Fetch data from the OpenWeather API and display a 5-day forecast with loading & error states.
+
+### 11.1 Get an API Key
+
+1. Go to [OpenWeather](https://openweathermap.org/) and sign up for a free API key.
+2. Note your **API key** (string with letters & numbers).
+
+### 11.2 Basic HTML Structure
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather Dashboard</title>
+    <style>
+      /* Simple grid layout for forecast cards */
+      #forecast {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .card {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>5-Day Weather Forecast</h1>
+    <input type="text" id="cityInput" placeholder="Enter city name" />
+    <button id="searchBtn">Search</button>
+    <div id="message"></div>
+    <div id="forecast"></div>
+    <script src="./weather.js" type="module"></script>
+  </body>
+</html>
+```
+
+### 11.3 JavaScript Logic (`weather.js`)
+
+```js
+// weather.js
+const API_KEY = "YOUR_API_KEY_HERE"; // Replace with your OpenWeather key
+const cityInput = document.querySelector("#cityInput");
+const searchBtn = document.querySelector("#searchBtn");
+const messageDiv = document.querySelector("#message");
+const forecastDiv = document.querySelector("#forecast");
+
+// Helper: format date from UNIX timestamp
+function formatDate(dt) {
+  const date = new Date(dt * 1000);
+  return date.toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+async function fetchForecast(city) {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(
+    city
+  )}&units=metric&appid=${API_KEY}`;
+  try {
+    messageDiv.textContent = "Loading...";
+    forecastDiv.innerHTML = "";
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("City not found");
+    const data = await response.json();
+
+    // Group forecast by day (forecast list is every 3 hours)
+    const daily = {};
+    data.list.forEach((item) => {
+      const day = item.dt_txt.split(" ")[0];
+      if (!daily[day]) daily[day] = [];
+      daily[day].push(item);
+    });
+
+    // Take one reading per day (e.g., at midday) for 5 days
+    const days = Object.keys(daily).slice(0, 5);
+    days.forEach((day) => {
+      // Find the item closest to 12:00:00
+      const midday =
+        daily[day].find((item) => item.dt_txt.includes("12:00:00")) ||
+        daily[day][0];
+      const { dt, main, weather } = midday;
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.innerHTML = `
+        <h3>${formatDate(dt)}</h3>
+        <img src="https://openweathermap.org/img/wn/${
+          weather[0].icon
+        }.png" alt="${weather[0].description}" />
+        <p>${weather[0].description}</p>
+        <p>Temp: ${main.temp.toFixed(1)}°C</p>
+        <p>Humidity: ${main.humidity}%</p>
+      `;
+      forecastDiv.appendChild(card);
+    });
+
+    messageDiv.textContent = "";
+  } catch (err) {
+    messageDiv.textContent = `Error: ${err.message}`;
+  }
+}
+
+searchBtn.addEventListener("click", () => {
+  const city = cityInput.value.trim();
+  if (!city) {
+    messageDiv.textContent = "Please enter a city name.";
+    return;
+  }
+  fetchForecast(city);
+});
+```
+
+**Best Practices**:
+
+- Show a **loading message** by setting `messageDiv.textContent` before fetch.
+- Clear old forecast cards (`forecastDiv.innerHTML = ''`) to avoid stacking.
+- Handle API errors by checking `!response.ok`.
+- Keep functions small and single-purpose (e.g., `formatDate`).
+
+---
+
+### Homework for Section 11
+
+1. Extend the dashboard to show **current weather** (temp, humidity, wind speed) above the 5-day forecast. Use `https://api.openweathermap.org/data/2.5/weather`.
+2. Add error handling for network failures (e.g., offline scenario). Hint: catch block displays “Network error, please try again.”
+3. Style the cards: display them in a horizontal scrollable row on small screens and grid on larger screens. Adjust CSS accordingly.
+
+---
+
+## Section 12: Putting It All Together & Next Steps
+
+### 12.1 Discipline & Workflow
+
+- **Commit early & often**: Initialize a Git repo in your project folders:
+
+  ```bash
+  git init
+  git add .
+  git commit -m "Initial commit"
+  ```
+
+- Write **self-documenting code**:
+
+  - Use meaningful names (`calculateTotal`, not `ct`).
+  - Break code into small functions named by what they do.
+
+- Enable **ESLint + Prettier on save**: ensures consistent style.
+
+### 12.2 Project Ideas to Practice
+
+1. **ToDo List App**
+
+   - Add, remove, mark as done.
+   - Persist in `localStorage`.
+
+2. **Memory Card Game**
+
+   - Flip cards, match pairs, track moves/time.
+
+3. **Budget Tracker**
+
+   - Input income/expenses, categorize, show summary charts (using Chart.js).
+
+4. **Interactive Quiz**
+
+   - Load questions from JSON, track score, show results.
+
+Each project reinforces: DOM, events, fetch/localStorage, async/await, modules.
+
+### 12.3 Resources & Further Reading
+
+- **Primary Guides**
+
+  - [JavaScript.info](https://javascript.info/) – thorough explanations, interactive examples.
+  - [Eloquent JavaScript](https://eloquentjavascript.net/) – deep dive into fundamentals (online edition free).
+
+- **Additional References**
+
+  - MDN Web Docs (search “MDN JavaScript”).
+  - Can I Use (check browser support for features).
+  - ESLint rules list (learn how to customize linting).
+
+- **Community & Q\&A**
+
+  - Stack Overflow (search tags \[javascript], \[es2024]).
+  - Dev.to, freeCodeCamp forums, Reddit r/javascript.
+
+---
+
+## Conclusion
+
+You now have a structured path from zero to ES2024 proficiency. Each section builds on the previous one, and the homework exercises reinforce learning. By completing mini-projects and following best practices (commits, linting, self-documenting code), you’ll develop solid habits that professional developers use. Keep practicing, build more projects, and consult the recommended guides when you need deeper understanding. Happy coding!
