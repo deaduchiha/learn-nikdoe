@@ -1,0 +1,810 @@
+---
+title: Semantic HTML & Accessibility
+description: A zero-fluff, step-by-step path to rock-solid semantic HTML, bullet-proof accessibility, and confident front-end foundations—expanded with more HTML parts, examples, and best practices for everyone.
+---
+
+> **Nikode.ir Promise** > **Learn once. Build forever.** Our bite-sized lessons, real-world drills, and no-gatekeeping ethos get you shipping accessible sites **fast**. We keep examples clear and include extra parts of HTML so even if your English is basic, you’ll follow along.
+
+---
+
+# 🌳 TRUNK — The Core Path
+
+Below is the **exact roadmap** we follow on **Nikode.ir**. Stick to the order; each “leaf” builds on the last. When you’re done, you’ll publish a fully accessible mini-site—**without a single line of JavaScript.**
+
+> **Pro Tip:** All demo repos and solution videos are linked at the end of every stage—exclusively on **Nikode.ir**.
+
+---
+
+## 🥚 Stage 0 · Groundwork — _Why Accessibility First?_
+
+|          | Why it matters                        | Nikode.ir shortcut                                  |
+| -------- | ------------------------------------- | --------------------------------------------------- |
+| **20 %** | of users rely on assistive tech       | Screencast: _Using VoiceOver for the first time_    |
+| **SEO**  | Clean semantics × fast load           | PDF cheat-sheet: _Semantic tags that beat div-itis_ |
+| **ROI**  | Retro-fitting a11y → 💸 pain          | Calculator: _Cost of fixing vs. building right_     |
+| **UX**   | Better structure → easier to maintain | Article: _Semantic HTML and your development speed_ |
+
+> **Action:** Skim the cheat-sheet, then run **Nikode Audit** (our free bookmarklet) on any site you admire. Notice how semantic tags improve keyboard navigation.
+
+---
+
+## 🏗️ Stage 1 · HTML Foundations
+
+### 1.1 Minimal Document
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My First Page</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <p>Welcome to semantic HTML.</p>
+  </body>
+</html>
+```
+
+**Checklist**
+
+- `<!DOCTYPE html>` declares modern HTML.
+- `<html lang="en">`: tells browsers and screen readers the page is English.
+- `<meta charset="utf-8" />`: ensures characters show correctly.
+- `<meta name="viewport" content="width=device-width, initial-scale=1" />`: keeps mobile text readable.
+- One—and only one—`<h1>` per page. ✨
+- Validates in **Nikode Lint** (autofix built-in).
+
+**Best Practice**: Always start with this boilerplate. Even basic projects benefit from charset, viewport, and language settings.
+
+---
+
+### 1.2 Tags, Elements & Attributes
+
+| Concept       | Example                                   | Key Points                                                                |
+| ------------- | ----------------------------------------- | ------------------------------------------------------------------------- |
+| **Tag**       | `<p>`                                     | The name inside angle brackets, like `p`, `img`, `a`, `div`.              |
+| **Element**   | `<p>Hello</p>`                            | Opening tag + content + closing tag. Some tags self-close (e.g. `<img>`). |
+| **Attribute** | `<img src="cat.jpg" alt="Cute kitten" />` | Additional info inside opening tag: `src`, `alt`, `href`, `id`, `class`.  |
+| **Void Tag**  | `<br>` `<img>` `<input>` `<hr>`           | Elements that do not wrap content—just `<br />` or `<hr />` for a line.   |
+
+> **Tip for non-native English readers:** Think of tags as “name labels,” elements as “pieces,” and attributes as “details” you attach to a piece.
+
+---
+
+### 1.3 Block vs. Inline Cheat-Sheet
+
+| **Block (starts new line)**                             | **Inline (flows with text)**             |
+| ------------------------------------------------------- | ---------------------------------------- |
+| `<header>` `<section>` `<article>` `<p>` `<ul>` `<div>` | `<span>` `<a>` `<strong>` `<em>` `<img>` |
+
+- **Block** elements take full width and start on a new line.
+- **Inline** elements sit inside a line of text.
+
+---
+
+### 1.4 Self-Closing (Void) Tags
+
+- `<img src="photo.jpg" alt="Description" />`
+- `<input type="text" name="name" />`
+- `<br />` (line break)
+- `<hr />` (horizontal rule)
+
+> **Remember**: Void tags do not wrap text. They always end immediately (`/>`).
+
+---
+
+### 1.5 Nesting Rules & Validation
+
+- **Proper nesting**: Children go _inside_ parents.
+- **Closing order**: Close the innermost first (LIFO):
+
+  ```html
+  <div>
+    <p>Text <strong>bold</strong></p>
+  </div>
+  ```
+
+- **Invalid** example (do not do):
+
+  ```html
+  <p>Text <strong>Oops</p></strong>
+  ```
+
+- **Validation**: Use **Nikode Lint** or [validator.w3.org](https://validator.w3.org) to catch mistakes early.
+
+> **Mini-Drill (10 min):** Build a two-section page with headings, paragraphs, lists, and an image—**no CSS**. Validate with **Nikode Lint** and post your score in the community forum.
+
+---
+
+## 👓 Stage 2 · Document Landmarks
+
+HTML5 introduced **landmark** elements so assistive tech can jump straight to sections. Landmarks help with navigation.
+
+### 2.1 Semantic Skeleton
+
+```html
+<header>
+  <h1>My Portfolio</h1>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="content">
+  <section id="projects">
+    <h2>Featured Projects</h2>
+    <article>
+      <h3>Project One</h3>
+      <p>Short description...</p>
+    </article>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Write something about yourself.</p>
+  </section>
+</main>
+
+<aside>
+  <h2>Related Links</h2>
+  <ul>
+    <li><a href="https://example.com">External Resource</a></li>
+    <li><a href="blog.html">Blog</a></li>
+  </ul>
+</aside>
+
+<footer>
+  <p>© 2025 Your Name</p>
+</footer>
+```
+
+**Rules of Thumb**
+
+1. Only _one_ `<main>` per page.
+2. Every landmark (`<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>`, `<form>` if standalone) should be discoverable via the _Rotor_ in VoiceOver.
+3. Use `<section>` / `<article>` for groups that earn their own heading.
+4. Use `<aside>` for tangential content (e.g., sidebar, related links).
+
+> **Nikode Deep-Dive:** Interactive landmark quiz with instant screen-reader preview.
+
+---
+
+### 2.2 `<nav>` and Skip Links
+
+- Wrap primary navigation in `<nav>`.
+- Add `aria-label` if there are multiple navs:
+
+  ```html
+  <nav aria-label="Footer Navigation">
+    <ul>
+      …
+    </ul>
+  </nav>
+  ```
+
+- **Skip Link**: Let keyboard users jump to main content quickly.
+
+  ```html
+  <a href="#content" class="skip-link">Skip to main</a>
+  ```
+
+- **CSS** (show only on focus):
+
+  ```css
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #fff;
+    padding: 8px;
+    z-index: 100;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+  ```
+
+> **Tip**: Place skip link as the first child of `<body>`.
+
+---
+
+## 🧭 Stage 3 · Text Structure & Headings
+
+### 3.1 Heading Hierarchy
+
+```html
+<h1>Recipe Blog</h1>
+
+<section>
+  <h2>Chocolate Cake</h2>
+  <h3>Ingredients</h3>
+  <ul>
+    <li>1 cup flour</li>
+    <li>2 eggs</li>
+    <li>1/2 cup sugar</li>
+  </ul>
+  <h3>Steps</h3>
+  <ol>
+    <li>Preheat oven...</li>
+    <li>Mix ingredients...</li>
+    <li>Bake 30 minutes...</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Lemon Tart</h2>
+  <h3>Ingredients</h3>
+  <h3>Steps</h3>
+</section>
+```
+
+- One—and only one—`<h1>` per page. ✅
+- Follow order: do not jump levels (`<h1>` → `<h3>`). ❌
+- Headings must be nested logically for outline: `<h1>`, then `<h2>`, then `<h3>`, etc.
+- Don’t use `role="heading"` unless you have a very complex widget. Native headings win.
+
+> **Try It:** Paste your markup into **Nikode Outline** (online) to visualize the tree.
+
+---
+
+### 3.2 Paragraphs, Lists & Inline Text
+
+**Paragraph (`<p>`)**
+
+```html
+<p>
+  HTML is the backbone of every web page. Write simple sentences in
+  <strong>paragraphs</strong>.
+</p>
+```
+
+**Unordered List (`<ul>`)**
+
+```html
+<ul>
+  <li>First item</li>
+  <li>Second item</li>
+  <li>Third item</li>
+</ul>
+```
+
+**Ordered List (`<ol>`)**
+
+```html
+<ol>
+  <li>Step one</li>
+  <li>Step two</li>
+  <li>Step three</li>
+</ol>
+```
+
+**Description List (`<dl>`)**
+
+```html
+<dl>
+  <dt>HTML</dt>
+  <dd>HyperText Markup Language</dd>
+  <dt>CSS</dt>
+  <dd>Cascading Style Sheets</dd>
+</dl>
+```
+
+**Inline Text Tags**
+
+- `<strong>`: important text (often bold).
+- `<em>`: emphasis (often italic).
+- `<small>`: smaller fine print.
+- `<mark>`: highlighted text.
+- `<time datetime="2025-06-04">June 4, 2025</time>`: date/time with machine-readable format.
+
+> **Best Practice**: Use lists when order or grouping matters. Screen readers announce the number of items.
+
+---
+
+## ✍️ Stage 4 · Accessible Forms & User Input
+
+Forms are critical for interaction. Every control must have a visible or hidden label.
+
+### 4.1 Basic Form Structure
+
+```html
+<form action="/subscribe" method="post" novalidate>
+  <fieldset>
+    <legend>Email Newsletter</legend>
+
+    <label for="email">Email address</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      required
+      aria-describedby="email-hint"
+      placeholder="you@example.com"
+    />
+    <p id="email-hint">We’ll never share your email.</p>
+
+    <button type="submit">Subscribe</button>
+  </fieldset>
+</form>
+```
+
+- **`<fieldset>` + `<legend>`**: groups related controls.
+- **`<label for>` ↔ `id`**: connect label and field.
+- **`aria-describedby`**: link extra hint or error message.
+- **`required` attribute**: tells browser and AT (assistive tech) it’s mandatory.
+- Use `type="email"`, `type="number"`, etc., for input validation.
+
+---
+
+### 4.2 Text Input, Textarea & Select
+
+**Text Input**
+
+```html
+<label for="username">Username</label>
+<input type="text" id="username" name="username" required />
+```
+
+**Textarea**
+
+```html
+<label for="bio">Short Bio</label>
+<textarea
+  id="bio"
+  name="bio"
+  rows="4"
+  cols="50"
+  placeholder="Tell us about you."
+></textarea>
+```
+
+**Select Menu**
+
+```html
+<label for="country">Country</label>
+<select id="country" name="country">
+  <option value="">Select one</option>
+  <option value="us">United States</option>
+  <option value="ca">Canada</option>
+</select>
+```
+
+- Always include `<label>` for `<input>` and `<textarea>`.
+- For complex forms, group with `<fieldset>`.
+- Use `<option>` inside `<select>`. The first `<option>` can be a placeholder.
+
+---
+
+### 4.3 Checkboxes & Radio Buttons
+
+**Checkbox Group**
+
+```html
+<fieldset>
+  <legend>Subscribe to newsletters</legend>
+  <input type="checkbox" id="news" name="newsletter" value="news" />
+  <label for="news">News</label>
+  <input type="checkbox" id="updates" name="newsletter" value="updates" />
+  <label for="updates">Product Updates</label>
+</fieldset>
+```
+
+**Radio Button Group**
+
+```html
+<fieldset>
+  <legend>Preferred Contact Method</legend>
+  <input type="radio" id="contact-email" name="contact" value="email" checked />
+  <label for="contact-email">Email</label>
+  <input type="radio" id="contact-phone" name="contact" value="phone" />
+  <label for="contact-phone">Phone</label>
+</fieldset>
+```
+
+- **Group** checkboxes or radios inside a single `<fieldset>` with a `<legend>`.
+- Each `<input>` needs its own `<label>`.
+- Screen readers announce the legend before listing options.
+
+---
+
+### 4.4 Form Validation & Error Messages
+
+1. Use HTML5 validation (`required`, `type="email"`, `minlength`, `maxlength`).
+2. Provide **inline error messages** using `aria-live` or `role="alert"`.
+
+   ```html
+   <div id="username-error" role="alert" aria-live="assertive"></div>
+   <label for="username">Username</label>
+   <input
+     type="text"
+     id="username"
+     name="username"
+     aria-describedby="username-error"
+   />
+   ```
+
+3. After form submission, show errors next to fields, e.g.:
+
+   ```html
+   <p id="username-error">Username is required.</p>
+   ```
+
+> **Nikode Challenge:** Convert a bogus form full of anti-patterns into a WCAG-compliant gem. Auto-grading included.
+
+---
+
+## 🖼️ Stage 5 · Images, Figures & Alt Text
+
+Images need meaningful `alt` or should be hidden if decorative.
+
+### 5.1 `alt` Attribute Patterns
+
+| Purpose               | Correct `alt`                                                |
+| --------------------- | ------------------------------------------------------------ |
+| **Informative**       | `alt="Four team members standing in front of a whiteboard"`  |
+| **Decorative**        | `alt="" role="presentation"`                                 |
+| **Functional**        | `alt="Download PDF brochure"`                                |
+| **Complex (diagram)** | Use `<figure>` + `<figcaption>` and a long description link: |
+
+````html
+<figure>
+  <img src="chart.png" alt="Sales chart" />
+  <figcaption>
+    Sales rose 20% in Q1. <a href="#longdesc">Long description</a>
+  </figcaption>
+</figure>
+<div id="longdesc">
+  Full details: The chart shows Q1 sales increased due to …
+</div>
+``` | **Rules** 1. If the image _adds_ meaning, write a clear, concise
+description. 2. If not, hide from assistive tech: `alt="" role="presentation"`.
+3. Avoid “image of...” or “picture of...” in the alt—screen readers announce
+“image” automatically. --- ### 5.2 Responsive & High-DPI Images ```html
+<img
+  src="photo-small.jpg"
+  srcset="photo-small.jpg 480w, photo-medium.jpg 800w, photo-large.jpg 1200w"
+  sizes="(max-width: 600px) 480px, (max-width: 1200px) 800px, 1200px"
+  alt="Scenic mountain landscape"
+/>
+````
+
+- **`srcset`**: list of image files with width descriptors (`w`).
+- **`sizes`**: tells browser which image to pick at different viewport widths.
+- Ensures fast loading and crisp images on high-DPI screens.
+
+---
+
+## 🎵 Stage 6 · Multimedia, Links & Tables
+
+### 6.1 Audio & Video with Captions
+
+```html
+<video controls>
+  <source src="video.mp4" type="video/mp4" />
+  <track
+    kind="captions"
+    src="captions_en.vtt"
+    srclang="en"
+    label="English"
+    default
+  />
+  Your browser does not support HTML5 video.
+</video>
+
+<audio controls>
+  <source src="audio.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+```
+
+- Always include `controls`.
+- For video, provide at least one caption track (`<track kind="captions">`).
+- For audio-only, consider providing a transcript in text.
+
+---
+
+### 6.2 Links & Accessible Navigation
+
+```html
+<a href="about.html">About Us</a>
+<a href="https://example.com" target="_blank" rel="noopener noreferrer">
+  External Link (opens in new tab)
+</a>
+```
+
+**Best Practices**
+
+- **Descriptive link text**: “Click here” is vague. Use “Read our privacy policy.”
+- **`target="_blank"`**: if opening in new tab, add `rel="noopener noreferrer"`.
+- Use `title="..."` sparingly. Only when link text alone is ambiguous.
+
+---
+
+### 6.3 Tables for Tabular Data
+
+```html
+<table>
+  <caption>
+    Monthly Sales Data
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Month</th>
+      <th scope="col">Revenue</th>
+      <th scope="col">Expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">January</th>
+      <td>$10,000</td>
+      <td>$7,000</td>
+    </tr>
+    <tr>
+      <th scope="row">February</th>
+      <td>$12,000</td>
+      <td>$8,000</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+- `<caption>`: brief explanation of the table’s purpose.
+- Use `<thead>`, `<tbody>`, `<tfoot>` for structure.
+- `scope="col"` or `scope="row"` for header cells so screen readers know relationships.
+- Avoid using tables for layout. Use CSS instead.
+
+---
+
+## 🚦 Stage 7 · ARIA Labelling & Focus Management
+
+ARIA adds extra accessibility when HTML cannot handle it alone. Use sparingly.
+
+### 7.1 Common ARIA Attributes
+
+| Need                        | Attribute            | Example Snippet                                    |
+| --------------------------- | -------------------- | -------------------------------------------------- |
+| Hidden label (icon button)  | `aria-label`         | `<button aria-label="Close">✖</button>`            |
+| Visible label external      | `aria-labelledby`    | `<table aria-labelledby="pricing">…</table>`       |
+| Extra hint or error message | `aria-describedby`   | `<input aria-describedby="email-hint" />`          |
+| Dynamic role (live region)  | `aria-live="polite"` | `<div aria-live="polite">Loading updates...</div>` |
+
+> **Reading order**:
+>
+> 1. `aria-labelledby`
+> 2. Visible `<label>`
+> 3. `aria-describedby`
+
+---
+
+### 7.2 Focus Styles & Keyboard Accessibility
+
+```css
+:where(a, button, input, select, textarea, [tabindex]) :focus-visible {
+  outline: 3px solid #004bcc;
+  outline-offset: 2px;
+}
+```
+
+- **`:focus-visible`** ensures focus style shows only when navigating via keyboard.
+- Always ensure interactive elements (links, buttons, form controls) are reachable with **Tab**.
+- Don’t remove outline without replacing it with a visible style—keyboard users need it.
+
+---
+
+## 🔧 Stage 8 · Additional HTML Parts & Best Practices
+
+Beyond the core elements, here are more tags you’ll use every day. We provide simple examples and reasons.
+
+### 8.1 Metadata & `<head>` Elements
+
+```html
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A guide to semantic HTML & accessibility" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <title>Semantic HTML Guide</title>
+</head>
+```
+
+- `<meta name="description">`: summary for search engines.
+- `<link rel="stylesheet">`: link CSS files.
+- `<link rel="icon">`: site icon in browser tabs.
+- Consider `<meta name="author">`, `<meta name="keywords">` (though less critical for SEO today).
+
+---
+
+### 8.2 Embedding SVG & Icons
+
+Inline SVG example:
+
+```html
+<svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d="M12 2L2 22h20L12 2z" />
+</svg>
+```
+
+- For decorative SVGs, add `aria-hidden="true"`.
+- If SVG conveys meaning, include a `<title>` inside `<svg>`.
+
+Example with title:
+
+```html
+<svg
+  width="100"
+  height="100"
+  viewBox="0 0 100 100"
+  role="img"
+  aria-labelledby="triangleTitle"
+>
+  <title id="triangleTitle">Warning Triangle Icon</title>
+  <path d="M50 5 L95 95 H5 Z" fill="orange" />
+</svg>
+```
+
+---
+
+### 8.3 Embedding External Content
+
+**YouTube video** (with privacy improvement):
+
+```html
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube-nocookie.com/embed/VIDEO_ID"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+>
+</iframe>
+```
+
+- Use `title="..."` on `<iframe>` so screen readers know the purpose.
+- Prefer “nocookie” domain to reduce tracking.
+
+---
+
+### 8.4 Progressive Enhancement & No-JS Fallback
+
+When you eventually add JavaScript, always provide a working HTML/CSS fallback:
+
+```html
+<button id="menu-toggle">Menu</button>
+<nav id="site-nav">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <!-- more links -->
+  </ul>
+</nav>
+
+<script>
+  // JavaScript toggles the “open” class
+  document.getElementById("menu-toggle").addEventListener("click", () => {
+    document.getElementById("site-nav").classList.toggle("open");
+  });
+</script>
+```
+
+- Without JS, the menu is still visible.
+- With JS, you enhance it with show/hide and animations.
+
+---
+
+## 🛠️ Capstone · Build Your Accessible “About Me” (HTML-Only)
+
+1. **Semantic landmarks**: `<header>`, `<nav>`, `<main>`, `<aside>` (optional), `<footer>`.
+2. **Profile photo**: use `<img src="..." alt="Descriptive text" />`.
+3. **Contact form**:
+
+   - Email + message fields.
+   - Use proper `<label>`, `<fieldset>`, and `aria-describedby`.
+
+4. **WCAG AA colour palette**: use **Nikode Contrast** checker to pick colors.
+5. **Proper heading levels**: `<h1>` → `<h3>`, never skip.
+6. **Custom focus styles**: via CSS.
+7. **Responsive image**: use `srcset` + `sizes`.
+8. **External links**: all open in same tab unless necessary; add `rel="noopener noreferrer"` for new tabs.
+9. **SVG icon**: include an inline SVG with `aria-hidden` or a proper `<title>`.
+
+> **Publish** on GitHub Pages. Submit the URL in the **Nikode Showcase** for feedback.
+
+---
+
+## 🎒 Homework & Practice
+
+To cement your knowledge, complete these exercises and submit proof on **Nikode.ir**:
+
+1. **Mini-Site: “About Me”**
+
+   - Build a one-page site with all capstone requirements.
+   - Proof: Live URL + short screen-reader walkthrough video (show jumping between landmarks).
+
+2. **Semantic News Article**
+
+   - Create an article page (no `<div>` for structure) using only semantic tags.
+   - Include at least one article, two sections, a figure with caption, and a table (tabular data).
+   - Proof: Repo link + screenshot of HTML outline.
+
+3. **Accessible Contact Form**
+
+   - Design a form for booking a tour: name, email, date (use `<input type="date">`), number of guests (use `<select>`), and a message (`<textarea>`).
+   - Validate with HTML5 attributes (`required`, `type="email"`), and show error messages in-line with `aria-live`.
+   - Proof: Screenshot of form with error displayed + code snippet.
+
+4. **Images & Alt-text Exercise**
+
+   - Pick three images:
+
+     1. Informative diagram → write `alt` describing the key information.
+     2. Decorative graphic → hide from AT (`alt="" role="presentation"`).
+     3. Functional icon (e.g., print or download) → descriptive `alt`.
+
+   - Proof: Code snippet of each `<img>` tag with explanation.
+
+5. **WCAG AA Colour Contrast**
+
+   - Create a palette of at least three text/background combinations.
+   - Use **Nikode Contrast** or another checker.
+   - Proof: Screenshot of checker results + hex codes of colors.
+
+6. **HTML Quiz** (bonus)
+
+   - Complete the true/false mini-quiz on HTML semantics:
+
+     - “`<div>` is recommended for section headings.” (False)
+     - “Skipping heading levels is acceptable if visually clean.” (False)
+     - “`<main>` should be unique per page.” (True)
+
+   - Proof: Answers + short explanation (1–2 sentences each).
+
+> **Extra Credit**: Create a responsive `<picture>` example with WebP fallback:
+>
+> ```html
+> <picture>
+>   <source type="image/webp" srcset="image.webp" />
+>   <source type="image/jpeg" srcset="image.jpg" />
+>   <img src="image.jpg" alt="Alt description" />
+> </picture>
+> ```
+>
+> Explain why browsers pick different formats.
+
+---
+
+## 🔗 Quick Reference & Resources
+
+- **MDN** — [HTML Elements Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
+- **Web.dev** — [Accessibility Fundamentals](https://web.dev/accessibility/)
+- **A11y Project** — [Checklist](https://www.a11yproject.com/checklist/)
+- **Nikode.ir** — Full front-end curriculum & community 💙
+- **Contrast Checker** — [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+
+---
+
+## ⭐ Final Checkpoint
+
+If you can ship the capstone with semantic landmarks, perfect headings, labeled forms, meaningful alt text, compliant contrast, and responsive images—**all without JavaScript**—🎉 **Congratulations!** You’re ready for CSS & interactivity. Continue your journey on **Nikode.ir**:
+
+1. Enroll in **Layout Landscapes** (Flexbox + Grid).
+2. Join the _Weekly Live Build_ session—free for all Nikode members.
+3. Grab your personalized certificate and share on LinkedIn.
+
+---
+
+_Made with ❤️ by [Nikode.ir](https://nikode.ir) — empowering absolute beginners to build accessible, semantic websites._

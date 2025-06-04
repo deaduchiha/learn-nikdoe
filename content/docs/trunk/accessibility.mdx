@@ -1,0 +1,210 @@
+---
+title: Accessibility
+description: Simple guide to make websites that everyone can use.
+---
+
+> **Plain Goal**  
+> Start with nothing, learn small steps, finish with a page that works for _all_ people.
+
+---
+
+# 🌱 Level 1 — Beginner
+
+### 1.1 What is accessibility?
+
+- Everyone can read, click, and use the site.
+- Works with screen‑readers, keyboards, voice, and high‑contrast mode.
+
+### 1.2 Why care?
+
+| Reason     | Easy words                               |
+| ---------- | ---------------------------------------- |
+| **People** | 1 out of 5 visitors need help tools.     |
+| **Search** | Clean HTML helps Google find you.        |
+| **Money**  | Fix early = cheap. Fix late = expensive. |
+
+### 1.3 Quick wins
+
+1. **Alt text** on every picture.
+   ```html
+   <img src="dog.jpg" alt="Brown dog running in a park" />
+   ```
+2. **Headings** in order.
+   ```html
+   <h1>Title</h1>
+   <h2>Section</h2>
+   ```
+3. **Label** every input.
+   ```html
+   <label for="name">Name</label> <input id="name" />
+   ```
+4. **Contrast**: dark text on light background (ratio ≥ 4.5:1).
+
+### 1.4 Full example
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello page</title>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header>
+      <h1>Hello, world!</h1>
+    </header>
+
+    <main id="main">
+      <p>My first accessible page.</p>
+
+      <img src="selfie.jpg" alt="Smiling person with headphones" />
+
+      <form>
+        <label for="email">Email</label>
+        <input id="email" type="email" required />
+        <button>Sign up</button>
+      </form>
+    </main>
+  </body>
+</html>
+```
+
+### 1.5 Homework
+
+- Add alt text to three images on any page you made.
+- Check heading order with the “HTML Outline” browser add‑on.
+
+---
+
+# 🌿 Level 2 — Intermediate
+
+### 2.1 Page landmarks
+
+```html
+<header>…</header>
+<nav aria-label="Main menu">…</nav>
+<main id="main">…</main>
+<footer>…</footer>
+```
+
+These tags let screen‑reader users jump fast.
+
+### 2.2 Skip link (keyboard helper)
+
+```html
+<a href="#main" class="skip-link">Skip to content</a>
+```
+
+Put it at the very top. Show it only when focused with CSS.
+
+### 2.3 Better forms
+
+```html
+<form novalidate>
+  <fieldset>
+    <legend>Contact me</legend>
+
+    <label for="msg">Message</label>
+    <textarea id="msg" required></textarea>
+
+    <button>Send</button>
+  </fieldset>
+</form>
+```
+
+**Key ideas**
+
+- The `label` _must_ point to the control (`for` ↔ `id`).
+- Group related inputs with `<fieldset>` + `<legend>`.
+- Use HTML features like `required` and `type="email"`.
+
+### 2.4 Visible focus
+
+```css
+:focus-visible {
+  outline: 3px solid #0033ff;
+}
+```
+
+### 2.5 Homework
+
+- Build a simple “Portfolio” with header, nav, main, and footer.
+- Add a skip link.
+- Test it using only the keyboard (Tab, Shift+Tab, Enter).
+
+---
+
+# 🌳 Level 3 — Advanced
+
+### 3.1 Live messages (no refresh)
+
+```html
+<p aria-live="polite" id="status">No new messages</p>
+```
+
+If JavaScript updates `#status`, the screen‑reader will speak the change.
+
+### 3.2 Accordion pattern
+
+```html
+<button aria-expanded="false" aria-controls="panel1" class="accordion">
+  What is the refund policy?
+</button>
+<div id="panel1" hidden>
+  <p>Full refund within 30 days.</p>
+</div>
+```
+
+```js
+const btn = document.querySelector(".accordion");
+btn.addEventListener("click", () => {
+  const panel = document.getElementById(btn.getAttribute("aria-controls"));
+  const open = btn.getAttribute("aria-expanded") === "true";
+  btn.setAttribute("aria-expanded", !open);
+  panel.hidden = open;
+});
+```
+
+### 3.3 Testing steps
+
+1. **Keyboard** — Can you reach everything? Is the focus ring visible?
+2. **Automated tools** — Run Lighthouse → Accessibility tab.
+3. **Screen‑reader** — Use VoiceOver (Mac) or NVDA (Windows) and read headings.
+
+### 3.4 Homework
+
+- Add an accordion FAQ to your Portfolio.
+- Add a live region that says “Sent!” after the contact form submits.
+
+---
+
+# ✅ Best practice list
+
+1. **Use HTML tags first**, ARIA only when needed.
+2. Only **one `<h1>`** per page.
+3. Do **not** remove focus outline without adding a new style.
+4. Keep colour contrast strong.
+5. Test early, fix early.
+
+---
+
+# 🎓 Final project
+
+Create an **“About Me”** site that shows _all_ skills:
+
+- **Beginner**: alt text, headings, form labels.
+- **Intermediate**: landmarks, skip link, visible focus.
+- **Advanced**: accordion FAQ, live status message.
+
+Publish it (GitHub Pages works well) and ask a friend to:
+
+1. Navigate only with the keyboard.
+2. Turn on a screen‑reader and read your headings.
+
+If they can finish without help, you did great!
+
+---
+
+_Made with ❤️ by Nikode.ir — Learn once. Build forever._

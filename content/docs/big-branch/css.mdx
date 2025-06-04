@@ -1,0 +1,1240 @@
+---
+title: "Master CSS Essentials"
+description: "An all-in-one, clear roadmap to learn modern CSS: cascade & inheritance, box-model, selectors & specificity, Flexbox, Grid, CSS Nesting & Layers (2025), logical properties, media & container queries, BEM / utility naming."
+---
+
+> **Pro Tip:** Every code snippet here is ready to copy-paste. Pause after each subsection and try it yourself.
+
+---
+
+## 🌱 0 · Groundwork — _Why CSS Matters & Setup_
+
+| Topic                      | Why it Matters                                  | Nikode.ir Shortcut                                                        |
+| -------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------- |
+| **Visual Impact**          | CSS transforms plain HTML into engaging layouts | Video: _Why CSS Is the Heartbeat of Web Design_                           |
+| **Separation of Concerns** | Keeps HTML semantic and CSS purely stylistic    | Cheat-Sheet: _HTML vs. CSS: Responsibilities Split_                       |
+| **Productivity**           | Modern CSS features speed up development        | Quickstart: _Set Up a Live-Reload Environment with VS Code + Live Server_ |
+
+> **Action:**
+>
+> 1. Install VS Code (or any code editor).
+> 2. Create a folder named `css-essentials`.
+> 3. Inside, add `index.html` and `styles.css`.
+> 4. Open Live Server (or equivalent) so every save refreshes in your browser.
+
+Your base HTML in `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CSS Essentials</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- We’ll add content here as we learn -->
+  </body>
+</html>
+```
+
+In `styles.css`, start with an empty file:
+
+```css
+/* styles.css */
+
+/* We’ll add CSS step by step. */
+```
+
+---
+
+## 🌀 1 · Cascade & Inheritance
+
+### 1.1 The Cascade
+
+- **Order Matters**: Later rules override earlier ones.
+- **Specificity Matters**: More specific selectors win.
+- **Important**: `!important` force-wins—but use sparingly.
+
+```css
+/* styles.css */
+p {
+  color: blue; /* Specificity: 0,0,0,1 */
+}
+p.intro {
+  color: green; /* Specificity: 0,0,1,1 – overrides plain p */
+}
+#main p {
+  color: red; /* Specificity: 0,1,0,1 – overrides both above */
+}
+```
+
+```html
+<!-- index.html -->
+<body>
+  <p class="intro">I’m green, not blue.</p>
+  <div id="main">
+    <p class="intro">I’m red, because #main p is most specific.</p>
+  </div>
+</body>
+```
+
+> **Best Practice:** Structure CSS from general → specific. Modularize by component. Avoid deep selector chains.
+
+---
+
+### 1.2 Inheritance
+
+- Some properties naturally descend from parents: `color`, `font-family`, `line-height`.
+- Others do not: `margin`, `padding`, `border` must be set per element.
+- Use the `inherit` keyword to force inheritance.
+
+```css
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+h1 {
+  font-size: 2rem;
+  /* inherits color #333 from body */
+}
+
+.small-text {
+  font-size: 0.875rem;
+  color: inherit; /* gets #333 even if nested */
+}
+```
+
+```html
+<!-- index.html -->
+<body>
+  <h1>Inherited Color</h1>
+  <div class="container">
+    <p class="small-text">I’m small and dark too.</p>
+  </div>
+</body>
+```
+
+> **Tip:** Use inheritance for typography to keep consistency. Avoid re-declaring common styles on every element.
+
+---
+
+## 📏 2 · Box Model
+
+Every element is a **rectangular box** composed of:
+
+1. **Content** (width/height)
+2. **Padding** (space inside border)
+3. **Border** (outline)
+4. **Margin** (space outside border)
+
+```
++-------------------------------------+
+| margin                              |
+|  +--------------------------------+ |
+|  | border                         | |
+|  |  +--------------------------+  | |
+|  |  | padding                  |  | |
+|  |  |  +--------------------+  |  | |
+|  |  |  |   content          |  |  | |
+|  |  |  +--------------------+  |  | |
+|  |  +--------------------------+  | |
+|  +--------------------------------+ |
++-------------------------------------+
+```
+
+---
+
+### 2.1 `box-sizing`
+
+By default, `width`/`height` apply to **content** only. Use `box-sizing: border-box` so padding and border are included in the total width:
+
+```css
+/* styles.css */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+```
+
+```html
+<!-- index.html -->
+<style>
+  .box {
+    width: 200px;
+    padding: 20px;
+    border: 5px solid #000;
+    box-sizing: border-box; /* total width stays 200px */
+  }
+</style>
+<div class="box">Content fits nicely inside 200px total.</div>
+```
+
+> **Best Practice:** Always include
+
+```css
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+```
+
+at the top of your CSS to avoid surprises.
+
+---
+
+### 2.2 Padding, Border & Margin
+
+```css
+/* styles.css */
+.card {
+  width: 300px;
+  padding: 16px;
+  border: 2px solid #ccc;
+  margin: 16px auto; /* 16px top/bottom, centered horizontally */
+}
+```
+
+```html
+<!-- index.html -->
+<div class="card">
+  <h2>Box Model Demo</h2>
+  <p>Observe the padding, border, and margin.</p>
+</div>
+```
+
+- **Margin collapse**: Vertical margins between sibling blocks may collapse (the larger margin takes effect).
+- **Shorthand**:
+
+  - `margin: 10px 20px 30px 40px;` (top, right, bottom, left)
+  - `padding: 10px 20px;` (top/bottom, left/right)
+
+---
+
+## 🔍 3 · Selectors & Specificity
+
+### 3.1 Common Selectors
+
+- **Type selector**: `div`, `p`
+- **Class selector**: `.btn`, `.container`
+- **ID selector**: `#nav`, `#header`
+- **Attribute selector**: `input[type="text"]`, `a[target="_blank"]`
+- **Pseudo-class**: `a:hover`, `input:focus`, `li:nth-child(2)`
+- **Pseudo-element**: `p::first-line`, `h2::after`
+
+```css
+/* styles.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+input[type="text"]:focus {
+  outline: 2px solid #0070f3;
+}
+
+.btn-primary:hover {
+  background-color: #0051a2;
+}
+```
+
+---
+
+### 3.2 Specificity Basics
+
+Calculate specificity as a 4-tuple `(a, b, c, d)`:
+
+1. Inline styles → `a = 1` if `style="…"`; otherwise `0`.
+2. IDs → `b = number of IDs in selector`.
+3. Classes/attributes/pseudo-classes → `c = count of these`.
+4. Type selectors/pseudo-elements → `d = count of these`.
+
+- `p` → `(0,0,0,1)`
+- `.intro p` → `(0,0,1,1)`
+- `#main .intro p:hover` → `(0,1,2,1)`
+
+> **Rule of Thumb:**
+>
+> 1. Prefer class selectors (specificity `0,0,1,0`).
+> 2. Avoid IDs in CSS; they can be too specific.
+> 3. Never chain more than 3 levels deep. Keep selectors simple.
+
+---
+
+### 3.3 Specificity Wars & `!important`
+
+```css
+/* styles.css */
+.header {
+  color: #000;
+}
+
+#main .header {
+  color: #333;
+}
+
+.header {
+  color: #666 !important; /* overrides ID selector */
+}
+```
+
+> **Caution:** Overusing `!important` makes maintenance painful. Instead, reorganize your CSS or increase selector specificity minimally.
+
+---
+
+## 📐 4 · Flexbox
+
+Flexbox excels at one-dimensional layouts (row or column).
+
+### 4.1 Flex Container vs. Flex Item
+
+```html
+<!-- index.html -->
+<div class="flex-container">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>
+```
+
+```css
+/* styles.css */
+.flex-container {
+  display: flex; /* direct children become flex items */
+  gap: 16px; /* space between items */
+  padding: 16px;
+  background: #f5f5f5;
+}
+
+.item {
+  background: #0070f3;
+  color: #fff;
+  padding: 16px;
+  flex: 1; /* each item grows equally */
+  text-align: center;
+}
+```
+
+- `display: flex` on the container.
+- `flex-direction`: defaults to `row`; can be `column`.
+- `flex-wrap: wrap` allows items to wrap onto multiple lines.
+- `justify-content` (main axis) and `align-items` (cross axis) control alignment.
+
+---
+
+### 4.2 Common Flex Properties
+
+```css
+/* styles.css */
+.flex-container {
+  display: flex;
+  justify-content: space-between; /* space between items */
+  align-items: center; /* vertically center in row */
+  flex-wrap: wrap;
+}
+
+.item {
+  flex: 0 1 200px; /* flex-grow:0, flex-shrink:1, flex-basis:200px */
+}
+```
+
+| Property          | Description                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------- |
+| `justify-content` | `flex-start`, `flex-end`, `center`, `space-between`, `space-around`, `space-evenly` |
+| `align-items`     | `stretch`, `flex-start`, `flex-end`, `center`, `baseline`                           |
+| `flex-wrap`       | `nowrap` (default), `wrap`, `wrap-reverse`                                          |
+| `flex`            | Shorthand for `flex-grow`, `flex-shrink`, `flex-basis`                              |
+
+> **Pro Tip:** Use `gap` instead of `margin` for spacing between flex items. It avoids margin-collapsing issues.
+
+---
+
+### 4.3 Real-World Example: Navbar
+
+```html
+<!-- index.html -->
+<nav class="navbar">
+  <a href="#" class="logo">MyShop</a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Products</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="cart">
+    <a href="#">Cart (0)</a>
+  </div>
+</nav>
+```
+
+```css
+/* styles.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: #333;
+  text-decoration: none;
+}
+
+.cart a {
+  color: #333;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+```
+
+> **Try It:** Resize your browser. Notice how the nav stays aligned. Later, we’ll make it responsive.
+
+---
+
+## 🧱 5 · Grid
+
+CSS Grid handles two-dimensional layouts (both rows & columns).
+
+### 5.1 Defining a Grid Container
+
+```html
+<!-- index.html -->
+<div class="grid-container">
+  <div class="card">Item 1</div>
+  <div class="card">Item 2</div>
+  <div class="card">Item 3</div>
+  <div class="card">Item 4</div>
+</div>
+```
+
+```css
+/* styles.css */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  gap: 16px;
+  padding: 16px;
+}
+
+.card {
+  background: #f0f0f0;
+  padding: 24px;
+  text-align: center;
+}
+```
+
+- `display: grid` on the container.
+- `grid-template-columns` & `grid-template-rows` define grid tracks.
+- `gap` defines both row and column gaps.
+- `repeat(4, 1fr)` creates 4 equal-width columns.
+
+---
+
+### 5.2 Explicit vs. Implicit Grids
+
+- **Explicit**: You define rows/columns.
+
+  ```css
+  .grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 100px;
+    grid-template-rows: auto 1fr auto;
+  }
+  ```
+
+- **Implicit**: Browser creates additional tracks if items exceed defined grid.
+
+  ```css
+  .grid-auto {
+    display: grid;
+    grid-auto-flow: row; /* default */
+    grid-auto-rows: 100px; /* each new row is 100px tall */
+  }
+  ```
+
+---
+
+### 5.3 Placing Items
+
+```css
+/* styles.css */
+.item-a {
+  grid-column: 1 / 3; /* spans from column 1 up to (but not including) column 3 */
+  grid-row: 1 / 2; /* first row only */
+}
+
+.item-b {
+  grid-column: 3 / 5; /* spans columns 3 & 4 */
+  grid-row: 1 / 3; /* spans two rows */
+}
+```
+
+- **Shorthand**: `grid-column: 1 / span 2` (start at column 1, span 2 columns).
+- You can also define named areas with `grid-template-areas` and assign items via `grid-area`.
+
+---
+
+## 📦 6 · CSS Nesting & Layers (2025)
+
+By 2025, modern browsers support **CSS Nesting** and **Layers**, which help organize and simplify CSS.
+
+### 6.1 CSS Nesting
+
+Nest selectors inside a parent rule to reduce repetition:
+
+```css
+/* styles.css */
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+
+  &__header {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+
+  &__body {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  &__footer {
+    margin-top: 16px;
+    text-align: right;
+
+    & .btn {
+      background: #0070f3;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+}
+
+/* Compiled for older browsers (example) */
+.card {
+  /* … */
+}
+.card__header {
+  /* … */
+}
+.card__body {
+  /* … */
+}
+.card__footer {
+  /* … */
+}
+.card__footer .btn {
+  /* … */
+}
+```
+
+> **Note:** If a browser doesn’t support nesting, use a PostCSS plugin in your build process to compile to flat CSS.
+
+---
+
+### 6.2 CSS Layers
+
+Layers let you group your CSS into conceptual slices, controlling cascade order more predictably:
+
+```css
+/* styles.css */
+@layer resets {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer base {
+  html {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    color: #333;
+  }
+  body {
+    background: #fafafa;
+  }
+}
+
+@layer components {
+  .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #0070f3;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .text-center {
+    text-align: center !important;
+  }
+  .mt-16 {
+    margin-top: 16px !important;
+  }
+}
+
+/* Usage: */
+@import "styles.css"; /* Layers load and cascade in declared order */
+```
+
+- **Order:** Layers appear in the declared order; rules in deeper layers override earlier layers.
+- **Benefits:** Isolates resets, base styles, components, and utility classes—reducing specificity conflicts and making code easier to reason about.
+
+---
+
+## 🔄 7 · Logical Properties & Writing Modes
+
+Logical properties adapt layouts to different writing modes (LTR, RTL, vertical). Avoid physical properties like `margin-left`; use logical equivalents like `margin-inline-start`.
+
+### 7.1 Logical Margin & Padding
+
+```css
+/* styles.css */
+.card {
+  margin-block-start: 16px; /* top in LTR, top in RTL */
+  margin-block-end: 16px; /* bottom in LTR, bottom in RTL */
+  margin-inline-start: auto; /* left in LTR, right in RTL */
+  margin-inline-end: auto; /* right in LTR, left in RTL */
+  padding-block: 16px 24px; /* vertical padding: top 16px, bottom 24px */
+  padding-inline: 16px; /* horizontal padding: left/right 16px */
+}
+```
+
+- **`block`** keywords refer to the block axis (vertical in LTR).
+- **`inline`** keywords refer to the inline axis (horizontal in LTR).
+- Logical properties automatically adapt when the document’s direction changes (e.g., `dir="rtl"`).
+
+---
+
+### 7.2 Text Flow & Writing Modes
+
+```css
+/* styles.css */
+.vertical-text {
+  writing-mode: vertical-rl; /* text flows top-to-bottom, right-to-left */
+  text-orientation: upright;
+  border: 1px solid #000;
+  padding: 8px;
+}
+```
+
+```html
+<!-- index.html -->
+<div class="vertical-text">
+  This text is vertical when you set writing-mode.
+</div>
+```
+
+> **Use Case:** Useful for multilingual sites, e-book readers, or vertical Asian text typesetting.
+
+---
+
+## 📱 8 · Media Queries & Container Queries
+
+### 8.1 Media Queries (Responsive Breakpoints)
+
+```css
+/* styles.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 8px;
+  }
+}
+```
+
+- Always use **mobile-first**: define base styles for small viewports, then override for larger screens.
+- Common breakpoints:
+
+  - `320px` (small phones)
+  - `480px` (large phones)
+  - `768px` (tablets)
+  - `1024px` (small laptops)
+  - `1280px`+ (desktops)
+
+---
+
+### 8.2 Container Queries (2025)
+
+Container queries let components adapt based on their own container’s size, not just the viewport. Example:
+
+```css
+/* styles.css */
+.product-card {
+  container-type: inline-size; /* opt-in to container queries */
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+@container (max-width: 400px) {
+  .product-card {
+    display: block;
+  }
+  .product-card .details {
+    font-size: 0.875rem;
+  }
+}
+
+@container (min-width: 401px) {
+  .product-card {
+    display: flex;
+    gap: 16px;
+  }
+  .product-card img {
+    width: 40%;
+  }
+  .product-card .details {
+    width: 60%;
+  }
+}
+```
+
+```html
+<!-- index.html -->
+<div class="product-card">
+  <img src="/images/product.jpg" alt="Cool gadget" />
+  <div class="details">
+    <h2>Cool Gadget</h2>
+    <p>$49.99</p>
+    <button class="btn">Buy Now</button>
+  </div>
+</div>
+```
+
+- **`container-type: inline-size`**: makes that element a query container.
+- Inside `@container`, use the same syntax as media queries, but queries target the container’s width/height.
+- Enables truly component-level responsiveness, making styles more reusable.
+
+---
+
+## 🔖 9 · Naming Conventions: BEM & Utility Classes
+
+Clear naming makes maintenance easier, especially in teams or open-source projects.
+
+### 9.1 BEM (Block, Element, Modifier)
+
+- **Block**: standalone component (e.g., `product-card`).
+- **Element**: part of a block, written as `block__element` (e.g., `product-card__title`).
+- **Modifier**: variant or state, written as `block--modifier` or `block__element--modifier` (e.g., `product-card--featured`, `button--primary`).
+
+```html
+<!-- index.html -->
+<div class="product-card product-card--featured">
+  <img class="product-card__image" src="/images/gadget.jpg" alt="Gadget" />
+  <h2 class="product-card__title">Gadget Pro</h2>
+  <p class="product-card__price">$99.99</p>
+  <button class="button button--primary">Add to Cart</button>
+</div>
+```
+
+```css
+/* styles.css */
+/* Block */
+.product-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+}
+
+/* Element */
+.product-card__image {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.product-card__title {
+  font-size: 1.25rem;
+  margin: 12px 0;
+}
+
+.product-card__price {
+  color: #0070f3;
+  font-weight: bold;
+}
+
+/* Modifier */
+.product-card--featured {
+  border-color: #0070f3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  text-transform: uppercase;
+}
+
+.button--primary {
+  background: #0070f3;
+  color: #fff;
+}
+```
+
+> **Best Practice:** BEM keeps classes flat (no descendant selectors). This reduces specificity and makes components portable.
+
+---
+
+### 9.2 Utility-First CSS
+
+Instead of writing new component classes, use small, reusable utility classes. Example:
+
+```html
+<!-- index.html -->
+<div class="max-w-400 mx-auto p-16 bg-white border border-gray rounded-lg">
+  <img class="w-full rounded-sm" src="/images/gadget.jpg" alt="Gadget" />
+  <h2 class="text-xl mt-12">Gadget Pro</h2>
+  <p class="text-blue font-bold mt-8">$99.99</p>
+  <button class="px-16 py-8 bg-blue text-white rounded">Add to Cart</button>
+</div>
+```
+
+```css
+/* styles.css */
+/* Utilities */
+.max-w-400 {
+  max-width: 400px;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.p-16 {
+  padding: 16px;
+}
+.bg-white {
+  background-color: #fff;
+}
+.border {
+  border: 1px solid #e0e0e0;
+}
+.border-gray {
+  border-color: #e0e0e0;
+}
+.rounded-lg {
+  border-radius: 8px;
+}
+.w-full {
+  width: 100%;
+}
+.rounded-sm {
+  border-radius: 4px;
+}
+.text-xl {
+  font-size: 1.25rem;
+}
+.mt-12 {
+  margin-top: 12px;
+}
+.text-blue {
+  color: #0070f3;
+}
+.font-bold {
+  font-weight: bold;
+}
+.mt-8 {
+  margin-top: 8px;
+}
+.px-16 {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.py-8 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.bg-blue {
+  background-color: #0070f3;
+}
+.text-white {
+  color: #fff;
+}
+.rounded {
+  border-radius: 4px;
+}
+```
+
+> **Pros & Cons:**
+>
+> - **Pros:** Faster prototyping, consistent spacing/colors.
+> - **Cons:** Markup becomes verbose. Balance utility classes with component classes for maintainability.
+
+---
+
+## 🎨 10 · Mini-Project — Product Card (Pixel-Perfect & Fluid)
+
+### 10.1 Objective
+
+Recreate this e-commerce product card exactly as shown in your design, then ensure it’s fluid down to **320 px**. No CSS frameworks—pure CSS.
+
+> **Note:** Place a local image at `public/images/product-card-example.jpg` to reference below.
+
+```mdx
+![Product Card Example](/images/product-card-example.jpg)
+```
+
+**Features to implement**:
+
+- **Container** with border, rounded corners, and subtle shadow.
+- **Product Image** that fills width and maintains aspect ratio.
+- **Title** (product name), **price**, and **rating** stars.
+- **“Add to Cart”** button with hover effect.
+- **Responsive**:
+
+  - ≥ 768 px: image and details side by side.
+  - < 768 px: stack vertically.
+  - Down to 320 px: adjust font sizes, paddings, and gaps to prevent overflow.
+
+---
+
+### 10.2 HTML Structure
+
+```html
+<!-- index.html -->
+<div class="product-card">
+  <img
+    src="/images/product-card-example.jpg"
+    alt="Stylish Sneakers"
+    class="product-card__image"
+  />
+
+  <div class="product-card__info">
+    <h2 class="product-card__title">Stylish Sneakers</h2>
+    <p class="product-card__price">$59.99</p>
+    <div class="product-card__rating">
+      <span aria-label="4 out of 5 stars">★★★★☆</span>
+      <span class="rating-count">(120 reviews)</span>
+    </div>
+    <button class="button button--primary">Add to Cart</button>
+  </div>
+</div>
+```
+
+- **`.product-card`**: Block container.
+- **`.product-card__image`**: Element for the image.
+- **`.product-card__info`**: Wraps title, price, rating, and button.
+- **`.button`** & **`.button--primary`**: Reusable button classes.
+
+---
+
+### 10.3 Base CSS
+
+```css
+/* styles.css */
+/* 1. Layers & Resets */
+@layer resets, base, components, utilities;
+
+@layer resets {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer base {
+  html {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    color: #333;
+    background: #fafafa;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+}
+
+/* 2. Components */
+@layer components {
+  .product-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    container-type: inline-size;
+  }
+
+  .product-card__image {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .product-card__info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .product-card__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .product-card__price {
+    font-size: 1.125rem;
+    color: #0070f3;
+    font-weight: bold;
+  }
+
+  .product-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.875rem;
+    color: #ffbf00;
+  }
+
+  .rating-count {
+    font-size: 0.875rem;
+    color: #777;
+  }
+}
+
+/* 3. Buttons */
+@layer components {
+  .button {
+    padding: 12px 24px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    text-align: center;
+  }
+
+  .button--primary {
+    background: #0070f3;
+    color: #fff;
+  }
+
+  .button--primary:hover {
+    background: #0051a2;
+  }
+}
+
+/* 4. Utilities */
+@layer utilities {
+  .text-center {
+    text-align: center !important;
+  }
+}
+
+/* 5. Responsive & Container Queries */
+@layer components {
+  /* Default: single-column (mobile-first) */
+  .product-card {
+    grid-template-columns: 1fr;
+  }
+
+  @container (min-width: 768px) {
+    .product-card {
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .product-card__image {
+      height: 100%;
+    }
+  }
+}
+```
+
+> **Explanation:**
+>
+> - We used **CSS Layers** (`@layer`) to organize resets, base styles, components, and utilities.
+> - The `.product-card` is `display: grid` with a single column by default (mobile-first).
+> - At **768 px**, it switches to a two-column grid: image on the left, info on the right.
+> - `object-fit: cover` keeps the image’s aspect ratio while filling its grid cell.
+> - All paddings, font sizes, and gaps are in `rem`/`px`, making small-screen tweaks simple.
+
+---
+
+### 10.4 Fluid Adjustments Down to 320 px
+
+Add media queries for very small screens:
+
+```css
+/* styles.css */
+@layer components {
+  @media (max-width: 480px) {
+    .product-card__title {
+      font-size: 1rem;
+    }
+    .product-card__price {
+      font-size: 1rem;
+    }
+    .product-card__info {
+      padding: 12px;
+      gap: 8px;
+    }
+    .button {
+      padding: 10px 20px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .product-card__info {
+      padding: 8px;
+      gap: 6px;
+    }
+    .product-card__title {
+      font-size: 0.875rem;
+    }
+    .button {
+      padding: 8px 16px;
+      font-size: 0.875rem;
+    }
+  }
+}
+```
+
+- **480 px**: Slightly reduce paddings and font sizes for small phones.
+- **320 px**: Further reduce to prevent any overflow.
+- Test by shrinking your browser window down to 320 px—no horizontal scrollbar appears, and all text remains readable.
+
+---
+
+## 🔗 11 · Further Reading & Resources
+
+- **Flexbox Guide** — Kevin Powell: [“Learn CSS Flexbox”](https://www.youtube.com/watch?v=JJSoEo8JSnc)
+- **Grid Tutorial** — Kevin Powell: [“Learn CSS Grid”](https://www.youtube.com/watch?v=7kVeCqQCxlk)
+- **Modern CSS** — Stephanie Eckles: [“Modern CSS YouTube Playlist”](https://www.youtube.com/playlist?list=PL85ITvJ7FL-oW8vV_vC99ynL38BoNm0_T)
+- **CSS Nesting & Layers** — MDN: [“Nesting”](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Nesting) | [“Cascade Layers”](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer)
+- **Container Queries** — CSS Tricks: [“All About CSS Container Queries”](https://css-tricks.com/css-container-queries/)
+- **Logical Properties** — MDN: [“CSS Logical Properties”](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties)
+- **BEM Methodology** — getbem.com: [“BEM 101”](https://getbem.com/introduction/)
+
+> **Tip:** Bookmark these links and revisit as you build larger projects. Video tutorials can make complex concepts easier to grasp.
+
+---
+
+## 🎒 Homework & Practice
+
+1. **Box Model Drill**
+
+   - Create three nested `<div>` elements. Give each a distinct border color, padding, and margin. Inspect in DevTools to see how width is calculated.
+   - **Proof:** Screenshot showing computed size values in DevTools.
+
+2. **Specificity Quiz**
+
+   - Write five CSS scenarios with mixed selectors. Predict which style wins in each case.
+   - **Proof:** A code snippet with your answers commented inline.
+
+3. **Flexbox Layout**
+
+   - Build a responsive card grid: three columns on desktop, two columns on tablet (≥ 768 px), and one column on mobile (≤ 480 px). Each card must contain an image and text.
+   - **Proof:** Live URL or a screen recording showing the layout adjusting as you resize.
+
+4. **Grid Gallery**
+
+   - Create a photo gallery using CSS Grid with equal gaps. At `< 600 px`, switch to two columns; at `< 400 px`, use one column.
+   - **Proof:** CodePen link or live URL demonstrating the responsive behavior.
+
+5. **Nesting & Layers Practice**
+
+   - Take an existing project (e.g., a mini portfolio) and refactor its CSS to use `@layer` and nesting. Create at least three layers (`resets`, `base`, `components`).
+   - **Proof:** Paste the reorganized CSS with comments explaining each layer’s purpose.
+
+6. **Logical Properties Challenge**
+
+   - Build a two-column layout for English (LTR). Then add `dir="rtl"` to the `<html>` tag and verify that paddings/margins adapt automatically using logical properties.
+   - **Proof:** Screenshots of both LTR and RTL views showing correct alignment.
+
+7. **Container Query Card**
+
+   - Create a testimonial card that shows avatar and text side by side when the container is ≥ 300 px wide; otherwise stack vertically. Use `container-type` and `@container`.
+   - **Proof:** Code snippet and a brief explanation of how the container query affects the layout.
+
+8. **BEM vs. Utility Comparison**
+
+   - Rebuild the product card twice: once with BEM naming and once with utility classes. Compare HTML verbosity and CSS file size.
+   - **Proof:** Provide both code versions and a short write-up (2–3 sentences) on which approach you prefer and why.
+
+> **Submission:** Upload your files or URLs to the **Nikode.ir Homework Portal**. Share your process and reflections in the community forum.
+
+---
+
+## ⭐ Final Checkpoint
+
+When you can:
+
+- Explain the **cascade** order and calculate **specificity** for selectors.
+- Build layouts with **Flexbox** and **Grid**, adapting at breakpoints.
+- Use **CSS Nesting** and **Layers** to organize modern CSS.
+- Apply **logical properties** so designs adapt to LTR/RTL automatically.
+- Write **container queries** to make components truly responsive.
+- Name classes clearly with **BEM** and/or **utility-first** methods.
+- Recreate a **pixel-perfect, fluid product card** down to 320 px.
+
+🎉 **Congratulations!** You’re now a CSS Essentials ninja. Continue your journey on **Nikode.ir** with advanced CSS animations, custom properties, and Sass integration—coming soon.
+
+---
+
+_Made with ❤️ by [Nikode.ir](https://nikode.ir) — empowering absolute beginners to build modern, responsive, and accessible websites._

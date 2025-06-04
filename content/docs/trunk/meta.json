@@ -1,0 +1,6 @@
+{
+  "title": "TRUNK",
+  "icon": "Code",
+  "defaultOpen": true,
+  "pages": ["html", "accessibility"]
+}
