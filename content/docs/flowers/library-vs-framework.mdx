@@ -1,0 +1,97 @@
+---
+title: "Library vs. Framework"
+description: A clear comparison of libraries vs frameworks, explained through simple analogies and practical examples.
+---
+
+#### 1. Very Short Answer
+
+| Word          | Tiny meaning                                                                      |
+| ------------- | --------------------------------------------------------------------------------- |
+| **Library**   | A bag of tools you pick up when you need them. **You** stay in charge.            |
+| **Framework** | A full recipe that calls **your** code at the right time. **It** stays in charge. |
+
+---
+
+#### 2. Simple Analogy
+
+- **Library → LEGO box**
+  _You_ choose each brick and decide what to build.
+- **Framework → LEGO kit with guide**
+  The booklet tells you which brick goes next; you add custom stickers (your code) where the booklet says.
+
+---
+
+#### 3. Key Differences in Plain Language
+
+| Topic              | Library                                            | Framework                                                        |
+| ------------------ | -------------------------------------------------- | ---------------------------------------------------------------- |
+| **Control**        | You call functions when you want.                  | It calls your code; this is called _Inversion of Control_.       |
+| **Size**           | Often small, focused (e.g., date math, animation). | Broader: routing, data, tests, build tools—“batteries included.” |
+| **Learning curve** | Usually quick: read docs, import, use.             | Longer: must learn rules, folder layout, lifecycles.             |
+| **Freedom**        | Pick any mix of libraries you like.                | Must follow its way (file names, patterns).                      |
+| **Updates**        | Fewer breaking changes.                            | Upgrades can be bigger jobs because many pieces connect.         |
+
+---
+
+#### 4. Real-World Examples
+
+| Area                    | Library Example                       | Framework Example                                       |
+| ----------------------- | ------------------------------------- | ------------------------------------------------------- |
+| **Web UI (JavaScript)** | **React** (just the view layer)       | **Angular**, **Next.js** (full routing, data, build)    |
+| **Styling**             | **Lodash**, **Day.js** (tiny helpers) | **Ruby on Rails**, **Django** (backend MVC, ORM, tests) |
+| **Mobile**              | **Lottie** (animation)                | **Flutter**, **Ionic** (whole app structure)            |
+
+---
+
+#### 5. Mini Code Peek
+
+**Library style (React used like a library)**
+
+```jsx
+import { useState } from "react"; // you pick React
+function Counter() {
+  const [n, setN] = useState(0);
+  return <button onClick={() => setN(n + 1)}>{n}</button>;
+}
+// You decide where to render <Counter />
+```
+
+**Framework style (Next.js page)**
+
+```jsx
+// app/page.js — file location required by framework
+export default function Home() {
+  return <h1>Hello from Next.js</h1>;
+}
+// Next.js decides routing, data-fetch timing, page build
+```
+
+---
+
+#### 6. When to Pick Which?
+
+| If you…                            | Choose a **Library** | Choose a **Framework** |
+| ---------------------------------- | -------------------- | ---------------------- |
+| Already have part of a project     | ✔️                   |                        |
+| Want full freedom & mix-and-match  | ✔️                   |                        |
+| Need to ship fast with clear path  |                      | ✔️                     |
+| Prefer one guide and strong rules  |                      | ✔️                     |
+| Team is small, learning new things | ✔️ (start small)     |                        |
+
+---
+
+#### 7. Best Practices (Easy Tips)
+
+1. **Start with a library** while you learn basics; grow into a framework later.
+2. **Read the docs in your language** if possible; use online translators for extra help.
+3. **Try small demos** first (todo list, counter) to see how control flows.
+4. **Upgrade carefully**—follow release notes, back up code.
+5. **Stay modular**: even in a framework, keep your own logic in small, reusable pieces.
+
+---
+
+#### 8. Quick Memory Trick
+
+> **“I call the _Library_, the _Framework_ calls me.”**
+
+Say it twice—it sticks!

@@ -1,0 +1,121 @@
+---
+title: React Part 1 — Introduction
+description: Learn what React is, what tech powers it, and how it works behind the scenes.
+---
+
+## 1 · What is React?
+
+React is a **JavaScript library** for building user interfaces.
+It helps you build fast, interactive user interfaces (UIs) for websites and web apps.
+Think of React as Lego bricks for the web: you click pieces together to build big things.
+
+- **Library**, not a full framework — you keep the freedom to choose routers, data tools, and styling libraries. [Learn more about libraries vs frameworks →](/docs/flowers/library-vs-framework)
+- Created by **Facebook (now Meta)** in 2013 to solve UI complexity at scale.
+
+> **Why people love it:** Re‑usable components, fast updates, strong community, and works on web _and_ mobile (React Native).
+
+---
+
+## 2 · Technologies React Uses
+
+| Layer      | Tech                            | What it does                                              |
+| ---------- | ------------------------------- | --------------------------------------------------------- |
+| Language   | **JavaScript (ES6 +)**          | Modern syntax like `import`, `class`, arrow functions     |
+| Syntax     | **JSX**                         | Lets you write HTML‑looking code inside JS                |
+| Transpiler | **Babel**                       | Turns JSX & modern JS into code every browser understands |
+| Bundler    | **Vite / esbuild** (or Webpack) | Glues every file into one optimized bundle                |
+| Runtime    | **React DOM**                   | Connects React to the browser’s real DOM                  |
+| Scheduler  | **Fiber**                       | Slices big work so the page stays snappy                  |
+| Events     | **Synthetic Event System**      | One smart listener instead of many native ones            |
+
+---
+
+## 3 · How React Works Behind the Scenes
+
+1. **Write JSX**
+
+   ```jsx
+   <h1>Hello React!</h1>
+   ```
+
+2. **Babel transforms** it into plain JavaScript:
+
+   ```js
+   React.createElement("h1", null, "Hello React!");
+   ```
+
+3. React builds a **Virtual DOM** — a lightweight JS object describing the UI tree.
+4. On first render, React **mounts** real DOM nodes matching that tree.
+5. When state changes, React builds a _new_ Virtual DOM, **diffs** it with the previous tree (this step is _reconciliation_), and figures out the smallest set of changes **(patch)** needed.
+6. The **Fiber scheduler** spreads that patch work over short time slices so scrolling and animation stay smooth.
+7. Finally, React applies those changes with regular DOM APIs.
+
+> **Big idea:** React is fast because it does _less_ real DOM work and schedules it smartly.
+
+---
+
+## 4 · Mini‑React in 40 Lines
+
+Below is a _tiny_ toy version of React to show the core idea (not production‑ready!):
+
+```js
+// 1. create "element"
+function h(type, props, ...children) {
+  return { type, props: props || {}, children };
+}
+
+/**
+ * Turn a “virtual node” into real DOM and put it inside a parent element.
+ * @param {Object|string} node   Virtual node object OR plain text.
+ * @param {HTMLElement}   parent Real DOM element that will receive the new content.
+ */
+function render(node, parent) {
+  // 1️⃣ If the node is just text, make a text node and add it, then stop.
+  if (typeof node === "string") {
+    parent.appendChild(document.createTextNode(node));
+    return;
+  }
+
+  // 2️⃣ Create a real DOM element such as <div>, <button>, etc.
+  const el = document.createElement(node.type);
+
+  // 3️⃣ Copy each property (className, onclick, etc.) onto the new element.
+  Object.entries(node.props).forEach(([k, v]) => (el[k] = v));
+
+  // 4️⃣ Go through every child, flatten nested arrays, and render them too.
+  node.children.flat().forEach((child) => render(child, el));
+
+  // 5️⃣ After all children are ready, add this element to its parent.
+  parent.appendChild(el);
+}
+
+// Usage
+const tree = h(
+  "ul",
+  { className: "list" },
+  h("li", null, "🍎 Apple"),
+  h("li", null, "🍊 Orange")
+);
+
+render(tree, document.getElementById("root"));
+```
+
+This mini version:
+
+- Builds a JS object tree (our **virtual DOM**).
+- Walks the tree and creates real DOM nodes.
+- Does a full re‑render every time (no diffing yet).
+
+> Seeing the simple version demystifies React. Underneath, it is plain JavaScript manipulating the DOM cleverly.
+
+---
+
+## 5 · Homework 🏡
+
+1. **Play with the Virtual DOM**
+
+   - Copy the _Mini‑React_ code into a blank HTML file.
+   - Add a button that re‑renders the list with one extra fruit. Notice the flicker (full re‑render). Imagine how diffing would improve it.
+
+2. **Explain React to a friend**
+   - In five sentences, tell someone _why_ React exists and _what problem_ it solves.

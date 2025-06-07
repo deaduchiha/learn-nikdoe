@@ -1,0 +1,6 @@
+{
+  "title": "Flowers",
+  "icon": "Flower2",
+  "defaultOpen": true,
+  "pages": ["react", "library-vs-framework"]
+}

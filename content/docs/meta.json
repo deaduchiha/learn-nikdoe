@@ -1,3 +1,11 @@
 {
-  "pages": ["index", "roots", "trunk", "big-branch", "branches", "blossom"]
+  "pages": [
+    "index",
+    "roots",
+    "trunk",
+    "big-branch",
+    "branches",
+    "blossom",
+    "flowers"
+  ]
 }
