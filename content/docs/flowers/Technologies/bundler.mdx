@@ -1,0 +1,149 @@
+---
+title: "4. Bundlers — Vite, esbuild, Webpack"
+description: "In modern frontend development, you don’t just load one file — you load a bundle: a single, optimized package of all your code, styles, and assets."
+---
+
+## 🧠 What You’ll Learn
+
+- What a bundler does (and why it’s important)
+- How Vite, esbuild, and Webpack work
+- What bundling means in a modern React project
+- How bundlers help with performance and scalability
+
+---
+
+## 🔹 What Is a Bundler?
+
+A **bundler** takes your app's many files (JS, CSS, images, etc.) and **combines them into a few optimized output files**.
+
+````txt
+input/
+├─ App.jsx
+├─ styles.css
+├─ logo.png
+└─ utils/
+   └─ helpers.js
+
+▼
+
+output/
+├─ bundle.js
+├─ style.css
+
+
+✅ Benefits:
+
+* Fewer HTTP requests
+* Minified and compressed files
+* Faster load time
+* Supports modern tools like JSX and modules
+
+---
+
+## 🔧 Popular Bundlers at a Glance
+
+| Tool        | Engine         | Key Features                           |
+| ----------- | -------------- | -------------------------------------- |
+| **Vite**    | uses `esbuild` | Lightning-fast dev server, hot reload  |
+| **esbuild** | written in Go  | Ultra-fast JS/TS bundler, zero config  |
+| **Webpack** | plugin-based   | Powerful and flexible, used by Next.js |
+
+---
+
+## ⚡ Vite (Default for Modern React)
+
+Vite is a new-generation bundler that uses **esbuild** under the hood for development.
+
+```bash
+npm create vite@latest
+````
+
+### 🔥 Features:
+
+- Instant startup (no bundling on dev)
+- HMR (Hot Module Reloading)
+- Native ESM support
+- Works great with React, Vue, Svelte, etc.
+
+---
+
+## 🛠 esbuild (The Speed King)
+
+esbuild is an extremely fast JS bundler and minifier.
+
+```bash
+npx esbuild app.jsx --bundle --outfile=bundle.js
+```
+
+✅ It's often used **behind the scenes** in tools like:
+
+- Vite (for dev)
+- Bun
+- Snowpack
+
+---
+
+## 🏗 Webpack (The Old Giant)
+
+Webpack is the traditional bundler used in **Create React App** and **Next.js**.
+
+```bash
+npx create-react-app my-app
+```
+
+### Key Features:
+
+- Highly customizable with loaders and plugins
+- Handles images, CSS, SVG, and more
+- Powerful production optimizations
+
+> 🧠 More flexible, but also more complex to configure manually.
+
+---
+
+## 📦 How Bundlers Work (Simplified)
+
+```
+┌────────────┐
+│  Your Code │  (JSX, CSS, TS, images...)
+└─────┬──────┘
+      ▼
+┌──────────────┐
+│   Transpiler │  (Babel, esbuild)
+└─────┬────────┘
+      ▼
+┌─────────────┐
+│   Bundler   │  (Vite, Webpack)
+└─────┬───────┘
+      ▼
+┌────────────────────┐
+│  Output Bundle(s)  │ → Delivered to browser
+└────────────────────┘
+```
+
+---
+
+## 🧪 Homework Tasks
+
+1. ✅ Create a new React app using **Vite** and explore the `vite.config.js`.
+2. ✅ Use `esbuild` from CLI to bundle a simple JS file.
+3. ✅ Compare the output bundle sizes between CRA and Vite.
+
+---
+
+## 🧠 Summary
+
+| Concept | Description                            |
+| ------- | -------------------------------------- |
+| Bundler | Combines files into 1+ optimized files |
+| Vite    | Fastest dev experience using esbuild   |
+| esbuild | Core tech behind many new bundlers     |
+| Webpack | Very flexible, powerful, but heavier   |
+
+---
+
+## 📚 Learn More
+
+- 🔗 [Vite Official Docs](https://vitejs.dev)
+- 🔗 [esbuild Docs](https://esbuild.github.io)
+- 🔗 [Webpack Docs](https://webpack.js.org)

@@ -1,0 +1,129 @@
+---
+title: "5. React DOM — The Runtime Layer"
+description: "Learn how React connects your components to the browser using React DOM, and how the rendering process works."
+sidebar_label: "React DOM (Runtime)"
+slug: /flowers/react-dom-runtime
+---
+
+# 🧩 React DOM — The Runtime
+
+When you write React code like `<App />`, it doesn’t automatically appear in the browser.  
+React needs a **runtime engine** to connect your components to the **real DOM**.  
+That engine is called **React DOM**.
+
+---
+
+## 🧠 What You’ll Learn
+
+- What React DOM is and what it does
+- The role of `ReactDOM.createRoot()` and `root.render()`
+- How your JSX code gets rendered in the browser
+- Real DOM vs Virtual DOM
+
+---
+
+## 🔹 What Is React DOM?
+
+**React DOM** is the **runtime library** that lets React interact with the **actual browser DOM**.
+
+Without React DOM, your JSX would never make it to the screen.
+
+---
+
+### 💻 A Simple Example
+
+````jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+
+Here’s what each line does:
+
+| Code                       | What It Does                                   |
+| -------------------------- | ---------------------------------------------- |
+| `ReactDOM.createRoot(...)` | Creates a React "root" in the real DOM         |
+| `root.render(<App />)`     | Renders your React app inside that DOM element |
+| `<App />`                  | Your top-level component                       |
+
+---
+
+## 🔸 Real DOM vs Virtual DOM
+
+React builds a **Virtual DOM** first — a lightweight JS object that mimics the UI.
+
+Then, using **React DOM**, it compares the virtual version to the actual DOM and makes the minimal changes required.
+
+```txt
+JSX → Virtual DOM → (diff) → Real DOM
+````
+
+✅ **Fast and efficient DOM updates**
+
+---
+
+## 🔹 Visual Diagram: How Rendering Works
+
+```
+┌────────────┐
+│   <App />  │ ← You write this
+└────┬───────┘
+     ▼
+┌────────────┐
+│ Virtual DOM│ ← React builds a JS object tree
+└────┬───────┘
+     ▼
+┌─────────────┐
+│ React DOM   │ ← Compares & updates browser DOM
+└────┬────────┘
+     ▼
+┌──────────────┐
+│ Real Browser │ ← UI appears on screen
+└──────────────┘
+```
+
+---
+
+## 🔸 React DOM API (React 18+)
+
+React 18 introduced **concurrent rendering** and replaced `ReactDOM.render()` with `ReactDOM.createRoot()`.
+
+```js
+// Old (React 17)
+ReactDOM.render(<App />, document.getElementById("root"));
+
+// New (React 18+)
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+```
+
+> ✅ Always use `createRoot` for full React 18+ features like **suspense**, **transitions**, and **streaming**.
+
+---
+
+## 🧪 Homework Tasks
+
+1. ✅ Create a basic React app and identify where `ReactDOM.createRoot()` is used.
+2. ✅ Modify your JSX and see how React updates the DOM efficiently.
+3. ✅ Open Chrome DevTools and inspect the `#root` element to see where your app lives.
+
+---
+
+## 🧠 Summary
+
+| Concept          | Meaning                                         |
+| ---------------- | ----------------------------------------------- |
+| React DOM        | Runtime that connects React to the browser      |
+| `createRoot`     | Initializes the React rendering engine          |
+| `render(<App/>)` | Starts the rendering of your component tree     |
+| Virtual DOM      | JS representation of UI before it hits real DOM |
+
+---
+
+## 📚 Learn More
+
+- 🔗 [ReactDOM Docs on react.dev](https://react.dev/reference/react-dom/client/createRoot)
+- 🔗 [Rendering in React Explained](https://react.dev/learn/rendering-elements)

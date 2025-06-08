@@ -1,0 +1,172 @@
+---
+title: "2. JSX — JavaScript XML"
+description: "JSX stands for *JavaScript XML*. It’s a syntax extension that lets you write **HTML-like code inside JavaScript**, and it’s the secret sauce behind how React builds user interfaces."
+---
+
+## 🧠 What You’ll Learn
+
+- What JSX is and how it works
+- How JSX turns into regular JavaScript
+- Embedding JavaScript expressions inside JSX
+- Common JSX rules and gotchas
+- Writing clean and readable JSX with examples
+
+---
+
+## 🔹 What Is JSX?
+
+JSX looks like HTML, but it's actually **JavaScript**. This code:
+
+```jsx
+const element = <h1>Hello, Nikode!</h1>;
+```
+
+…gets compiled into this:
+
+```js
+const element = React.createElement("h1", null, "Hello, Nikode!");
+```
+
+💡 **Why JSX?**
+
+- It's more **readable** and looks like the UI you build
+- It's **faster** to write and understand than `React.createElement()`
+- It supports **JavaScript logic** inside `{}` braces
+
+---
+
+## 🔹 JSX in Action
+
+```jsx
+function Welcome(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+
+<Welcome name="Zahra" />;
+```
+
+🧠 Inside the `<h1>`, `{props.name}` is a **JavaScript expression** — not a string!
+
+---
+
+## 🔸 Embedding Expressions in JSX
+
+You can use **any JS expression** inside curly braces `{}`:
+
+```jsx
+const age = 20;
+const message = <p>You are {age >= 18 ? "an adult" : "a minor"}.</p>;
+```
+
+✅ Valid expressions: variables, functions, conditionals, math, etc.
+
+---
+
+## ⚠️ JSX Rules You Must Know
+
+### 1. **One Parent Element**
+
+This is invalid:
+
+```jsx
+return <h1>Title</h1><p>Text</p>; ❌
+```
+
+This is valid:
+
+```jsx
+return (
+  <>
+    <h1>Title</h1>
+    <p>Text</p>
+  </>
+); ✅
+```
+
+> Use a wrapping `<div>` or a **fragment** (`<>...</>`) if needed.
+
+---
+
+### 2. **Use `className` Instead of `class`**
+
+```jsx
+<p className="intro">Welcome!</p> ✅
+```
+
+> `class` is a reserved word in JS, so JSX uses `className`.
+
+---
+
+### 3. **Self-Closing Tags**
+
+Always close single tags:
+
+```jsx
+<img src="logo.png" /> ✅
+<input /> ✅
+```
+
+---
+
+## 🔸 Conditional Rendering
+
+Show elements only when needed:
+
+```jsx
+{
+  isLoggedIn ? <p>Welcome back!</p> : <p>Please log in.</p>;
+}
+```
+
+Or:
+
+```jsx
+{
+  showNotice && <div className="notice">New update available!</div>;
+}
+```
+
+---
+
+## 🔸 Lists in JSX
+
+```jsx
+const items = ["HTML", "CSS", "JS"];
+return (
+  <ul>
+    {items.map((item) => (
+      <li key={item}>{item}</li>
+    ))}
+  </ul>
+);
+```
+
+🧠 **Always add `key`** to items in a list to help React track changes.
+
+---
+
+## 🧪 Homework Tasks
+
+1. ✅ Create a component that shows your name and a short bio using JSX.
+2. ✅ Create a list of 3 favorite movies using `.map()` in JSX.
+3. ✅ Make a component that receives a boolean prop `isDark` and conditionally renders dark/light theme message.
+
+---
+
+## 🎓 Summary
+
+| Feature            | Description                                |
+| ------------------ | ------------------------------------------ |
+| Looks like HTML    | But it compiles to `React.createElement()` |
+| Curly Braces `{}`  | Embed JS expressions                       |
+| Fragments `<> </>` | Wrap multiple JSX elements                 |
+| Props              | Pass data into components                  |
+| Lists with `key`   | Help React update efficiently              |
+
+---
+
+## 📚 Resources
+
+- 🔗 [JSX on react.dev](https://react.dev/learn/writing-markup-with-jsx)
+- 🔗 [JSX Deep Dive at MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/JSX)
+- 🎥 Fireship: JSX Explained in 100 Seconds

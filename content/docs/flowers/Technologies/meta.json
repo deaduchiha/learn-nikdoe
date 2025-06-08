@@ -1,0 +1,6 @@
+{
+  "title": "Technologies",
+  "icon": "Computer",
+  "defaultOpen": false,
+  "pages": ["es6", "jsx", "babel", "bundler", "runtime", "scheduler", "events"]
+}

@@ -1,0 +1,157 @@
+---
+title: "7. React Events — Synthetic Event System"
+description: "Learn how React uses a single smart event listener to handle events efficiently and consistently across browsers."
+sidebar_label: "Events (Synthetic System)"
+slug: /flowers/events
+---
+
+# 🖱 React Events — Synthetic Event System
+
+In plain HTML/JS, you might attach multiple native event listeners:
+
+````js
+button.addEventListener("click", handleClick);
+
+
+But in **React**, you write:
+
+```jsx
+<button onClick={handleClick}>Click Me</button>
+````
+
+So what's the difference?
+
+React uses a **Synthetic Event System** — a smart layer that wraps around native browser events.
+
+---
+
+## 🧠 What You’ll Learn
+
+- What synthetic events are
+- Why React uses them
+- How React improves performance with one listener
+- How to use events in components
+- Differences from native events
+
+---
+
+## 🔹 What Is a Synthetic Event?
+
+A **synthetic event** is a **wrapper around a native event** that works the same way **across all browsers**.
+
+React doesn't attach hundreds of listeners — instead, it uses **one global listener** at the root (like `document`) and delegates events internally.
+
+✅ Benefits:
+
+- Unified, cross-browser behavior
+- Memory efficient — fewer listeners
+- Built-in event pooling (until React 17)
+- Performance optimized for large apps
+
+---
+
+## 🧪 Example: Using Synthetic Events
+
+```jsx
+function App() {
+  const handleClick = (event) => {
+    console.log("Clicked!", event.type); // Synthetic event
+  };
+
+  return <button onClick={handleClick}>Click Me</button>;
+}
+```
+
+🧠 `event` is a **SyntheticEvent**, not a raw browser event.
+
+---
+
+## 🔸 How React Listens to Events
+
+Instead of doing this:
+
+```html
+<button onclick="..."></button>
+<!-- one listener per button -->
+```
+
+React does this under the hood:
+
+```
+document.addEventListener("click", ...) // only once!
+```
+
+Then it figures out which component actually triggered the event. This is called **event delegation**.
+
+---
+
+## 🔸 Supported Events
+
+React supports most common events:
+
+- **Mouse**: `onClick`, `onDoubleClick`, `onMouseEnter`
+- **Keyboard**: `onKeyDown`, `onKeyPress`, `onKeyUp`
+- **Form**: `onChange`, `onSubmit`, `onFocus`, `onBlur`
+- **Touch**: `onTouchStart`, `onTouchEnd`, `onTouchMove`
+
+✅ These work the same across browsers — thanks to the synthetic event layer.
+
+---
+
+## 🔹 Event Object Properties
+
+```jsx
+function Input() {
+  const handleChange = (e) => {
+    console.log(e.target.value); // just like normal JS
+  };
+
+  return <input onChange={handleChange} />;
+}
+```
+
+Synthetic events mimic native ones, so you still get access to:
+
+- `e.target`
+- `e.preventDefault()`
+- `e.stopPropagation()`
+- `e.type`, `e.currentTarget`, etc.
+
+---
+
+## ⚠️ Note on React 17+
+
+In React 17+, events **bubble to the root of the container**, not the `document`.
+
+This gives you:
+
+- Better control with multiple React apps on one page
+- More native-like behavior
+- Still one listener, but scoped more tightly
+
+---
+
+## 🧪 Homework Tasks
+
+1. ✅ Create a `Button` component and log the event object inside `onClick`.
+2. ✅ Try using `e.preventDefault()` on a link to stop it from navigating.
+3. ✅ Create an `Input` that logs `e.target.value` on every keystroke.
+
+---
+
+## 🧠 Summary
+
+| Concept              | Explanation                                     |
+| -------------------- | ----------------------------------------------- |
+| Synthetic Event      | React's cross-browser wrapper for native events |
+| One Global Listener  | React uses delegation, not per-element handlers |
+| Unified API          | Works the same across Chrome, Firefox, Safari   |
+| Supports Most Events | Keyboard, Mouse, Touch, Forms, Clipboard, etc.  |
+
+---
+
+## 📚 Learn More
+
+- 🔗 [React SyntheticEvent Docs](https://react.dev/reference/react/SyntheticEvent)
+- 🔗 [Event Delegation in React Explained](https://reactjs.org/docs/events.html)
+- 🔗 [React 17 Event Changes](https://reactjs.org/blog/2020/08/10/react-v17-rc.html)

@@ -1,0 +1,109 @@
+---
+title: "1. JavaScript (ES6+)"
+description: "Modern JavaScript (also called ES6+) is easier to write, read, and maintain. This guide covers the most important syntax you’ll use in **React, Next.js**, and every real-world project."
+---
+
+## 🧠 Skill Targets
+
+- Understand `let`, `const`, and block scoping
+- Use arrow functions for clean callbacks
+- Build reusable modules with `import/export`
+- Structure code with classes and methods
+- Write readable strings using template literals
+
+---
+
+## 🧩 Concepts & Examples
+
+### 🔹 `let` and `const`
+
+````js
+let age = 20;          // value can be changed
+const siteName = "Nikode"; // value cannot be changed
+
+
+> ✅ Use `const` by default. Switch to `let` only if you plan to reassign.
+
+---
+
+### 🔹 Arrow Functions
+
+```js
+const greet = (name) => {
+  return `Hello, ${name}!`;
+};
+````
+
+✅ Shorter and avoids problems with `this` in callbacks.
+
+---
+
+### 🔹 Template Literals
+
+```js
+const lang = "JavaScript";
+console.log(`I love ${lang}!`);
+```
+
+No more `+` for string joining. Just use backticks `` ` `` and `${}`.
+
+---
+
+### 🔹 Modules: `import` and `export`
+
+**math.js**
+
+```js
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;
+```
+
+**main.js**
+
+```js
+import { add, subtract } from "./math.js";
+
+console.log(add(10, 5)); // 15
+console.log(subtract(10, 5)); // 5
+```
+
+> Modules = cleaner and reusable code across files.
+
+---
+
+### 🔹 Classes
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  greet() {
+    return `Hi, I'm ${this.name}`;
+  }
+}
+
+const user = new Person("Nikode");
+console.log(user.greet());
+```
+
+> Think of classes like blueprints for objects with logic.
+
+---
+
+## 🧪 Homework Tasks
+
+🎯 Try these on your own or in Replit / CodePen:
+
+1. ✅ Create a function with arrow syntax that triples a number.
+2. ✅ Write and import a module with `multiply` and `divide` functions.
+3. ✅ Make a class `Book` with `title` and `author` and a method `getInfo()` that returns a string like: `"The Hobbit by Tolkien"`.
+
+---
+
+## 📚 Bonus Resources
+
+- 🔗 [MDN ES6 Features Overview](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- 🔗 [JavaScript.info — Modern JS](https://javascript.info)
+- 🎥 Fireship.io — _JavaScript in 100 Seconds_

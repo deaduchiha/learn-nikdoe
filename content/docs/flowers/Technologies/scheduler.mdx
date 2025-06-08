@@ -1,0 +1,135 @@
+---
+title: "6. React Fiber — The Scheduler"
+description: "Learn how React Fiber slices big rendering tasks into smaller chunks to keep your app smooth and responsive."
+---
+
+# ⏳ Scheduler — React Fiber Engine
+
+When you update state in React, a lot of work might happen: recalculating components, rerendering UI, managing side effects…
+
+So how does React stay fast and smooth even with thousands of components?
+
+🎯 **Answer:** React uses a clever scheduling system called **Fiber**.
+
+---
+
+## 🧠 What You’ll Learn
+
+- What React Fiber is and what problem it solves
+- How scheduling keeps apps fast
+- What "interruptible rendering" means
+- The idea of priority-based updates
+- Examples of how React slices work
+
+---
+
+## 🔹 What Is Fiber?
+
+**Fiber** is the internal rendering engine introduced in **React 16**.  
+Its main goal is to make rendering **interruptible** and **non-blocking**.
+
+> 🧠 Before Fiber, React updates were synchronous — once started, they couldn't be paused.
+
+Now, Fiber lets React:
+
+- **Pause** and **resume** work
+- **Cancel** work that’s no longer needed
+- **Prioritize** urgent tasks (like clicks) over slow ones (like animations)
+
+---
+
+## 🔄 Why Is Scheduling Important?
+
+Imagine this:
+
+````js
+// A slow component
+useEffect(() => {
+  for (let i = 0; i < 1_000_000_000; i++) {}
+}, []);
+
+
+Without scheduling, the browser **freezes**.
+
+With Fiber, React breaks that work into **chunks**, rendering part by part when the browser is idle — keeping the page **snappy** and **interactive**.
+
+---
+
+## ⚙️ How Fiber Schedules Work
+
+```pgsql
+┌────────────────────────────┐
+│ User clicks a button │
+└───────┬────────────────────┘
+▼
+┌────────────────────────────┐
+│ React starts rendering │
+│ - Checks if work is urgent │
+│ - Breaks big updates into │
+│ tiny "units of work" │
+└───────┬────────────────────┘
+▼
+┌────────────────────────────┐
+│ Browser stays interactive │
+│ React works in background │
+└────────────────────────────┘
+```
+
+````
+
+✅ This is called **concurrent rendering** — React does only what’s needed **right now**, and defers the rest.
+
+---
+
+## 🔸 High vs Low Priority Updates
+
+React automatically assigns **priority levels** to updates:
+
+| Example             | Priority |
+| ------------------- | -------- |
+| Typing into input   | High     |
+| Clicking a button   | High     |
+| Loading long list   | Low      |
+| Animating something | Low      |
+
+React **schedules high-priority updates first**, and fits low-priority work when the browser is free.
+
+---
+
+## 🔸 When Does Fiber Run?
+
+Fiber is used every time React does:
+
+- `setState()`
+- `useState()` or `useReducer()` updates
+- Component mounting or updating
+- Lazy component loading
+
+React **rebuilds a Fiber tree** and renders it **piece-by-piece**.
+
+---
+
+## 🧪 Homework Tasks
+
+1. ✅ Create a heavy component with a long loop in `useEffect()` — see the blocking behavior.
+2. ✅ Add a `setTimeout` or `useTransition` to delay work and observe smoother behavior.
+3. ✅ Explore `React DevTools Profiler` to see rendering times and Fiber scheduling.
+
+---
+
+## 🧠 Summary
+
+| Concept       | Meaning                                             |
+| ------------- | --------------------------------------------------- |
+| Fiber Engine  | React’s internal scheduler since React 16           |
+| Interruptible | Can pause, split, cancel rendering                  |
+| Concurrent    | React can prioritize quick updates over heavy tasks |
+| Keeps UI fast | No blocking or freezing even with big components    |
+
+---
+
+## 📚 Further Reading
+
+- 🔗 [React Docs — Rendering with Concurrent Features](https://react.dev/learn/rendering)
+- 🔗 [React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture)
+- 🔗 [React Working Group Notes on Scheduling](https://github.com/reactwg)
