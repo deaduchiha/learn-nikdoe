@@ -124,22 +124,53 @@ Happy coding — and remember: **tell the robot _how_ to change the value, not _
 - [First project in class - My Library](/docs/projects/hooks/use-state/first)
 - [Second project in class - Pet list](/docs/projects/hooks/use-state/second)
 
-- [useState signature](/docs/flowers/hooks/useState-signature)
+---
+
+Here is a complete, **step‑by‑step teaching guide** for `useReducer` in React, written as if I’m teaching a beginner from zero knowledge — with clear explanation, best practices, real‑world examples (beginner, intermediate, advanced), and a homework at the end.
 
 ---
 
 ### 1.2 `useReducer`
 
-```ts
+---
+
+#### 1.2.1 What is `useReducer`?
+
+When your component’s state becomes **too complex for `useState`**, you need something better to organize your logic.
+
+✅ `useReducer` lets you write **predictable state transitions** using a reducer function.
+✅ You “dispatch” an action, and the reducer calculates the new state.
+✅ This is very similar to Redux, but built into React.
+
+---
+
+#### 1.2.2 Syntax
+
+```tsx
 const [state, dispatch] = useReducer(reducer, initialArg, init?);
 ```
 
-**When to use**
+| Term         | Meaning                                   |
+| ------------ | ----------------------------------------- |
+| `state`      | current state                             |
+| `dispatch`   | function you call to trigger a change     |
+| `reducer`    | pure function that decides the next state |
+| `initialArg` | initial state                             |
+| `init`       | optional lazy initializer                 |
 
-- Complex state logic involving multiple sub‑values.
-- State transitions that depend on the previous state.
+---
 
-**Example**
+#### 1.2.3 When to use it?
+
+- When you have **complex state logic**, e.g., an object or multiple values.
+- When the **next state depends on the previous state**.
+- When you want to **centralize state updates**, like a mini‑Redux.
+
+---
+
+#### 1.2.4 Beginner Example — Counter
+
+This is the most classic and simplest example.
 
 ```tsx
 type Action = { type: "inc" } | { type: "dec" } | { type: "reset" };
@@ -152,11 +183,14 @@ function reducer(state: number, action: Action) {
       return state - 1;
     case "reset":
       return 0;
+    default:
+      return state;
   }
 }
 
 function Counter() {
   const [count, dispatch] = useReducer(reducer, 0);
+
   return (
     <>
       <p>{count}</p>
@@ -168,47 +202,488 @@ function Counter() {
 }
 ```
 
-**Best practices**
+📝 Notes:
 
-- Keep reducer **pure** – no side effects.
-- Co‑locate reducer with its component unless shared.
-- Use TypeScript for exhaustive handling.
-
-**Exercise – Toggle theme**
-
-> Implement a `ThemeToggle` component managing `'light' | 'dark'` with `useReducer`. Render two buttons, **Light** and **Dark**, that dispatch the right actions.
+- `reducer` is a **pure function** → it takes `state` & `action` → returns **new state**.
+- `dispatch` sends an action.
 
 ---
 
+#### 1.2.5 Best Practices
+
+✅ Keep the reducer **pure** → No API calls, no timers, no side effects.
+✅ Always handle **all actions**.
+✅ Co‑locate the reducer with the component unless shared.
+✅ Use TypeScript to ensure exhaustive action handling.
+✅ Do not mutate the state — always return a **new copy**.
+
+---
+
+#### 1.2.6 Real‑world Examples
+
+- **Beginner** — `Toggle theme`
+
+```tsx
+type ThemeAction = { type: "light" } | { type: "dark" };
+
+function themeReducer(state: "light" | "dark", action: ThemeAction) {
+  switch (action.type) {
+    case "light":
+      return "light";
+    case "dark":
+      return "dark";
+    default:
+      return state;
+  }
+}
+
+function ThemeToggle() {
+  const [theme, dispatch] = useReducer(themeReducer, "light");
+
+  return (
+    <div>
+      <p>Current theme: {theme}</p>
+      <button onClick={() => dispatch({ type: "light" })}>Light</button>
+      <button onClick={() => dispatch({ type: "dark" })}>Dark</button>
+    </div>
+  );
+}
+```
+
+---
+
+- **Intermediate** — `Form State`
+
+Suppose you’re managing a form with multiple fields:
+
+```tsx
+type FormState = { name: string; email: string };
+type FormAction =
+  | { type: "setName"; payload: string }
+  | { type: "setEmail"; payload: string }
+  | { type: "reset" };
+
+function formReducer(state: FormState, action: FormAction): FormState {
+  switch (action.type) {
+    case "setName":
+      return { ...state, name: action.payload };
+    case "setEmail":
+      return { ...state, email: action.payload };
+    case "reset":
+      return { name: "", email: "" };
+    default:
+      return state;
+  }
+}
+
+function MyForm() {
+  const [state, dispatch] = useReducer(formReducer, {
+    name: "",
+    email: "",
+  });
+
+  return (
+    <form>
+      <input
+        value={state.name}
+        onChange={(e) => dispatch({ type: "setName", payload: e.target.value })}
+        placeholder="Name"
+      />
+      <input
+        value={state.email}
+        onChange={(e) =>
+          dispatch({ type: "setEmail", payload: e.target.value })
+        }
+        placeholder="Email"
+      />
+      <button type="button" onClick={() => dispatch({ type: "reset" })}>
+        Reset
+      </button>
+    </form>
+  );
+}
+```
+
+---
+
+- **Advanced** — `Shopping Cart`
+
+Imagine an e‑commerce cart where you can add, remove, or clear items.
+
+```tsx
+type Item = { id: number; name: string };
+type CartAction =
+  | { type: "add"; item: Item }
+  | { type: "remove"; id: number }
+  | { type: "clear" };
+
+function cartReducer(state: Item[], action: CartAction): Item[] {
+  switch (action.type) {
+    case "add":
+      return [...state, action.item];
+    case "remove":
+      return state.filter((item) => item.id !== action.id);
+    case "clear":
+      return [];
+    default:
+      return state;
+  }
+}
+
+function Cart() {
+  const [cart, dispatch] = useReducer(cartReducer, []);
+
+  return (
+    <div>
+      <button
+        onClick={() =>
+          dispatch({ type: "add", item: { id: Date.now(), name: "Apple" } })
+        }
+      >
+        Add Apple
+      </button>
+      <button onClick={() => dispatch({ type: "clear" })}>Clear</button>
+      <ul>
+        {cart.map((item) => (
+          <li key={item.id}>
+            {item.name}{" "}
+            <button onClick={() => dispatch({ type: "remove", id: item.id })}>
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+---
+
+#### 1.2.7 Homework
+
+Here are some real‑world exercises for you to practice.
+
+- Beginner
+
+  ✅ Build a **theme toggle** with `light | dark | system` using `useReducer`.
+  ✅ Render 3 buttons to switch between these modes.
+
+- Intermediate
+
+  ✅ Build a **stepper form** (like multi‑step signup).
+
+  ✅ Use `useReducer` to track which step the user is on, and the form data.
+
+- Advanced
+
+  ✅ Build a **to‑do list app**:
+
+      - Add a task
+      - Toggle completed
+      - Delete a task
+      - Clear all completed
+
+Use `useReducer` for state management.
+
+---
+
+#### 1.2.8 Recap
+
+- `useReducer` is like a mini‑Redux for a single component.
+- Great for **complex or dependent state**.
+- State transitions are predictable and testable.
+- Always keep your reducer pure!
+
+---
+
+````mdx
 ### 1.3 `useContext`
 
 ```ts
 const value = useContext(MyContext);
 ```
+````
 
 **When to use**
 
-- Passing data deeply without prop‑drilling: theme, i18n, user.
+- Passing data deeply without prop-drilling: theme, i18n, user, settings.
+- Sharing global or app-level state: authenticated user, feature flags.
+- Avoiding cumbersome prop chains across many intermediate components.
 
-**Example**
+---
+
+### 1.3 `useContext`
+
+**What is Context ?** React Context lets you share a value (any JavaScript data) through your component tree without having to pass props manually at every level. The `useContext` hook is the simplest way to consume that shared value in a functional component.
+
+---
+
+#### 1.3.1 Step‐by‐Step Guide
+
+1. **Create a Context**
+
+   ```ts
+   import { createContext } from "react";
+
+   export const MyContext = createContext<ContextType>(defaultValue);
+   ```
+
+   - **Type parameter**: define what shape the context value has.
+   - **defaultValue**: used only when no matching Provider is above.
+
+2. **Provide the Context**
+
+   ```tsx
+   import { MyContext } from "./MyContext";
+
+   function App() {
+     const sharedValue: ContextType = {
+       /* … */
+     };
+
+     return (
+       <MyContext.Provider value={sharedValue}>
+         <YourComponentTree />
+       </MyContext.Provider>
+     );
+   }
+   ```
+
+   - Wrap the parts of your tree that need access.
+
+3. **Consume with `useContext`**
+
+   ```tsx
+   import { useContext } from "react";
+   import { MyContext } from "./MyContext";
+
+   function Child() {
+     const ctx = useContext(MyContext);
+     return <div>{/* use ctx here */}</div>;
+   }
+   ```
+
+4. **Optional: Create a Custom Hook**
+   Encapsulate logic & improve DX:
+
+   ```ts
+   export function useMyContext() {
+     const ctx = useContext(MyContext);
+     if (ctx === undefined) {
+       throw new Error("useMyContext must be used within a MyContext.Provider");
+     }
+     return ctx;
+   }
+   ```
+
+---
+
+#### 1.3.2 Best Practices
+
+- **Avoid Churn for Frequent Updates**
+
+  - Don’t put rapidly changing data (e.g. scroll position) in context—use props or local state.
+
+- **Split Contexts by Concern**
+
+  - Instead of one “mega‐context,” create separate contexts for theme, auth, settings.
+
+- **Type Safely**
+
+  - Always provide a well‐typed default or guard in a custom hook.
+
+---
+
+#### 1.3.3 Real‐World Examples
+
+- Beginner: Theme Toggle
+
+  ```tsx
+  // theme-context.tsx
+  import { createContext, useContext, useState } from "react";
+
+  type Theme = "light" | "dark";
+  const ThemeContext = createContext<{
+    theme: Theme;
+    toggle: () => void;
+  }>({ theme: "light", toggle: () => {} });
+
+  export function ThemeProvider({ children }: { children: React.ReactNode }) {
+    const [theme, setTheme] = useState<Theme>("light");
+    const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+
+    return (
+      <ThemeContext.Provider value={{ theme, toggle }}>
+        {children}
+      </ThemeContext.Provider>
+    );
+  }
+
+  export function useTheme() {
+    return useContext(ThemeContext);
+  }
+
+  // App.tsx
+  import { ThemeProvider, useTheme } from "./theme-context";
+
+  function Toolbar() {
+    const { theme, toggle } = useTheme();
+    return (
+      <button className={theme} onClick={toggle}>
+        Toggle to {theme === "light" ? "dark" : "light"}
+      </button>
+    );
+  }
+
+  export default function App() {
+    return (
+      <ThemeProvider>
+        <Toolbar />
+      </ThemeProvider>
+    );
+  }
+  ```
+
+---
+
+- Intermediate: Language Switcher
+
+  ```tsx
+  // language-context.tsx
+  import { createContext, useContext, useState } from "react";
+
+  type Lang = "en" | "fa";
+  const LanguageContext = createContext<{
+    lang: Lang;
+    setLang: (l: Lang) => void;
+  }>({ lang: "en", setLang: () => {} });
+
+  export function LanguageProvider({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
+    const [lang, setLang] = useState<Lang>("en");
+    return (
+      <LanguageContext.Provider value={{ lang, setLang }}>
+        {children}
+      </LanguageContext.Provider>
+    );
+  }
+
+  export function useLanguage() {
+    return useContext(LanguageContext);
+  }
+
+  // Greeting.tsx
+  import { useLanguage } from "./language-context";
+
+  export function Greeting() {
+    const { lang } = useLanguage();
+    return <h1>{lang === "en" ? "Hello" : "سلام"}</h1>;
+  }
+
+  // Usage in App.tsx
+  import { LanguageProvider } from "./language-context";
+  import { Greeting } from "./Greeting";
+
+  function App() {
+    return (
+      <LanguageProvider>
+        <Greeting />
+        {/* Add a selector somewhere */}
+      </LanguageProvider>
+    );
+  }
+  ```
+
+---
+
+- Advanced: Auth + Data Fetching + Memo
 
 ```tsx
-const ThemeContext = createContext<"light" | "dark">("light");
+// auth-context.tsx
+import { createContext, useContext, useReducer, ReactNode } from "react";
 
-function Toolbar() {
-  const theme = useContext(ThemeContext);
-  return <button className={theme}>I match the theme</button>;
+interface User {
+  id: string;
+  name: string;
+}
+
+type State = { user: User | null };
+type Action = { type: "LOGIN"; payload: User } | { type: "LOGOUT" };
+
+const initialState: State = { user: null };
+
+function authReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "LOGIN":
+      return { user: action.payload };
+    case "LOGOUT":
+      return { user: null };
+    default:
+      return state;
+  }
+}
+
+interface AuthContextType {
+  user: User | null;
+  login: (u: User) => void;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(authReducer, initialState);
+
+  const login = (u: User) => {
+    dispatch({ type: "LOGIN", payload: u });
+  };
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
+
+  return (
+    <AuthContext.Provider value={{ user: state.user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return ctx;
 }
 ```
 
-**Best practices**
+---
 
-- Keep context **stable**: memoize complex objects.
-- Avoid over‑using context for frequently changing values; prefer props.
+#### 1.3.4 Homework
 
-**Exercise – Language switcher**
+1. **Beginner**
 
-> Provide a `LanguageContext` with `'en' | 'fa'`. Build a `Greeting` component that reads the current language and shows **Hello / سلام**.
+   - Create a `CounterContext` that holds a number and an `increment()` function.
+   - Consume it in two sibling components: one displays the count, the other has a button to increment.
+
+2. **Intermediate**
+
+   - Extend the **Language Switcher**: add a dropdown to pick `en | fa | es`, update `Greeting` to handle all three, and persist selection in `localStorage`.
+
+3. **Advanced**
+
+   - Build an **AuthFlow**:
+
+     1. Create `AuthContext` with `login`, `logout`, `user`.
+     2. On login, fetch a user profile from a mock API.
+     3. Protect certain routes (use React Router).
+     4. Ensure `AuthContext` value is memoized.
+     5. Add a custom hook `useRequireAuth` that redirects if not authenticated.
 
 ---
 
