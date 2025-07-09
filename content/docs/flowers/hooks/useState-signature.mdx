@@ -1,0 +1,129 @@
+---
+title: Basic useState signature
+description: "dive into how the initial value you pass to useState affects the initial render of a component—and why sometimes you’ll see people pass a function instead of a simple value."
+---
+
+## 🟢 Beginner: Simple Counter
+
+### Goal
+
+Keep a number that starts at 0 and increases when you click.
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  // 1) You pass 0 here.
+  // 2) On the very first render, React sets count = 0.
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+}
+```
+
+- **First render**: React sees `useState(0)`, so it stores `count = 0`.
+- **Later renders**: React **ignores** the `0` you wrote and always gives you back its stored `count`.
+- **Key**: simple values → just pass them directly.
+
+---
+
+## 🟡 Intermediate: Expensive Computation
+
+### Problem
+
+Computing the start value is slow—maybe you calculate a big sum or parse a large array.
+
+```jsx
+function computeHeavy() {
+  console.log("Running heavy compute…");
+  // imagine heavy work here
+  let total = 0;
+  for (let i = 0; i < 1e7; i++) total += i;
+  return total;
+}
+
+function HeavyStarter() {
+  // BAD: computeHeavy() runs **every** render before React decides.
+  // const [value, setValue] = useState(computeHeavy());
+
+  // GOOD: wrap it in a function → React calls it only once.
+  const [value, setValue] = useState(() => computeHeavy());
+
+  return <div>Start value: {value}</div>;
+}
+```
+
+- **`useState(computeHeavy())`**
+
+  - JS calls `computeHeavy()` on every render (even though React only uses the result once).
+
+- **`useState(() => computeHeavy())`**
+
+  - React calls your function **only on the first render** to get the starting state.
+  - On later renders, React ignores it—so no wasted work.
+
+---
+
+## 🔴 Advanced: Props-Based Initial State
+
+### Scenario
+
+Your component gets a `size` prop and must build an array of that length. You want that array created only once at the start.
+
+```jsx
+function makeArray(size) {
+  console.log("Building array of size", size);
+  return Array.from({ length: size }, (_, i) => i * 3);
+}
+
+function ArrayBuilder({ size }) {
+  // Lazy init uses the initial size only once.
+  const [items] = useState(() => makeArray(size));
+
+  return (
+    <ul>
+      {items.map((x) => (
+        <li key={x}>{x}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+- **First render**: React calls your function with the initial `size` and stores that array.
+- **Later renders**: Even if `size` prop changes, React does **not** rebuild the array—because useState’s initializer only runs once.
+- If you _didn’t_ want that, you’d have to add extra code (but we’re skipping that here).
+
+---
+
+## 🧠 How to “see” what’s happening
+
+1. **Put a `console.log`** inside your initializer function or next to your `useState`:
+
+   ```js
+   const [n] = useState(() => {
+     console.log("Init ran");
+     return 42;
+   });
+   ```
+
+   - If you see “Init ran” **only once**, lazy init worked.
+   - If you see it on every render, you passed a direct call, not a function.
+
+2. **Remember the rule**:
+
+   - **Direct value** → cheap, runs once under React’s control.
+   - **Function** → lazy, also runs only once—but you get to defer heavy work.
+
+---
+
+### ✔️ Takeaway
+
+- Use **`useState(cheapValue)`** for simple defaults.
+- Use **`useState(() => expensiveCalc())`** whenever the initial value takes real work.
+- That arrow-function wrapper tells React: “Only run this once, when you first set up.”

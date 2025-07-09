@@ -2,5 +2,5 @@
   "title": "Flowers",
   "icon": "Flower2",
   "defaultOpen": true,
-  "pages": ["react", "Technologies"]
+  "pages": ["react", "Technologies", "react-hooks"]
 }

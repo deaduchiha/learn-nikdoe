@@ -1,0 +1,550 @@
+---
+title: React 19 Hooks Cookbook
+description: A practical, example‑driven reference to every official React 19 hook with best practices and hands‑on exercises.
+---
+
+# React 19 Hooks
+
+> **What are Hooks?** Hooks are just JavaScript functions whose names start with `use*`. They let you “hook into” React features from function components.
+
+---
+
+## 1. Fundamental hooks
+
+These hooks cover most day‑to‑day needs.
+
+### 1.1 `useState`
+
+Imagine your component is a **piggy bank** 🐷 that keeps a number inside it.
+`useState` gives you **two things**:
+
+1. The **current number** in the piggy bank (`count`).
+2. A **friendly robot** called `setCount` that can change that number.
+
+Two ways to tell the robot what to do:
+
+| Way                  | What you say           | What it means                                                                                  |
+| -------------------- | ---------------------- | ---------------------------------------------------------------------------------------------- |
+| **Direct value**     | `setCount(count + 1)`  | “Hey robot, write THIS exact number into the piggy bank.”                                      |
+| **Updater function** | `setCount(c => c + 1)` | “Hey robot, when you get the piggy bank, add 1 to whatever number is in there **right then**.” |
+
+Why the second way is safer:
+
+- **The robot works from a queue.** If you yell instructions twice very quickly, both direct-value orders might be based on the _same_ starting number. The updater form makes the robot re-check the piggy bank each time.
+- **React sometimes waits** (it “batches”) before letting the robot work. During that wait, the number can change. The updater form guarantees you don’t lose those changes.
+
+> **Rule of thumb:**
+> Any time the **new value depends on the old value**, use the updater form.
+
+---
+
+Tiny example: a **Double Click** button:
+
+```tsx
+import { useState } from "react";
+
+export default function DoubleClick() {
+  const [count, setCount] = useState(0); // 0 is our initial value
+
+  const handleClick = () => {
+    // We want +2 each click
+    setCount((c) => c + 1);
+    setCount((c) => c + 1);
+  };
+
+  return <button onClick={handleClick}>You clicked {count} times</button>;
+}
+```
+
+- Click once → **2**
+- Click again → **4**
+  If we had used `setCount(count + 1)` twice, we’d only get **1 → 2 → 3 …** (because both calls use the same stale `count`).
+
+---
+
+This is an example for Controlled inputs with useState:
+
+```tsx
+const [query, setQuery] = useState<string>(""); // what happened if we set undefined as initial value ?
+
+<input
+  className="border p-1 rounded-sm"
+  type="text"
+  onChange={(e) => {
+    setQuery(e.target.value.replace(/koala/gi, "🐨"));
+  }}
+/>;
+```
+
+---
+
+Best-practice cheatsheet:
+
+1. **Keep state small.** Store _only_ what you can’t compute.
+2. **Use functional (updater) form** when the new value depends on the old.
+3. **Group related updates** in one call:
+
+   ```tsx
+   setUser((u) => ({ ...u, age: u.age + 1 }));
+   ```
+
+4. **Don’t read state right after calling `setX`.** It hasn’t updated yet.
+5. **For very complex state** (lots of fields), consider `useReducer`.
+
+---
+
+Homework 🏠
+
+1. **Single-step counter**
+
+   - Build `Stepper.tsx`.
+   - Start at **0**.
+   - Add **+1**, **−1**, and **Reset** buttons.
+   - Use the updater form for +1 and −1.
+
+2. **Time machine counter**
+
+   - Add another button **“+5”** that loops five times with the updater form
+
+     ```tsx
+     for (let i = 0; i < 5; i++) {
+       setCount((c) => c + 1);
+     }
+     ```
+
+   - Prove to yourself that it jumps by 5 every click.
+
+3. **Explain it to a friend** (or rubber duck 🦆)
+
+   - In one short paragraph, describe **why** `setCount(c => c + 1)` is safer than `setCount(count + 1)`.
+   - If they can repeat it back, you’ve mastered the concept!
+
+Happy coding — and remember: **tell the robot _how_ to change the value, not _what_ value to write.**
+
+- [First project in class - My Library](/docs/projects/hooks/use-state/first)
+- [Second project in class - Pet list](/docs/projects/hooks/use-state/second)
+
+- [useState signature](/docs/flowers/hooks/useState-signature)
+
+---
+
+### 1.2 `useReducer`
+
+```ts
+const [state, dispatch] = useReducer(reducer, initialArg, init?);
+```
+
+**When to use**
+
+- Complex state logic involving multiple sub‑values.
+- State transitions that depend on the previous state.
+
+**Example**
+
+```tsx
+type Action = { type: "inc" } | { type: "dec" } | { type: "reset" };
+
+function reducer(state: number, action: Action) {
+  switch (action.type) {
+    case "inc":
+      return state + 1;
+    case "dec":
+      return state - 1;
+    case "reset":
+      return 0;
+  }
+}
+
+function Counter() {
+  const [count, dispatch] = useReducer(reducer, 0);
+  return (
+    <>
+      <p>{count}</p>
+      <button onClick={() => dispatch({ type: "inc" })}>+</button>
+      <button onClick={() => dispatch({ type: "dec" })}>−</button>
+      <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+    </>
+  );
+}
+```
+
+**Best practices**
+
+- Keep reducer **pure** – no side effects.
+- Co‑locate reducer with its component unless shared.
+- Use TypeScript for exhaustive handling.
+
+**Exercise – Toggle theme**
+
+> Implement a `ThemeToggle` component managing `'light' | 'dark'` with `useReducer`. Render two buttons, **Light** and **Dark**, that dispatch the right actions.
+
+---
+
+### 1.3 `useContext`
+
+```ts
+const value = useContext(MyContext);
+```
+
+**When to use**
+
+- Passing data deeply without prop‑drilling: theme, i18n, user.
+
+**Example**
+
+```tsx
+const ThemeContext = createContext<"light" | "dark">("light");
+
+function Toolbar() {
+  const theme = useContext(ThemeContext);
+  return <button className={theme}>I match the theme</button>;
+}
+```
+
+**Best practices**
+
+- Keep context **stable**: memoize complex objects.
+- Avoid over‑using context for frequently changing values; prefer props.
+
+**Exercise – Language switcher**
+
+> Provide a `LanguageContext` with `'en' | 'fa'`. Build a `Greeting` component that reads the current language and shows **Hello / سلام**.
+
+---
+
+### 1.4 `useRef`
+
+```ts
+const ref = useRef<T | null>(initialValue);
+```
+
+**When to use**
+
+- Persist a mutable value **without** causing re‑renders.
+- Direct DOM access.
+
+**Example – Focus input**
+
+```tsx
+const inputRef = useRef<HTMLInputElement>(null);
+
+function FocusInput() {
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={() => inputRef.current?.focus()}>Focus</button>
+    </>
+  );
+}
+```
+
+**Best practices**
+
+- Prefer state for things that drive render.
+- Initialize with `null` and specify the type.
+
+**Exercise – Scroll to top**
+
+> Attach a ref to a `<div>` containing long content and make a **Scroll to top** button that calls `ref.current?.scrollTo({ top: 0 })`.
+
+---
+
+### 1.5 `useEffect`
+
+```ts
+useEffect(effect, deps?);
+```
+
+**When to use**
+
+- Synchronize with external systems: fetch, subscriptions, timers.
+
+**Example – Fetch data**
+
+```tsx
+function User({ id }: { id: string }) {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    let ignore = false;
+    fetch(`/api/users/${id}`)
+      .then((r) => r.json())
+      .then((data) => !ignore && setUser(data));
+    return () => {
+      ignore = true;
+    };
+  }, [id]);
+
+  return user ? <pre>{JSON.stringify(user, null, 2)}</pre> : "Loading…";
+}
+```
+
+**Best practices**
+
+- **Declare every dependency**; rely on ESLint‑react‑hooks.
+- Cleanup side effects in the return function.
+- Split unrelated concerns into multiple effects.
+
+**Exercise – GitHub profile**
+
+> Fetch `https://api.github.com/users/{username}` when the `username` prop changes and display the avatar.
+
+---
+
+### 1.6 `useLayoutEffect`
+
+Runs **synchronously** after DOM mutations but **before** the browser paints.
+
+**When to use**
+
+- Measuring layout (e.g. element size) **before** the user sees flicker.
+
+**Example – Measure height**
+
+```tsx
+const boxRef = useRef<HTMLDivElement>(null);
+const [height, setHeight] = useState(0);
+
+useLayoutEffect(() => {
+  if (boxRef.current) {
+    setHeight(boxRef.current.getBoundingClientRect().height);
+  }
+}, []);
+```
+
+**Exercise – Sticky header**
+
+> Measure a header’s height and add that value as top padding to the main content so it never hides behind the header.
+
+---
+
+### 1.7 `useInsertionEffect`
+
+```ts
+useInsertionEffect(effect, deps?);
+```
+
+**Purpose**
+
+Inject critical styles **before** layout and paint, avoiding FOUC (flash of unstyled content).
+
+**Example – Dynamic CSS**
+
+```tsx
+useInsertionEffect(() => {
+  const styleTag = document.createElement("style");
+  styleTag.textContent = ".brand { color: tomato; }";
+  document.head.append(styleTag);
+  return () => styleTag.remove();
+}, []);
+```
+
+**Exercise**
+
+> Create a component that picks a random accent color on mount and injects a rule like `.accent { color: <color>; }`.
+
+---
+
+### 1.8 `useCallback` & 1.9 `useMemo`
+
+- `useCallback(fn, deps)` returns a **memoized function**.
+- `useMemo(factory, deps)` returns a **memoized value**.
+
+**When to use**
+
+- Prevent expensive re‑computations / re‑creations that cause child re‑renders.
+
+**Example – Stable handlers**
+
+```tsx
+const addTodo = useCallback((text: string) => {
+  setTodos((t) => [...t, { id: crypto.randomUUID(), text }]);
+}, []);
+```
+
+**Best practices**
+
+- Reach for them **after** verifying perf issues.
+- Keep dependency arrays small by lifting stable values up.
+
+**Exercise – Fibonacci viewer**
+
+> Show the `n`th Fibonacci number where `n` comes from an input. Memoize the calculation so it only runs when `n` changes.
+
+---
+
+### 1.10 `useImperativeHandle`
+
+```ts
+useImperativeHandle(ref, createHandle, deps?);
+```
+
+**Purpose**
+
+Expose a controlled subset of imperative methods to parent components.
+
+**Example – Custom input API**
+
+```tsx
+const FancyInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const innerRef = useRef<HTMLInputElement>(null);
+  useImperativeHandle(ref, () => ({
+    focus: () => innerRef.current?.focus(),
+    clear: () => innerRef.current && (innerRef.current.value = ""),
+  }));
+  return <input ref={innerRef} {...props} />;
+});
+```
+
+**Exercise**
+
+> Build a `Stopwatch` component with `start()`, `stop()`, `reset()` methods exposed via `useImperativeHandle`.
+
+---
+
+### 1.11 `useDebugValue`
+
+Add labels visible in React DevTools.
+
+```ts
+useDebugValue(value, formatFn?);
+```
+
+Example:
+
+```ts
+useDebugValue(user, (u) => `User: ${u.name}`);
+```
+
+---
+
+## <a id="additional">2. Additional hooks</a>
+
+### 2.1 `useId`
+
+Generate unique IDs that match between server and client.
+
+```ts
+const id = useId();
+<label htmlFor={id}>Name</label>
+<input id={id} />
+```
+
+### 2.2 `useSyncExternalStore`
+
+Subscribe to an external store with consistency during concurrent rendering.
+
+```tsx
+const time = useSyncExternalStore(subscribe, getSnapshot);
+```
+
+### 2.3 `useDeferredValue`
+
+Defer a non‑urgent value until the browser is idle.
+
+```tsx
+const deferred = useDeferredValue(value);
+```
+
+**Exercise – Filter list**
+
+> Defer the search query so the list UI stays responsive for long inputs.
+
+### 2.4 `useTransition`
+
+Start a low‑priority transition.
+
+```ts
+const [isPending, startTransition] = useTransition();
+```
+
+Example – Type‑ahead search that doesn’t lock the UI.
+
+---
+
+## <a id="react19">3. New in React 19</a>
+
+React 19 focuses on **forms** and **data‑mutations**, introducing three new hooks plus the new `use()` function.
+
+### 3.1 `useOptimistic`
+
+Optimistically update the UI **before** the server confirms.
+
+```tsx
+const [optimisticTodos, addOptimisticTodo] = useOptimistic<Todo[], Todo>(
+  todos,
+  (state, newTodo) => [...state, { ...newTodo, optimistic: true }]
+);
+
+async function handleAdd(text: string) {
+  addOptimisticTodo({ id: "temp", text });
+  await saveTodo(text);
+}
+```
+
+**Exercise – Chat input**
+
+> Show messages instantly with an _optimistic_ label, then replace once saved.
+
+### 3.2 `useActionState`
+
+Handle form `action`s and update component state with the result.
+
+```tsx
+const [error, formAction, pending] = useActionState(async (prev, formData) => {
+  try {
+    await submit(formData);
+    return null; // no error
+  } catch (e) {
+    return (e as Error).message;
+  }
+}, null);
+
+<form action={formAction}>{/* inputs */}</form>;
+```
+
+**Exercise – Rename profile**
+
+> Build a profile rename form that reports server‑side errors through `error`.
+
+### 3.3 `useFormStatus`
+
+Read status of the closest parent `<form>`.
+
+```tsx
+const { pending } = useFormStatus();
+<button disabled={pending}>Save</button>;
+```
+
+**Exercise – Disable on submit**
+
+> In the rename form above, disable the submit button while `pending` is true.
+
+### 3.4 `use()`
+
+Although not technically a hook, `use()` lets you _await_ promises inside a component during rendering.
+
+```tsx
+function User({ id }: { id: string }) {
+  const user = use(fetch(`/api/users/${id}`).then((r) => r.json()));
+  return <span>{user.name}</span>;
+}
+```
+
+**Caveats**
+
+- Only supported in **Server Components** or with the React compiler.
+- Throws a promise under the hood – rely on Suspense boundaries.
+
+---
+
+## <a id="glossary">4. Glossary & further resources</a>
+
+- [React 19 release post](https://react.dev/blog/2024/12/05/react-19)
+- [Official Hooks API reference](https://react.dev/reference/react)
+- [Kent C. Dodds – Epic React](https://epicreact.dev/) – deep‑dives & exercises
+- [React Docs – Forms & Actions](https://react.dev/learn/forms)
+
+---
+
+Made with ❤️ and [Fumadocs](https://fumadocs.org).
