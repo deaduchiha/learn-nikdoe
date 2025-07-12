@@ -132,9 +132,7 @@ Here is a complete, **step‑by‑step teaching guide** for `useReducer` in Reac
 
 ### 1.2 `useReducer`
 
----
-
-#### 1.2.1 What is `useReducer`?
+#### 1.2.1 What is useReducer ?
 
 When your component’s state becomes **too complex for `useState`**, you need something better to organize your logic.
 
@@ -689,80 +687,650 @@ export function useAuth() {
 
 ### 1.4 `useRef`
 
-```ts
+`useRef` is a React Hook that gives you a **mutable value that persists across renders but doesn’t cause a re-render when it changes.**
+
+You can also use it to get a **reference to a DOM element**, which is the most common use case.
+
+---
+
+#### 1.4.1 Syntax
+
+```tsx
 const ref = useRef<T | null>(initialValue);
 ```
 
-**When to use**
+Here:
 
-- Persist a mutable value **without** causing re‑renders.
-- Direct DOM access.
+- `T` is the type of the value (like `HTMLInputElement`, `number`, etc.).
+- `initialValue` is usually `null` if you’re working with DOM elements.
 
-**Example – Focus input**
+---
+
+#### 1.4.2 When to use
+
+    ✅ When you need to:
+
+    - Store **mutable data** that **does NOT affect rendering**.
+    - Get direct **DOM access** (like focusing an input, scrolling a div, etc.).
+
+---
+
+#### 1.4.3 Beginner Example – Focus Input
+
+A classic example of accessing a DOM element and calling its `.focus()` method.
 
 ```tsx
-const inputRef = useRef<HTMLInputElement>(null);
+import { useRef } from "react";
 
 function FocusInput() {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFocus = () => {
+    inputRef.current?.focus();
+  };
+
   return (
     <>
       <input ref={inputRef} />
-      <button onClick={() => inputRef.current?.focus()}>Focus</button>
+      <button onClick={handleFocus}>Focus</button>
     </>
   );
 }
+
+export default FocusInput;
 ```
 
-**Best practices**
+    **What happens?**
 
-- Prefer state for things that drive render.
-- Initialize with `null` and specify the type.
+    1️⃣ On first render, `inputRef.current` is `null`.
+    2️⃣ After React renders the `<input />`, it assigns the DOM node to `inputRef.current`.
+    3️⃣ Clicking the button calls `.focus()` on that DOM node.
 
-**Exercise – Scroll to top**
+---
 
-> Attach a ref to a `<div>` containing long content and make a **Scroll to top** button that calls `ref.current?.scrollTo({ top: 0 })`.
+#### 1.4.4 Best Practices
+
+✅ Use `useRef`:
+
+- For DOM access (`inputRef`, `scrollRef`, etc.).
+- For **mutable values** that don’t need to trigger a re-render.
+
+❌ Don’t use `useRef` for:
+
+- State that affects what you see in the UI → use `useState` instead.
+
+🎯 Initialize DOM refs with `null`, and always check with optional chaining (`?.`) before using them.
+
+---
+
+#### 1.4.5 Intermediate Example — Scroll To Top
+
+A longer page where you can scroll back to the top.
+
+```tsx
+import { useRef } from "react";
+
+function ScrollToTop() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleScrollTop = () => {
+    containerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <div>
+      <button onClick={handleScrollTop}>Scroll to top</button>
+      <div
+        ref={containerRef}
+        style={{
+          height: "200px",
+          overflow: "auto",
+          border: "1px solid black",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{ height: "800px" }}>
+          <p>Lots of content here. Keep scrolling...</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ScrollToTop;
+```
+
+---
+
+#### 1.4.6 Advanced Example — Store History of Clicks Without Re-render
+
+You can use `useRef` to store data **across renders**, even if it’s not shown on screen, and it won’t cause re-renders.
+
+```tsx
+import { useRef, useState } from "react";
+
+function ClickHistory() {
+  const [count, setCount] = useState(0);
+  const historyRef = useRef<number[]>([]);
+
+  const handleClick = () => {
+    setCount((prev) => {
+      const newCount = prev + 1;
+      historyRef.current.push(newCount); // save to history
+      return newCount;
+    });
+  };
+
+  const showHistory = () => {
+    alert(`History: ${historyRef.current.join(", ")}`);
+  };
+
+  return (
+    <>
+      <p>Current Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+      <button onClick={showHistory}>Show History</button>
+    </>
+  );
+}
+
+export default ClickHistory;
+```
+
+---
+
+What’s happening?
+
+✅ Every time you click **Increment**, we increase `count`.
+✅ At the same time, we store the new count in the `historyRef.current` array.
+✅ This history does **not** cause a re-render — it’s just a quiet storage.
+✅ When you press **Show History**, it shows you all previous counts.
+
+---
+
+Why this is good:
+
+- You learn how `useRef` keeps data across renders.
+- You don’t need to use `useEffect`.
+- It shows that `useRef` is _not reactive_ — it just stores data quietly.
+
+---
+
+Real-world Scenarios
+
+✅ Focusing an input when a modal opens.
+✅ Scrolling a chat window to the bottom when a new message arrives.
+✅ Storing interval IDs or timers.
+✅ Measuring element dimensions with `getBoundingClientRect`.
+
+---
+
+#### 1.4.7 Summary Table
+
+| Feature                | `useRef`               |
+| ---------------------- | ---------------------- |
+| Triggers render?       | ❌ No                  |
+| Stores DOM element?    | ✅ Yes                 |
+| Stores mutable values? | ✅ Yes                 |
+| Best for UI state?     | ❌ No (use `useState`) |
+
+---
+
+#### 1.4.8 Homework
+
+- Beginner:
+
+  - Build a form where clicking a button focuses the first empty field.
+
+- Intermediate:
+
+  - Create a scrolling `div` with many items and a button to scroll to bottom or top smoothly.
+
+- Advanced:
+
+  - Make a component that tracks the previous and current mouse position, updating the previous only via `useRef`.
+
+---
+
+#### 1.4.9 Recap
+
+✨ `useRef` is:
+
+- A way to keep a persistent value without causing a re-render.
+- The go-to method for accessing DOM nodes.
 
 ---
 
 ### 1.5 `useEffect`
 
-```ts
-useEffect(effect, deps?);
+#### 1.5.1 What is a Side Effect?
+
+**Definition**:
+In programming (specifically React), a **side effect** is anything a function does that affects something outside the immediate scope of the function itself.
+
+**Simple examples of Side Effects**:
+
+    - Fetching data from a server.
+    - Manually updating the DOM.
+    - Setting timers (setTimeout, setInterval).
+    - Subscribing to events.
+    - Logging something to the console.
+
+**Easy-to-understand Example**:
+
+Imagine you go to an ATM machine:
+
+- **Main Effect**: Withdraw money.
+- **Side Effect**: Bank sends you a notification SMS.
+
+The primary job was withdrawing money, but an additional task—sending SMS—occurred outside of the primary job.
+
+---
+
+#### 1.5.2 Why React Needs useEffect?
+
+React components must be pure and predictable. However, to deal with real-world apps, you sometimes need to perform side effects like data fetching, DOM manipulation, and timers.
+
+**Flowchart Diagram**:
+
+```
+React Component
+       |
+       |----> Render UI (No Side Effects!)
+       |
+       |----> Perform Side Effects after rendering (useEffect)
+                    |
+                    |-- Fetching Data
+                    |-- Timer / Intervals
+                    |-- Updating DOM directly
 ```
 
-**When to use**
+---
 
-- Synchronize with external systems: fetch, subscriptions, timers.
+#### 1.5.3 useEffect Hook in React
 
-**Example – Fetch data**
+React provides a built-in hook called `useEffect` to handle these side effects.
 
-```tsx
-function User({ id }: { id: string }) {
-  const [user, setUser] = useState<User | null>(null);
+**Syntax**:
+
+```jsx
+useEffect(() => {
+  // Side effect code here
+
+  return () => {
+    // Cleanup code (optional)
+  };
+}, [dependencies]);
+```
+
+**useEffect Parameters Explained:**
+
+- **Effect function**: Executed after render.
+- **Dependency array**: Determines when the effect runs.
+- **Cleanup function**: Optional, runs before next effect or on unmount.
+
+---
+
+#### 1.5.4 useEffect Lifecycle Flowchart
+
+```
+Component Mounts (first render)
+       |
+       |--> useEffect Runs
+       |        |
+       |        --> Side effect executed
+       |
+State or Props Change
+       |
+       |--> React checks dependency array
+                |
+                |--> [Changed?]
+                        |
+                        |--> YES: Cleanup Previous Effect (if any), then re-run effect
+                        |--> NO: Skip
+       |
+Component Unmounts
+       |
+       |--> Cleanup runs (if provided)
+```
+
+---
+
+#### 1.5.5 useEffect Examples (Beginner, Intermediate, Advanced)
+
+---
+
+- **Beginner Example: Simple useEffect**
+
+  Just log "Hello" when the component loads:
+
+  ```jsx
+  import { useEffect } from "react";
+
+  function HelloWorld() {
+    useEffect(() => {
+      console.log("Hello, side effect!");
+    }, []);
+
+    return <h1>Hello World</h1>;
+  }
+  ```
+
+- **Intermediate Example: Fetching Data**
+
+  Fetching data from API when the component first renders:
+
+  ```jsx
+  import { useEffect, useState } from "react";
+
+  function UserList() {
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+      fetch("https://jsonplaceholder.typicode.com/users")
+        .then((res) => res.json())
+        .then((data) => setUsers(data));
+    }, []);
+
+    return (
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    );
+  }
+  ```
+
+- **Advanced Example: Timer with Cleanup**
+
+  A countdown timer that cleans itself up:
+
+  ```jsx
+  import { useEffect, useState } from "react";
+
+  function Timer() {
+    const [seconds, setSeconds] = useState(10);
+
+    useEffect(() => {
+      const timerId = setInterval(() => {
+        setSeconds((s) => s - 1);
+      }, 1000);
+
+      // Cleanup interval on unmount
+      return () => clearInterval(timerId);
+    }, []);
+
+    return <h1>{seconds} seconds left!</h1>;
+  }
+  ```
+
+---
+
+#### 1.5.6 Best Practices
+
+- **Dependencies:** Always specify clearly. Leaving empty means run once on mount.
+- **Cleanup:** Always cleanup intervals, subscriptions to avoid memory leaks.
+- **Splitting:** Split unrelated side effects into separate `useEffect` hooks for clarity.
+
+**Good:**
+
+```jsx
+useEffect(() => {
+  fetchData();
+}, []);
+useEffect(() => {
+  document.title = "My App";
+}, [title]);
+```
+
+---
+
+#### 1.5.7 Homework
+
+**Beginner:**
+
+- Create a React component that updates the document title to "Hello World" once loaded using `useEffect`.
+
+**Intermediate:**
+
+- Create a component fetching and displaying a list of posts from `jsonplaceholder.typicode.com/posts`.
+
+**Advanced:**
+
+- Create a component that listens for window resizing and displays the current window size. Don't forget to clean up!
+
+---
+
+#### 1.5.8 **Real-World Example: Notification Bell**
+
+Imagine a notification bell 🔔 showing how many new messages you have.
+
+```jsx
+import { useEffect, useState } from "react";
+
+function NotificationBell() {
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    let ignore = false;
-    fetch(`/api/users/${id}`)
-      .then((r) => r.json())
-      .then((data) => !ignore && setUser(data));
-    return () => {
-      ignore = true;
-    };
-  }, [id]);
+    const intervalId = setInterval(() => {
+      fetch("https://api.example.com/notifications/unread-count")
+        .then((res) => res.json())
+        .then((data) => setCount(data.count));
+    }, 5000);
 
-  return user ? <pre>{JSON.stringify(user, null, 2)}</pre> : "Loading…";
+    return () => clearInterval(intervalId);
+  }, []);
+
+  return <button>🔔 {count}</button>;
 }
 ```
 
-**Best practices**
+**What happened here?**
 
-- **Declare every dependency**; rely on ESLint‑react‑hooks.
-- Cleanup side effects in the return function.
-- Split unrelated concerns into multiple effects.
+- Component fetches unread notifications every 5 seconds.
+- If you leave or close the component, it cleans up the interval automatically.
 
-**Exercise – GitHub profile**
+---
 
-> Fetch `https://api.github.com/users/{username}` when the `username` prop changes and display the avatar.
+#### 1.5.9 **Summary Diagram (All together):**
+
+```
+React Component
+  |
+  | Render
+  |
+  |---> Side Effects (useEffect)
+          |
+          |-- Data Fetching
+          |-- DOM Manipulation
+          |-- Event listeners/Subscriptions
+          |
+          |--- Optional Cleanup (return function)
+```
+
+---
+
+📝 **Key Takeaways**
+
+- Side effects happen after render.
+- React provides `useEffect` to handle these side effects cleanly.
+- Dependency arrays control when effects run.
+- Always cleanup to avoid bugs and memory leaks.
+
+#### 1.5.10 Deep Dive: Cleanup in useEffect (Unmounting Phase)
+
+- **Step 1: What is Cleanup in React?**
+
+When you run side effects in React, sometimes you need to "clean them up" after you're done using them, especially when your component **unmounts** (is removed from the screen).
+
+The cleanup function helps avoid:
+
+- Memory leaks
+- Unwanted behaviors
+- Errors due to operations on non-existent elements
+
+---
+
+- **Step 2: Component Lifecycle & Cleanup**
+
+Here's a simple visual flowchart:
+
+```
+Component Mount
+     |
+     |---- useEffect runs
+     |          |
+     |          |---> Side effect started
+     |
+Component Update (state/props change)
+     |
+     |-- Cleanup (if dependencies changed)
+     |      |
+     |      |---> Previous effect cleaned
+     |
+     |-- Effect runs again (if deps changed)
+     |
+Component Unmount (component leaves)
+     |
+     |-- Cleanup function runs
+            |
+            |---> Cleanup finished
+```
+
+**Important:**
+
+- Cleanup happens **before** the component unmounts.
+- It allows React to gracefully handle resources.
+
+---
+
+- **Step 3: When Do You Need Cleanup?**
+
+Common scenarios:
+
+- **Event listeners** (like resizing, scrolling)
+- **Intervals and Timers**
+- **Subscriptions** (like WebSockets, Redux, Firebase listeners)
+- **Abort HTTP Requests**
+
+---
+
+- **Step 4: Basic Cleanup Syntax**
+
+```jsx
+useEffect(
+  () => {
+    // Side effect
+    console.log("Effect ran!");
+
+    // Cleanup function
+    return () => {
+      console.log("Cleaned up!");
+    };
+  },
+  [
+    /* dependencies */
+  ]
+);
+```
+
+- If you return a function from your `useEffect`, React will automatically run it when:
+
+  - **Component unmounts**
+  - Dependencies **change** (previous effect cleaned, then new effect runs)
+
+---
+
+- **Step 5: Practical Examples**
+
+  - **Beginner Example: Cleanup with a Timer**
+
+  Counting seconds:
+
+  ```jsx
+  import { useEffect, useState } from "react";
+
+  function Timer() {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+      const timerId = setInterval(() => {
+        setCount((prev) => prev + 1);
+      }, 1000);
+
+      // Cleanup function
+      return () => clearInterval(timerId);
+    }, []);
+
+    return <div>Seconds passed: {count}</div>;
+  }
+  ```
+
+  **Explanation:**
+
+  - Starts a timer on mount.
+  - Clears timer on unmount to avoid memory leak or state update on unmounted component.
+
+---
+
+    - **Intermediate Example: Window Resize Listener**
+
+    Listening to the browser window size:
+
+```jsx
+import { useEffect, useState } from "react";
+
+function WindowSize() {
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div>
+      Window size: {size.width}px x {size.height}px
+    </div>
+  );
+}
+```
+
+**Explanation:**
+
+- Adds resize listener.
+- Removes listener on unmount to avoid leaks.
+
+---
+
+- **Quick Reference (Summary Flowchart):**
+
+```
+React Component
+       |
+       | Mounts
+       |
+ useEffect() Side Effect Starts
+       |
+       | Update (dependency changes)
+       |
+       +-- Cleanup previous Effect
+       +-- Run new Effect
+       |
+ Component Unmounts
+       |
+ Cleanup Side Effects (final cleanup)
+```
 
 ---
 
