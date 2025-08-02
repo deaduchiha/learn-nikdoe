@@ -1,0 +1,894 @@
+---
+title: "آموزش Fetch API و دیباگ شبکه"
+description: "یادگیری کامل Fetch API، درک درخواست‌های شبکه و دیباگ با Chrome DevTools. نحوه ارتباط فرانت‌اند با API های بک‌اند"
+date: "2025-06-04"
+sidebar_position: 4
+keywords:
+  - fetch
+  - api
+  - network
+  - devtools
+  - chrome
+  - debugging
+  - http
+  - requests
+  - persian
+  - farsi
+---
+
+## 🌐 مقدمه‌ای بر ارتباط شبکه
+
+وقتی به یک وب‌سایت سر می‌زنید، مرورگر شما تعداد زیادی **درخواست شبکه** ارسال می‌کند تا داده‌هایی مانند تصاویر، استایل‌ها، اسکریپت‌ها و اطلاعات API را دریافت کند. درک نحوه کارکرد این درخواست‌ها برای توسعه وب مدرن ضروری است.
+
+### آنچه یاد خواهید گرفت
+
+- **مبانی HTTP**: نحوه کارکرد درخواست‌ها و پاسخ‌ها
+- **Fetch API**: روش مدرن ارسال درخواست‌های شبکه از JavaScript
+- **Chrome DevTools**: دیباگ درخواست‌های شبکه مثل حرفه‌ای‌ها
+- **ادغام API**: اتصال فرانت‌اند به سرویس‌های بک‌اند
+- **مدیریت خطا**: برخورد مناسب با مشکلات شبکه
+
+### چرا این موضوع مهم است؟
+
+هر اپلیکیشن وب مدرن با سرورها ارتباط برقرار می‌کند تا:
+
+- اطلاعات کاربر را بارگذاری کند
+- فرم‌ها را ذخیره کند
+- به‌روزرسانی‌های لحظه‌ای دریافت کند
+- فایل‌ها را آپلود کند
+- کاربران را احراز هویت کند
+
+---
+
+## 📡 درک درخواست‌های HTTP
+
+### HTTP چیست؟
+
+HTTP (پروتکل انتقال ابرمتن) روشی است که مرورگرهای وب و سرورها از طریق آن ارتباط برقرار می‌کنند.
+
+#### ساختار پایه درخواست HTTP
+
+```
+GET /api/users HTTP/1.1
+Host: api.example.com
+User-Agent: Mozilla/5.0...
+Accept: application/json
+```
+
+#### متدهای HTTP
+
+```javascript
+// GET - دریافت داده
+GET / api / users; // دریافت همه کاربران
+GET / api / users / 123; // دریافت کاربر خاص
+
+// POST - ایجاد داده جدید
+POST / api / users; // ایجاد کاربر جدید
+
+// PUT - به‌روزرسانی کامل منبع
+PUT / api / users / 123; // به‌روزرسانی کامل کاربر
+
+// PATCH - به‌روزرسانی جزئی داده
+PATCH / api / users / 123; // به‌روزرسانی جزئی کاربر
+
+// DELETE - حذف داده
+DELETE / api / users / 123; // حذف کاربر
+```
+
+#### کدهای وضعیت HTTP
+
+```javascript
+// موفقیت (2xx)
+200 OK                 // درخواست موفق
+201 Created           // منبع ایجاد شد
+204 No Content       // موفق، بدون داده برگشتی
+
+// خطاهای کلاینت (4xx)
+400 Bad Request       // درخواست نامعتبر
+401 Unauthorized      // احراز هویت نشده
+403 Forbidden         // مجاز نیست
+404 Not Found         // منبع پیدا نشد
+429 Too Many Requests // محدودیت نرخ
+
+// خطاهای سرور (5xx)
+500 Internal Server Error // خطای سرور
+502 Bad Gateway          // خطای دروازه
+503 Service Unavailable  // سرور بیش از حد بارگذاری شده
+```
+
+---
+
+## 🚀 مبانی Fetch API
+
+Fetch API روش مدرن ارسال درخواست‌های HTTP از JavaScript است.
+
+### درخواست GET ساده
+
+```javascript
+// درخواست fetch پایه
+fetch("https://jsonplaceholder.typicode.com/users/1")
+  .then((response) => response.json())
+  .then((data) => console.log("کاربر:", data))
+  .catch((error) => console.error("خطا:", error));
+```
+
+### درک زنجیره Promise در Fetch
+
+```javascript
+fetch("https://api.example.com/data")
+  .then((response) => {
+    // مرحله ۱: بررسی موفقیت درخواست
+    if (!response.ok) {
+      throw new Error(`خطای HTTP! وضعیت: ${response.status}`);
+    }
+    return response.json(); // تجزیه JSON
+  })
+  .then((data) => {
+    // مرحله ۲: کار با داده‌های تجزیه شده
+    console.log("داده دریافت شد:", data);
+    return data;
+  })
+  .catch((error) => {
+    // مرحله ۳: مدیریت خطاها
+    console.error("درخواست fetch ناموفق بود:", error);
+  });
+```
+
+### نسخه Async/Await (تمیزتر)
+
+```javascript
+async function fetchUser(userId) {
+  try {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${userId}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const user = await response.json();
+    console.log("کاربر:", user);
+    return user;
+  } catch (error) {
+    console.error("دریافت کاربر ناموفق بود:", error);
+    throw error;
+  }
+}
+
+// استفاده
+fetchUser(1).then((user) => console.log("موفقیت:", user));
+```
+
+---
+
+## 📤 ارسال انواع مختلف درخواست‌ها
+
+### درخواست GET (دریافت داده)
+
+```javascript
+// GET ساده
+const response = await fetch("https://api.example.com/users");
+
+// GET با پارامترهای جستجو
+const params = new URLSearchParams({
+  page: 1,
+  limit: 10,
+  search: "علی",
+});
+const response = await fetch(`https://api.example.com/users?${params}`);
+```
+
+### درخواست POST (ایجاد داده)
+
+```javascript
+const newUser = {
+  name: "علی احمدی",
+  email: "ali@example.com",
+  age: 30,
+};
+
+const response = await fetch("https://api.example.com/users", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer توکن-شما-اینجا",
+  },
+  body: JSON.stringify(newUser),
+});
+
+const createdUser = await response.json();
+console.log("کاربر ایجاد شد:", createdUser);
+```
+
+### درخواست PUT (به‌روزرسانی کامل منبع)
+
+```javascript
+const updatedUser = {
+  name: "علی احمدی",
+  email: "ali.ahmadi@example.com",
+  age: 31,
+};
+
+const response = await fetch("https://api.example.com/users/123", {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(updatedUser),
+});
+```
+
+### درخواست DELETE (حذف داده)
+
+```javascript
+const response = await fetch("https://api.example.com/users/123", {
+  method: "DELETE",
+  headers: {
+    Authorization: "Bearer توکن-شما-اینجا",
+  },
+});
+
+if (response.ok) {
+  console.log("کاربر با موفقیت حذف شد");
+}
+```
+
+### آپلود فایل‌ها
+
+```javascript
+const fileInput = document.getElementById("file-input");
+const file = fileInput.files[0];
+
+const formData = new FormData();
+formData.append("file", file);
+formData.append("description", "فایل آپلود شده من");
+
+const response = await fetch("https://api.example.com/upload", {
+  method: "POST",
+  body: formData, // هدر Content-Type را تنظیم نکنید - مرورگر خودکار تنظیم می‌کند
+});
+```
+
+---
+
+## 🔧 ویژگی‌های پیشرفته Fetch
+
+### گزینه‌های درخواست
+
+```javascript
+const requestOptions = {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer توکن-شما",
+    Accept: "application/json",
+  },
+  body: JSON.stringify(data),
+  mode: "cors", // 'cors', 'no-cors', 'same-origin'
+  credentials: "include", // 'omit', 'same-origin', 'include'
+  cache: "no-cache", // 'default', 'no-cache', 'reload', 'force-cache'
+  redirect: "follow", // 'follow', 'error', 'manual'
+};
+
+const response = await fetch("https://api.example.com/data", requestOptions);
+```
+
+### مدیریت انواع مختلف پاسخ
+
+```javascript
+async function handleResponse(url) {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+
+  // بررسی نوع محتوا
+  const contentType = response.headers.get("content-type");
+
+  if (contentType.includes("application/json")) {
+    return await response.json();
+  } else if (contentType.includes("text/")) {
+    return await response.text();
+  } else {
+    return await response.blob(); // برای فایل‌ها
+  }
+}
+```
+
+### پیاده‌سازی تایم‌اوت
+
+```javascript
+function fetchWithTimeout(url, options = {}, timeout = 5000) {
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("تایم‌اوت درخواست")), timeout)
+    ),
+  ]);
+}
+
+// استفاده
+try {
+  const data = await fetchWithTimeout("https://api.example.com/data", {}, 3000);
+  console.log("داده:", data);
+} catch (error) {
+  console.error("درخواست ناموفق بود:", error.message);
+}
+```
+
+### منطق تلاش مجدد
+
+```javascript
+async function fetchWithRetry(url, options = {}, maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      if (attempt === maxRetries) {
+        throw error;
+      }
+
+      // انتظار قبل از تلاش مجدد (backoff نمایی)
+      await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+      console.log(`تلاش ${attempt} ناموفق بود، تلاش مجدد...`);
+    }
+  }
+}
+```
+
+---
+
+## 🛠️ تب Network در Chrome DevTools
+
+تب Network در Chrome DevTools بهترین دوست شما برای دیباگ درخواست‌های شبکه است.
+
+### باز کردن تب Network
+
+1. Chrome DevTools را باز کنید (F12 یا Ctrl+Shift+I)
+2. روی تب **Network** کلیک کنید
+3. صفحه را رفرش کنید یا عملی را تحریک کنید
+
+### درک تب Network
+
+#### لیست درخواست‌ها
+
+```
+نام                    متد    وضعیت  نوع     اندازه  زمان
+main.js                 GET     200     JS      15.2KB  45ms
+styles.css              GET     200     CSS     8.1KB   32ms
+api/users               GET     200     XHR     2.3KB   156ms
+profile.jpg             GET     200     Img     45.2KB  89ms
+```
+
+#### جزئیات درخواست
+
+```javascript
+// تب Headers
+Request Headers:
+GET /api/users HTTP/1.1
+Host: api.example.com
+User-Agent: Mozilla/5.0...
+Accept: application/json
+Authorization: Bearer token123
+
+Response Headers:
+HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-cache
+```
+
+### فیلتر کردن درخواست‌ها
+
+```javascript
+// فیلتر بر اساس نوع درخواست
+- همه
+- XHR (درخواست‌های API)
+- JS (فایل‌های JavaScript)
+- CSS (استایل‌شیت‌ها)
+- Img (تصاویر)
+- Media (صوت/ویدیو)
+- Font (فونت‌های وب)
+- Doc (اسناد)
+- WS (WebSocket)
+```
+
+### ویژگی‌های تب Network
+
+#### ۱. حفظ لاگ
+
+- درخواست‌ها هنگام ناوبری قابل مشاهده می‌مانند
+- مفید برای دیباگ اپلیکیشن‌های تک صفحه‌ای
+
+#### ۲. غیرفعال کردن کش
+
+- درخواست‌های تازه را اجباری می‌کند
+- خوب برای تست تغییرات API
+
+#### ۳. محدود کردن سرعت
+
+- شبیه‌سازی اتصالات کند
+- تست عملکرد اپ در موبایل
+
+#### ۴. مسدود کردن درخواست
+
+- مسدود کردن درخواست‌های خاص
+- تست مدیریت خطا
+
+---
+
+## 🔍 دیباگ درخواست‌های شبکه
+
+### مشکلات رایج و راه‌حل‌ها
+
+#### ۱. خطاهای CORS
+
+```javascript
+// خطا: دسترسی به fetch در 'https://api.example.com' از مبدا 'http://localhost:3000' توسط سیاست CORS مسدود شده
+
+// راه‌حل: سرور باید هدرهای CORS مناسب ارسال کند
+// یا از پروکسی در توسعه استفاده کنید
+const response = await fetch("/api/users"); // URL نسبی
+```
+
+#### ۲. ۴۰۴ Not Found
+
+```javascript
+// URL را در تب Network بررسی کنید
+// تأیید کنید که endpoint وجود دارد
+// برای اشتباهات تایپی بررسی کنید
+```
+
+#### ۳. ۴۰۱ Unauthorized
+
+```javascript
+// احراز هویت ناموجود یا نامعتبر
+const response = await fetch("/api/protected", {
+  headers: {
+    Authorization: "Bearer " + token,
+  },
+});
+```
+
+#### ۴. ۵۰۰ Server Error
+
+```javascript
+// خطای سمت سرور
+// لاگ‌های سرور را بررسی کنید
+// فرمت درخواست را تأیید کنید
+```
+
+### چک‌لیست دیباگ
+
+```javascript
+// ۱. تب Network را بررسی کنید
+// - آیا درخواست ارسال می‌شود؟
+// - کد وضعیت چیست؟
+// - آیا هدرها صحیح هستند؟
+
+// ۲. Console را برای خطاها بررسی کنید
+// - خطاهای JavaScript
+// - خطاهای شبکه
+
+// ۳. فرمت درخواست را تأیید کنید
+// - URL صحیح
+// - هدرهای مناسب
+// - داده body معتبر
+
+// ۴. با ابزارها تست کنید
+// - Postman
+// - curl
+// - تب Network مرورگر
+```
+
+---
+
+## 🌍 مثال‌های API دنیای واقعی
+
+### API آب و هوا
+
+```javascript
+class WeatherAPI {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseUrl = "https://api.openweathermap.org/data/2.5";
+  }
+
+  async getCurrentWeather(city) {
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/weather?q=${encodeURIComponent(
+          city
+        )}&units=metric&appid=${this.apiKey}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`شهر پیدا نشد: ${city}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("دریافت آب و هوا ناموفق بود:", error);
+      throw error;
+    }
+  }
+
+  async getForecast(city) {
+    const response = await fetch(
+      `${this.baseUrl}/forecast?q=${encodeURIComponent(
+        city
+      )}&units=metric&appid=${this.apiKey}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`پیش‌بینی برای ${city} در دسترس نیست`);
+    }
+
+    return await response.json();
+  }
+}
+
+// استفاده
+const weather = new WeatherAPI("کلید-api-شما");
+weather
+  .getCurrentWeather("تهران")
+  .then((data) => console.log("آب و هوا:", data))
+  .catch((error) => console.error("خطا:", error));
+```
+
+### API گیت‌هاب
+
+```javascript
+class GitHubAPI {
+  constructor(token = null) {
+    this.baseUrl = "https://api.github.com";
+    this.headers = {
+      Accept: "application/vnd.github.v3+json",
+    };
+
+    if (token) {
+      this.headers["Authorization"] = `token ${token}`;
+    }
+  }
+
+  async getUser(username) {
+    const response = await fetch(`${this.baseUrl}/users/${username}`, {
+      headers: this.headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`کاربر پیدا نشد: ${username}`);
+    }
+
+    return await response.json();
+  }
+
+  async getUserRepos(username) {
+    const response = await fetch(`${this.baseUrl}/users/${username}/repos`, {
+      headers: this.headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(`دریافت repository ها برای ${username} ناموفق بود`);
+    }
+
+    return await response.json();
+  }
+}
+
+// استفاده
+const github = new GitHubAPI();
+github
+  .getUser("octocat")
+  .then((user) => console.log("کاربر:", user))
+  .catch((error) => console.error("خطا:", error));
+```
+
+### JSONPlaceholder (API تست)
+
+```javascript
+class JSONPlaceholderAPI {
+  constructor() {
+    this.baseUrl = "https://jsonplaceholder.typicode.com";
+  }
+
+  async getPosts() {
+    const response = await fetch(`${this.baseUrl}/posts`);
+    return await response.json();
+  }
+
+  async getPost(id) {
+    const response = await fetch(`${this.baseUrl}/posts/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`پست پیدا نشد: ${id}`);
+    }
+
+    return await response.json();
+  }
+
+  async createPost(postData) {
+    const response = await fetch(`${this.baseUrl}/posts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    });
+
+    return await response.json();
+  }
+
+  async updatePost(id, postData) {
+    const response = await fetch(`${this.baseUrl}/posts/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    });
+
+    return await response.json();
+  }
+
+  async deletePost(id) {
+    const response = await fetch(`${this.baseUrl}/posts/${id}`, {
+      method: "DELETE",
+    });
+
+    return response.ok;
+  }
+}
+
+// استفاده
+const api = new JSONPlaceholderAPI();
+
+// دریافت همه پست‌ها
+api.getPosts().then((posts) => console.log("پست‌ها:", posts));
+
+// ایجاد پست جدید
+api
+  .createPost({
+    title: "پست جدید من",
+    body: "این محتوای پست من است",
+    userId: 1,
+  })
+  .then((post) => console.log("ایجاد شد:", post));
+```
+
+---
+
+## 🎯 تمرینات عملی
+
+### تمرین ۱: Fetch پایه
+
+```javascript
+// تابعی ایجاد کنید که اطلاعات کاربر را دریافت و نمایش دهد
+async function displayUser(userId) {
+  try {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${userId}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`کاربر پیدا نشد: ${userId}`);
+    }
+
+    const user = await response.json();
+
+    // نمایش اطلاعات کاربر
+    document.getElementById("user-info").innerHTML = `
+            <h2>${user.name}</h2>
+            <p>ایمیل: ${user.email}</p>
+            <p>تلفن: ${user.phone}</p>
+            <p>شرکت: ${user.company.name}</p>
+        `;
+  } catch (error) {
+    console.error("خطا:", error);
+    document.getElementById(
+      "user-info"
+    ).innerHTML = `<p style="color: red;">خطا: ${error.message}</p>`;
+  }
+}
+
+// تست کنید
+displayUser(1);
+```
+
+### تمرین ۲: حالت‌های بارگذاری
+
+```javascript
+// تابعی ایجاد کنید که حالت بارگذاری را هنگام fetch نشان دهد
+async function fetchWithLoading(url, displayElement) {
+  // نمایش بارگذاری
+  displayElement.innerHTML = '<div class="loading">در حال بارگذاری...</div>';
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // نمایش داده
+    displayElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (error) {
+    // نمایش خطا
+    displayElement.innerHTML = `<div class="error">خطا: ${error.message}</div>`;
+  }
+}
+
+// استفاده
+fetchWithLoading(
+  "https://jsonplaceholder.typicode.com/posts/1",
+  document.getElementById("result")
+);
+```
+
+### تمرین ۳: درخواست‌های متعدد
+
+```javascript
+// دریافت کاربر و پست‌هایش به طور همزمان
+async function fetchUserAndPosts(userId) {
+  try {
+    const [userResponse, postsResponse] = await Promise.all([
+      fetch(`https://jsonplaceholder.typicode.com/users/${userId}`),
+      fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`),
+    ]);
+
+    if (!userResponse.ok || !postsResponse.ok) {
+      throw new Error("دریافت داده ناموفق بود");
+    }
+
+    const [user, posts] = await Promise.all([
+      userResponse.json(),
+      postsResponse.json(),
+    ]);
+
+    console.log("کاربر:", user);
+    console.log("پست‌ها:", posts);
+
+    return { user, posts };
+  } catch (error) {
+    console.error("خطا:", error);
+    throw error;
+  }
+}
+
+// استفاده
+fetchUserAndPosts(1).then((data) => {
+  console.log("داده کامل:", data);
+});
+```
+
+---
+
+## 🚨 بهترین شیوه‌های مدیریت خطا
+
+### مدیریت خطای جامع
+
+```javascript
+class APIClient {
+  constructor(baseUrl) {
+    this.baseUrl = baseUrl;
+  }
+
+  async request(endpoint, options = {}) {
+    try {
+      const url = `${this.baseUrl}${endpoint}`;
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          ...options.headers,
+        },
+        ...options,
+      });
+
+      // مدیریت کدهای وضعیت مختلف
+      if (response.status === 401) {
+        throw new Error("غیرمجاز - لطفاً وارد شوید");
+      } else if (response.status === 403) {
+        throw new Error("ممنوع - شما مجوز ندارید");
+      } else if (response.status === 404) {
+        throw new Error("منبع پیدا نشد");
+      } else if (response.status === 429) {
+        throw new Error("تعداد درخواست‌ها زیاد است - لطفاً صبر کنید");
+      } else if (response.status >= 500) {
+        throw new Error("خطای سرور - لطفاً بعداً تلاش کنید");
+      } else if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      // تجزیه پاسخ بر اساس نوع محتوا
+      const contentType = response.headers.get("content-type");
+
+      if (contentType && contentType.includes("application/json")) {
+        return await response.json();
+      } else {
+        return await response.text();
+      }
+    } catch (error) {
+      // ثبت خطا برای دیباگ
+      console.error("درخواست API ناموفق بود:", {
+        endpoint,
+        error: error.message,
+        timestamp: new Date().toISOString(),
+      });
+
+      // بازنشانی با زمینه
+      throw new Error(`درخواست API ناموفق بود: ${error.message}`);
+    }
+  }
+
+  async get(endpoint) {
+    return this.request(endpoint, { method: "GET" });
+  }
+
+  async post(endpoint, data) {
+    return this.request(endpoint, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async put(endpoint, data) {
+    return this.request(endpoint, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async delete(endpoint) {
+    return this.request(endpoint, { method: "DELETE" });
+  }
+}
+
+// استفاده
+const api = new APIClient("https://jsonplaceholder.typicode.com");
+
+try {
+  const user = await api.get("/users/1");
+  console.log("کاربر:", user);
+} catch (error) {
+  console.error("دریافت کاربر ناموفق بود:", error.message);
+}
+```
+
+---
+
+## 🎓 خلاصه
+
+شما یاد گرفتید چگونه:
+
+✅ **درخواست‌های HTTP** را با استفاده از Fetch API ارسال کنید
+✅ **انواع مختلف پاسخ** (JSON، متن، فایل‌ها) را مدیریت کنید
+✅ **مشکلات شبکه** را با Chrome DevTools دیباگ کنید
+✅ **مدیریت خطا** را برای اپلیکیشن‌های قوی پیاده‌سازی کنید
+✅ **با API های واقعی** کار کنید و ساختار آنها را درک کنید
+✅ **درخواست‌ها** را با تایم‌اوت و منطق تلاش مجدد بهینه کنید
+
+### مراحل بعدی
+
+1. **تمرین با API های واقعی**: API های عمومی مختلف را امتحان کنید
+2. **ساخت پروژه‌ها**: اپلیکیشن‌هایی بسازید که از چندین API استفاده می‌کنند
+3. **یادگیری احراز هویت**: OAuth، توکن‌های JWT، کلیدهای API
+4. **کاوش موضوعات پیشرفته**: WebSockets، Server-Sent Events
+5. **مطالعه عمیق HTTP**: هدرها، کش، امنیت
+
+### منابع مفید
+
+- **API های عمومی**: [JSONPlaceholder](https://jsonplaceholder.typicode.com/)، [OpenWeatherMap](https://openweathermap.org/api)
+- **کدهای وضعیت HTTP**: [MDN HTTP Status](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+- **Fetch API**: [MDN Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- **Chrome DevTools**: [راهنمای تب Network](https://developers.google.com/web/tools/chrome-devtools/network)
+
+یادتان باشد: دیباگ شبکه مهارت مهمی برای هر توسعه‌دهنده فرانت‌اند است. هرچه بیشتر تمرین کنید، بهتر در شناسایی و حل مشکلات مربوط به شبکه خواهید شد! 🚀

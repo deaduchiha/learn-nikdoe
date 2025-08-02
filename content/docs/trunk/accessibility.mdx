@@ -1,126 +1,132 @@
 ---
-title: Accessibility
-description: Simple guide to make websites that everyone can use.
+title: دسترسی‌پذیری
+description: راهنمای ساده برای ساخت سایت‌هایی که همه می‌توانند استفاده کنند.
 ---
 
-> **Plain Goal**  
-> Start with nothing, learn small steps, finish with a page that works for _all_ people.
+> **هدف ساده**  
+> از هیچ شروع کنید، گام‌های کوچک یاد بگیرید، با صفحه‌ای تمام کنید که برای _همه_ مردم کار می‌کند.
 
 ---
 
-# 🌱 Level 1 — Beginner
+# 🌱 سطح ۱ — مبتدی
 
-### 1.1 What is accessibility?
+### ۱.۱ دسترسی‌پذیری چیست؟
 
-- Everyone can read, click, and use the site.
-- Works with screen‑readers, keyboards, voice, and high‑contrast mode.
+- همه می‌توانند بخوانند، کلیک کنند و از سایت استفاده کنند.
+- با صفحه‌خوان‌ها، کیبورد، صدا و حالت کنتراست بالا کار می‌کند.
 
-### 1.2 Why care?
+### ۱.۲ چرا مهم است؟
 
-| Reason     | Easy words                               |
-| ---------- | ---------------------------------------- |
-| **People** | 1 out of 5 visitors need help tools.     |
-| **Search** | Clean HTML helps Google find you.        |
-| **Money**  | Fix early = cheap. Fix late = expensive. |
+| دلیل      | توضیح ساده                                         |
+| --------- | -------------------------------------------------- |
+| **مردم**  | از هر ۵ بازدیدکننده، ۱ نفر به ابزار کمک نیاز دارد. |
+| **جستجو** | HTML تمیز به گوگل کمک می‌کند شما را پیدا کند.      |
+| **پول**   | تعمیر زودهنگام = ارزان. تعمیر دیرهنگام = گران.     |
 
-### 1.3 Quick wins
+### ۱.۳ پیروزی‌های سریع
 
-1. **Alt text** on every picture.
-   ```html
-   <img src="dog.jpg" alt="Brown dog running in a park" />
-   ```
-2. **Headings** in order.
-   ```html
-   <h1>Title</h1>
-   <h2>Section</h2>
-   ```
-3. **Label** every input.
-   ```html
-   <label for="name">Name</label> <input id="name" />
-   ```
-4. **Contrast**: dark text on light background (ratio ≥ 4.5:1).
+۱. **متن جایگزین** روی هر تصویر.
 
-### 1.4 Full example
+```html
+<img src="سگ.jpg" alt="سگ قهوه‌ای که در پارک می‌دود" />
+```
+
+۲. **عناوین** به ترتیب.
+
+```html
+<h1>عنوان</h1>
+<h2>بخش</h2>
+```
+
+۳. **برچسب** برای هر ورودی.
+
+```html
+<label for="نام">نام</label> <input id="نام" />
+```
+
+۴. **کنتراست**: متن تیره روی پس‌زمینه روشن (نسبت ≥ ۴.۵:۱).
+
+### ۱.۴ مثال کامل
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <title>Hello page</title>
+    <title>صفحه سلام</title>
   </head>
   <body>
-    <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#اصلی" class="لینک-پرش">پرش به محتوا</a>
 
     <header>
-      <h1>Hello, world!</h1>
+      <h1>سلام، دنیا!</h1>
     </header>
 
-    <main id="main">
-      <p>My first accessible page.</p>
+    <main id="اصلی">
+      <p>اولین صفحه دسترسی‌پذیر من.</p>
 
-      <img src="selfie.jpg" alt="Smiling person with headphones" />
+      <img src="سلفی.jpg" alt="شخص خندان با هدفون" />
 
       <form>
-        <label for="email">Email</label>
-        <input id="email" type="email" required />
-        <button>Sign up</button>
+        <label for="ایمیل">ایمیل</label>
+        <input id="ایمیل" type="email" required />
+        <button>ثبت‌نام</button>
       </form>
     </main>
   </body>
 </html>
 ```
 
-### 1.5 Homework
+### ۱.۵ تکلیف
 
-- Add alt text to three images on any page you made.
-- Check heading order with the “HTML Outline” browser add‑on.
+- متن جایگزین به سه تصویر روی هر صفحه‌ای که ساختید اضافه کنید.
+- ترتیب عناوین را با افزونه مرورگر "طرح کلی HTML" بررسی کنید.
 
 ---
 
-# 🌿 Level 2 — Intermediate
+# 🌿 سطح ۲ — متوسط
 
-### 2.1 Page landmarks
+### ۲.۱ نشانه‌های صفحه
 
 ```html
 <header>…</header>
-<nav aria-label="Main menu">…</nav>
-<main id="main">…</main>
+<nav aria-label="منوی اصلی">…</nav>
+<main id="اصلی">…</main>
 <footer>…</footer>
 ```
 
-These tags let screen‑reader users jump fast.
+این تگ‌ها به کاربران صفحه‌خوان اجازه می‌دهند سریع بپرند.
 
-### 2.2 Skip link (keyboard helper)
+### ۲.۲ لینک پرش (کمک‌کننده کیبورد)
 
 ```html
-<a href="#main" class="skip-link">Skip to content</a>
+<a href="#اصلی" class="لینک-پرش">پرش به محتوا</a>
 ```
 
-Put it at the very top. Show it only when focused with CSS.
+آن را در بالاترین قسمت قرار دهید. فقط هنگام فوکوس با CSS نمایش دهید.
 
-### 2.3 Better forms
+### ۲.۳ فرم‌های بهتر
 
 ```html
 <form novalidate>
   <fieldset>
-    <legend>Contact me</legend>
+    <legend>با من تماس بگیرید</legend>
 
-    <label for="msg">Message</label>
-    <textarea id="msg" required></textarea>
+    <label for="پیام">پیام</label>
+    <textarea id="پیام" required></textarea>
 
-    <button>Send</button>
+    <button>ارسال</button>
   </fieldset>
 </form>
 ```
 
-**Key ideas**
+**ایده‌های کلیدی**
 
-- The `label` _must_ point to the control (`for` ↔ `id`).
-- Group related inputs with `<fieldset>` + `<legend>`.
-- Use HTML features like `required` and `type="email"`.
+- برچسب _باید_ به کنترل اشاره کند (`for` ↔ `id`).
+- ورودی‌های مرتبط را با `<fieldset>` + `<legend>` گروه‌بندی کنید.
+- از ویژگی‌های HTML مثل `required` و `type="email"` استفاده کنید.
 
-### 2.4 Visible focus
+### ۲.۴ فوکوس قابل مشاهده
 
 ```css
 :focus-visible {
@@ -128,37 +134,37 @@ Put it at the very top. Show it only when focused with CSS.
 }
 ```
 
-### 2.5 Homework
+### ۲.۵ تکلیف
 
-- Build a simple “Portfolio” with header, nav, main, and footer.
-- Add a skip link.
-- Test it using only the keyboard (Tab, Shift+Tab, Enter).
+- یک "نمونه کار" ساده با header، nav، main و footer بسازید.
+- لینک پرش اضافه کنید.
+- فقط با کیبورد تست کنید (Tab، Shift+Tab، Enter).
 
 ---
 
-# 🌳 Level 3 — Advanced
+# 🌳 سطح ۳ — پیشرفته
 
-### 3.1 Live messages (no refresh)
+### ۳.۱ پیام‌های زنده (بدون تازه‌سازی)
 
 ```html
-<p aria-live="polite" id="status">No new messages</p>
+<p aria-live="polite" id="وضعیت">پیام جدیدی نیست</p>
 ```
 
-If JavaScript updates `#status`, the screen‑reader will speak the change.
+اگر جاوااسکریپت `#وضعیت` را به‌روزرسانی کند، صفحه‌خوان تغییر را اعلام می‌کند.
 
-### 3.2 Accordion pattern
+### ۳.۲ الگوی آکاردئون
 
 ```html
-<button aria-expanded="false" aria-controls="panel1" class="accordion">
-  What is the refund policy?
+<button aria-expanded="false" aria-controls="پنل۱" class="آکاردئون">
+  سیاست بازپرداخت چیست؟
 </button>
-<div id="panel1" hidden>
-  <p>Full refund within 30 days.</p>
+<div id="پنل۱" hidden>
+  <p>بازپرداخت کامل در ۳۰ روز.</p>
 </div>
 ```
 
 ```js
-const btn = document.querySelector(".accordion");
+const btn = document.querySelector(".آکاردئون");
 btn.addEventListener("click", () => {
   const panel = document.getElementById(btn.getAttribute("aria-controls"));
   const open = btn.getAttribute("aria-expanded") === "true";
@@ -167,38 +173,38 @@ btn.addEventListener("click", () => {
 });
 ```
 
-### 3.3 Testing steps
+### ۳.۳ مراحل تست
 
-1. **Keyboard** — Can you reach everything? Is the focus ring visible?
-2. **Automated tools** — Run Lighthouse → Accessibility tab.
-3. **Screen‑reader** — Use VoiceOver (Mac) or NVDA (Windows) and read headings.
+۱. **کیبورد** — آیا می‌توانید به همه چیز برسید؟ حلقه فوکوس قابل مشاهده است؟
+۲. **ابزارهای خودکار** — Lighthouse را اجرا کنید → تب دسترسی‌پذیری.
+۳. **صفحه‌خوان** — از VoiceOver (مک) یا NVDA (ویندوز) استفاده کنید و عناوین را بخوانید.
 
-### 3.4 Homework
+### ۳.۴ تکلیف
 
-- Add an accordion FAQ to your Portfolio.
-- Add a live region that says “Sent!” after the contact form submits.
-
----
-
-# ✅ Best practice list
-
-1. **Use HTML tags first**, ARIA only when needed.
-2. Only **one `<h1>`** per page.
-3. Do **not** remove focus outline without adding a new style.
-4. Keep colour contrast strong.
-5. Test early, fix early.
+- یک FAQ آکاردئون به نمونه کارتان اضافه کنید.
+- یک منطقه زنده اضافه کنید که بعد از ارسال فرم تماس "ارسال شد!" بگوید.
 
 ---
 
-# 🎓 Final project
+# ✅ لیست بهترین شیوه‌ها
 
-Create an **“About Me”** site that shows _all_ skills:
+۱. **ابتدا از تگ‌های HTML استفاده کنید**، ARIA فقط در صورت نیاز.
+۲. فقط **یک `<h1>`** در هر صفحه.
+۳. **حلقه فوکوس را بدون اضافه کردن استایل جدید حذف نکنید**.
+۴. کنتراست رنگ را قوی نگه دارید.
+۵. زودهنگام تست کنید، زودهنگام تعمیر کنید.
 
-- **Beginner**: alt text, headings, form labels.
-- **Intermediate**: landmarks, skip link, visible focus.
-- **Advanced**: accordion FAQ, live status message.
+---
 
-Publish it (GitHub Pages works well) and ask a friend to:
+# 🎓 پروژه نهایی
 
-1. Navigate only with the keyboard.
-2. Turn on a screen‑reader and read your headings.
+یک سایت **"درباره من"** بسازید که _همه_ مهارت‌ها را نشان دهد:
+
+- **مبتدی**: متن جایگزین، عناوین، برچسب‌های فرم.
+- **متوسط**: نشانه‌ها، لینک پرش، فوکوس قابل مشاهده.
+- **پیشرفته**: FAQ آکاردئون، پیام وضعیت زنده.
+
+آن را منتشر کنید (GitHub Pages خوب کار می‌کند) و از یک دوست بخواهید:
+
+۱. فقط با کیبورد ناوبری کند.
+۲. صفحه‌خوان را روشن کند و عناوین شما را بخواند.

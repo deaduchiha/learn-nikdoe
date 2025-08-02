@@ -1,5 +1,5 @@
 {
-  "title": "Trunk",
+  "title": "شروع HTML و Accessibility",
   "icon": "Code",
   "defaultOpen": true,
   "pages": ["html", "accessibility"]

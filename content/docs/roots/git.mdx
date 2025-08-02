@@ -1,20 +1,20 @@
 ---
-title: "Git & GitHub Complete Guide"
-description: "Welcome to the ultimate beginner-friendly, practical guide to mastering Git & GitHub. This guide covers everything you need step-by-step, enriched with best practices and real-world scenarios."
+title: "راهنمای کامل Git و GitHub"
+description: "به راهنمای نهایی، دوستانه برای مبتدیان و عملی برای تسلط بر Git و GitHub خوش آمدید. این راهنما همه چیز را گام به گام پوشش می‌دهد، غنی شده با بهترین شیوه‌ها و سناریوهای دنیای واقعی."
 ---
 
-## 📌 1. Understanding Git & GitHub
+## درک Git و GitHub
 
-**Git** is a distributed version control system that helps track changes in your code. **GitHub** is a platform that hosts Git repositories, enabling seamless collaboration.
+**Git** یک سیستم کنترل نسخه توزیع شده است که به ردیابی تغییرات در کد شما کمک می‌کند. **GitHub** پلتفرمی است که repository های Git را می‌زبانی می‌کند و همکاری بی‌نقص را امکان‌پذیر می‌سازد.
 
 ---
 
-## 📌 2. Installing Git
+## نصب Git
 
-Download Git from [git-scm.com](https://git-scm.com/downloads).
+Git را از [git-scm.com](https://git-scm.com/downloads) دانلود کنید.
 
-- Follow default installation settings.
-- Verify your installation by typing:
+- تنظیمات نصب پیش‌فرض را دنبال کنید.
+- نصب خود را با تایپ کردن تأیید کنید:
 
 ```bash
 git --version
@@ -22,16 +22,16 @@ git --version
 
 ---
 
-## 📌 3. Basic Configuration
+## پیکربندی پایه
 
-Configure your identity in Git:
+هویت خود را در Git پیکربندی کنید:
 
 ```bash
 git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
+git config --global user.email "your_email@example.com"
 ```
 
-Check your settings:
+تنظیمات خود را بررسی کنید:
 
 ```bash
 git config --list
@@ -39,46 +39,46 @@ git config --list
 
 ---
 
-## 📌 4. Creating Your First Repository
+## ایجاد اولین Repository
 
-Initialize your repository:
+Repository خود را راه‌اندازی کنید:
 
 ```bash
-mkdir my-first-repo
-cd my-first-repo
+mkdir my-first-project
+cd my-first-project
 git init
 ```
 
-Add a README:
+یک README اضافه کنید:
 
 ```bash
 echo "# My First Project 🚀" > README.md
 ```
 
-Add and commit your changes:
+تغییرات را اضافه و commit کنید:
 
 ```bash
 git add .
-git commit -m "Initial commit"
+git commit -m "first commit"
 ```
 
 ---
 
-## 📌 5. Connecting to GitHub
+## اتصال به GitHub
 
-Create a repository on GitHub:
+یک repository در GitHub ایجاد کنید:
 
-- Log in to [github.com](https://github.com).
-- Click "New Repository".
-- Name your repo and leave the rest at default.
+- در [github.com](https://github.com) وارد شوید.
+- روی "New Repository" کلیک کنید.
+- repository خود را نام‌گذاری کنید و بقیه را در حالت پیش‌فرض بگذارید.
 
-Link your local repo:
+repository محلی خود را لینک کنید:
 
 ```bash
-git remote add origin your_github_repo_url
+git remote add origin <github-repository-address>
 ```
 
-Push your code to GitHub:
+کد خود را به GitHub push کنید:
 
 ```bash
 git push -u origin main
@@ -86,51 +86,47 @@ git push -u origin main
 
 ---
 
-## 📌 6. Branching & Merging
+## branch‌زنی و ادغام
 
-Create a new branch:
+یک branch جدید ایجاد کنید:
 
 ```bash
-git checkout -b feature-branch
+git checkout -b <branch-name>
 ```
 
-Switch branches:
+تغییر branch ها:
 
 ```bash
 git checkout main
 ```
 
-Merge branches:
+ادغام branch ها:
 
 ```bash
-git merge feature-branch
+git merge <branch-name>
 ```
 
-Delete a branch:
+حذف یک branch:
 
 ```bash
-git branch -d feature-branch
+git branch -d <branch-name>
 ```
 
 ---
 
-## 📌 7. Handling Conflicts
+## مدیریت تعارض‌ها
 
-Conflicts occur when merging branches with overlapping changes.
+تعارض‌ها زمانی رخ می‌دهند که branch ها با تغییرات همپوشان ادغام می‌شوند.
 
-- Git marks conflicts within files clearly.
+- Git تعارض‌ها را در فایل‌ها به وضوح علامت‌گذاری می‌کند.
 
-Example conflict markers:
+نمونه نشانگرهای تعارض:
 
 ```
-<<<<<<< HEAD
-This is your current branch change
-=======
-This is the other branch change
->>>>>>>
+این تغییر branch فعلی شما است
 ```
 
-Resolve by editing the file manually and saving it. Then:
+با ویرایش دستی فایل و ذخیره آن حل کنید. سپس:
 
 ```bash
 git add .
@@ -139,36 +135,275 @@ git commit -m "Resolve merge conflict"
 
 ---
 
-## 📌 8. Best Practices
+## دستورات پیشرفته Git
 
-- **Commit frequently:** Keep commits small and meaningful.
-- **Descriptive commit messages:** Clearly explain what changes and why.
-- **Pull regularly:** Always keep your local branch updated.
-- **Use `.gitignore`:** Ignore files like `node_modules`, `.env`, etc.
+### مشاهده تاریخچه:
+
+```bash
+# مشاهده commit های اخیر
+git log --oneline
+
+# مشاهده تغییرات در commit خاص
+git show <commit-hash>
+
+# مشاهده تفاوت بین branch ها
+git diff main..<branch-name>
+```
+
+### بازگردانی تغییرات:
+
+```bash
+# بازگردانی فایل به آخرین commit
+git checkout -- نام-فایل
+
+# بازگردانی به commit خاص
+git reset --hard <commit-hash>
+
+# بازگردانی نرم (حفظ تغییرات)
+git reset --soft <commit-hash>
+```
+
+### Stash کردن تغییرات:
+
+```bash
+# ذخیره تغییرات موقت
+git stash
+
+# مشاهده stash های موجود
+git stash list
+
+# اعمال آخرین stash
+git stash pop
+
+# حذف stash
+git stash drop
+```
+
+### Tag کردن:
+
+```bash
+# ایجاد tag برای نسخه
+git tag v1.0.0
+
+# ایجاد tag با پیام
+git tag -a v1.0.0 -m "نسخه ۱.۰.۰"
+
+# مشاهده همه tag ها
+git tag
+
+# Push کردن tag ها
+git push origin --tags
+```
 
 ---
 
-## 📌 9. Homework: Practical Exercises
+## بهترین شیوه‌ها
 
-Perform these tasks to strengthen your skills:
+### پیام‌های commit خوب:
 
-1. **Create & Clone:**
+```bash
+# خوب
+git commit -m "feat: add authentication system"
 
-   - Create a GitHub repository, clone it locally, add files, commit, and push.
+# بهتر
+git commit -m "feat: add authentication system with JWT
 
-2. **Branching & Merging:**
+- Add authentication middleware
+- Implement login/logout API
+- Add validation for forms"
+```
 
-   - Create two branches, make different changes, and practice merging.
+### انواع commit:
 
-3. **Conflict Simulation:**
+- `feat:` - ویژگی جدید
+- `fix:` - رفع باگ
+- `docs:` - تغییرات مستندات
+- `style:` - تغییرات فرمت
+- `refactor:` - بازسازی کد
+- `test:` - اضافه کردن تست
+- `chore:` - کارهای نگهداری
 
-   - Simulate a conflict by modifying the same line in two branches, then merge and resolve.
+### کار با branch ها:
 
-4. **Real-World Scenario:**
+```bash
+# ایجاد branch از branch خاص
+git checkout -b feature/new-feature main
 
-   - Imagine you're collaborating with a friend. Simulate two people pushing conflicting changes, resolve these conflicts, and document the process clearly.
+# تغییر نام branch
+git branch -m old-name new-name
+
+# مشاهده branch های remote
+git branch -r
+
+# حذف branch remote
+git push origin --delete <branch-name>
+```
 
 ---
 
-🎯 **Checkpoint:**
-After completing this guide, you'll confidently handle essential Git & GitHub operations, manage collaboration, and resolve conflicts like a pro!
+## . کار با Remote
+
+### اضافه کردن remote جدید:
+
+```bash
+git remote add upstream https://github.com/original/repo.git
+```
+
+### مشاهده remote ها:
+
+```bash
+git remote -v
+```
+
+### دریافت تغییرات:
+
+```bash
+# دریافت تغییرات بدون merge
+git fetch origin
+
+# دریافت و merge تغییرات
+git pull origin main
+
+# دریافت تغییرات از upstream
+git fetch upstream
+```
+
+### Push کردن تغییرات:
+
+```bash
+# Push branch جدید
+git push -u origin branch-جدید
+
+# Push همه branch ها
+git push --all origin
+
+# Force push (مراقب باشید!)
+git push --force origin main
+```
+
+---
+
+## . حل مشکلات رایج
+
+### فراموش کردن commit:
+
+```bash
+# اضافه کردن فایل فراموش شده
+git add فایل-فراموش-شده
+git commit --amend --no-edit
+```
+
+### تغییر آخرین commit:
+
+```bash
+# تغییر پیام آخرین commit
+git commit --amend -m "پیام جدید"
+
+# اضافه کردن فایل به آخرین commit
+git add فایل-جدید
+git commit --amend --no-edit
+```
+
+### بازگردانی فایل حذف شده:
+
+```bash
+# مشاهده فایل‌های حذف شده
+git log --diff-filter=D --summary
+
+# بازگردانی فایل
+git checkout <commit-hash> -- مسیر/فایل
+```
+
+---
+
+## . کار با GitHub
+
+### Fork کردن repository:
+
+1. به repository مورد نظر بروید
+2. روی "Fork" کلیک کنید
+3. repository را به حساب خود fork کنید
+
+### Pull Request:
+
+1. تغییرات خود را در branch جدید ایجاد کنید
+2. تغییرات را push کنید
+3. روی "New Pull Request" کلیک کنید
+4. توضیحات تغییرات را بنویسید
+
+### Issues:
+
+- برای گزارش باگ‌ها استفاده کنید
+- برای درخواست ویژگی‌های جدید استفاده کنید
+- برای سوالات و بحث استفاده کنید
+
+---
+
+## . تکالیف: تمرینات عملی
+
+این کارها را برای تقویت مهارت‌های خود انجام دهید:
+
+### ۱. ایجاد و Clone:
+
+- یک repository گیت‌هاب ایجاد کنید، آن را محلی clone کنید، فایل‌ها اضافه کنید، commit کنید و push کنید.
+
+### ۲. branch‌زنی و ادغام:
+
+- دو branch ایجاد کنید، تغییرات مختلف انجام دهید و ادغام را تمرین کنید.
+
+### ۳. شبیه‌سازی تعارض:
+
+- با تغییر همان خط در دو branch تعارض شبیه‌سازی کنید، سپس ادغام کنید و حل کنید.
+
+### ۴. سناریوی دنیای واقعی:
+
+- تصور کنید با دوست خود همکاری می‌کنید. شبیه‌سازی کنید دو نفر تغییرات متضاد push می‌کنند، این تعارض‌ها را حل کنید و فرآیند را به وضوح مستند کنید.
+
+### ۵. تمرین دستورات پیشرفته:
+
+- از stash برای ذخیره تغییرات موقت استفاده کنید
+- tag برای نسخه‌گذاری ایجاد کنید
+- تاریخچه commit ها را بررسی کنید
+
+---
+
+## . نکات پیشرفته
+
+### Git Hooks:
+
+```bash
+# مشاهده hooks موجود
+ls .git/hooks/
+
+# ایجاد hook سفارشی
+touch .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+### Git Aliases:
+
+```bash
+# ایجاد alias برای دستورات پرکاربرد
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+```
+
+### Git Workflow:
+
+1. **Feature Branch Workflow**: برای پروژه‌های کوچک
+2. **Gitflow**: برای پروژه‌های بزرگ
+3. **Trunk-Based Development**: برای تیم‌های بزرگ
+
+---
+
+🎯 **نقطه بررسی:**
+پس از تکمیل این راهنما، شما با اطمینان عملیات ضروری Git و GitHub را مدیریت می‌کنید، همکاری را مدیریت می‌کنید و تعارض‌ها را مثل حرفه‌ای‌ها حل می‌کنید!
+
+### منابع مفید:
+
+- [Git Documentation](https://git-scm.com/doc)
+- [GitHub Guides](https://guides.github.com/)
+- [Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf)
+- [Conventional Commits](https://www.conventionalcommits.org/)

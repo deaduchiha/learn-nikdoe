@@ -1,200 +1,200 @@
 ---
-title: Semantic HTML & Accessibility
-description: A zero-fluff, step-by-step path to rock-solid semantic HTML, bullet-proof accessibility, and confident front-end foundations—expanded with more HTML parts, examples, and best practices for everyone.
+title: HTML معنادار و دسترسی‌پذیری
+description: مسیر گام‌به‌گام بدون حاشیه برای HTML معنادار محکم، دسترسی‌پذیری بی‌نقص، و پایه‌های مطمئن فرانت‌اند—گسترش یافته با بخش‌های بیشتر HTML، مثال‌ها و بهترین شیوه‌ها برای همه.
 ---
 
-> **Nikode.ir Promise** > **Learn once. Build forever.** Our bite-sized lessons, real-world drills, and no-gatekeeping ethos get you shipping accessible sites **fast**. We keep examples clear and include extra parts of HTML so even if your English is basic, you’ll follow along.
-
----
-
-# 🌳 TRUNK — The Core Path
-
-Below is the **exact roadmap** we follow on **Nikode.ir**. Stick to the order; each “leaf” builds on the last. When you’re done, you’ll publish a fully accessible mini-site—**without a single line of JavaScript.**
-
-> **Pro Tip:** All demo repos and solution videos are linked at the end of every stage—exclusively on **Nikode.ir**.
+> **وعده نیکود** > **یکبار یاد بگیر. برای همیشه بساز.** درس‌های کوچک ما، تمرینات دنیای واقعی، و فلسفه بدون محدودیت ما به شما کمک می‌کند تا سایت‌های دسترسی‌پذیر را **سریع** منتشر کنید. ما مثال‌ها را واضح نگه می‌داریم و بخش‌های اضافی HTML را شامل می‌کنیم تا حتی اگر انگلیسی شما پایه است، بتوانید همراهی کنید.
 
 ---
 
-## 🥚 Stage 0 · Groundwork — _Why Accessibility First?_
+# 🌳 تنه — مسیر اصلی
 
-|          | Why it matters                        | Nikode.ir shortcut                                  |
-| -------- | ------------------------------------- | --------------------------------------------------- |
-| **20 %** | of users rely on assistive tech       | Screencast: _Using VoiceOver for the first time_    |
-| **SEO**  | Clean semantics × fast load           | PDF cheat-sheet: _Semantic tags that beat div-itis_ |
-| **ROI**  | Retro-fitting a11y → 💸 pain          | Calculator: _Cost of fixing vs. building right_     |
-| **UX**   | Better structure → easier to maintain | Article: _Semantic HTML and your development speed_ |
+در زیر **نقشه راه دقیق** است که ما در **نیکود** دنبال می‌کنیم. به ترتیب بچسبید؛ هر "برگ" بر روی قبلی ساخته می‌شود. وقتی تمام شدید، یک مینی‌سایت کاملاً دسترسی‌پذیر منتشر خواهید کرد—**بدون یک خط جاوااسکریپت.**
 
-> **Action:** Skim the cheat-sheet, then run **Nikode Audit** (our free bookmarklet) on any site you admire. Notice how semantic tags improve keyboard navigation.
+> **نکته حرفه‌ای:** تمام مخازن دمو و ویدیوهای راه‌حل در انتهای هر مرحله لینک شده‌اند—انحصاراً در **نیکود**.
 
 ---
 
-## 🏗️ Stage 1 · HTML Foundations
+## 🥚 مرحله ۰ · کار مقدماتی — _چرا دسترسی‌پذیری اول؟_
 
-### 1.1 Minimal Document
+|                   | چرا مهم است؟                        | میانبر نیکود                                              |
+| ----------------- | ----------------------------------- | --------------------------------------------------------- |
+| **۲۰٪**           | کاربران به فناوری کمکی وابسته هستند | اسکرین‌کست: _استفاده از VoiceOver برای اولین بار_         |
+| **سئو**           | معناداری تمیز × بارگذاری سریع       | چیت‌شیت PDF: _تگ‌های معنادار که div-itis را شکست می‌دهند_ |
+| **بازگشت سرمایه** | بازسازی a11y → 💸 درد               | ماشین حساب: _هزینه تعمیر در مقابل ساخت درست_              |
+| **تجربه کاربری**  | ساختار بهتر → نگهداری آسان‌تر       | مقاله: _HTML معنادار و سرعت توسعه شما_                    |
+
+> **عمل:** چیت‌شیت را مرور کنید، سپس **بازرسی نیکود** (بوکمارکلت رایگان ما) را روی هر سایتی که تحسین می‌کنید اجرا کنید. توجه کنید که چگونه تگ‌های معنادار ناوبری کیبورد را بهبود می‌دهند.
+
+---
+
+## 🏗️ مرحله ۱ · پایه‌های HTML
+
+### ۱.۱ سند حداقلی
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My First Page</title>
+    <title>اولین صفحه من</title>
   </head>
   <body>
-    <h1>Hello, world!</h1>
-    <p>Welcome to semantic HTML.</p>
+    <h1>سلام، دنیا!</h1>
+    <p>به HTML معنادار خوش آمدید.</p>
   </body>
 </html>
 ```
 
-**Checklist**
+**چک‌لیست**
 
-- `<!DOCTYPE html>` declares modern HTML.
-- `<html lang="en">`: tells browsers and screen readers the page is English.
-- `<meta charset="utf-8" />`: ensures characters show correctly.
-- `<meta name="viewport" content="width=device-width, initial-scale=1" />`: keeps mobile text readable.
-- One—and only one—`<h1>` per page. ✨
-- Validates in **Nikode Lint** (autofix built-in).
+- `<!DOCTYPE html>` HTML مدرن را اعلام می‌کند.
+- `<html lang="fa" dir="rtl">`: به مرورگرها و صفحه‌خوان‌ها می‌گوید صفحه فارسی است.
+- `<meta charset="utf-8" />`: اطمینان می‌دهد کاراکترها درست نمایش داده شوند.
+- `<meta name="viewport" content="width=device-width, initial-scale=1" />`: متن موبایل را خوانا نگه می‌دارد.
+- یک—و فقط یک—`<h1>` در هر صفحه. ✨
+- در **لینت نیکود** اعتبارسنجی می‌شود (تعمیر خودکار داخلی).
 
-**Best Practice**: Always start with this boilerplate. Even basic projects benefit from charset, viewport, and language settings.
-
----
-
-### 1.2 Tags, Elements & Attributes
-
-| Concept       | Example                                   | Key Points                                                                |
-| ------------- | ----------------------------------------- | ------------------------------------------------------------------------- |
-| **Tag**       | `<p>`                                     | The name inside angle brackets, like `p`, `img`, `a`, `div`.              |
-| **Element**   | `<p>Hello</p>`                            | Opening tag + content + closing tag. Some tags self-close (e.g. `<img>`). |
-| **Attribute** | `<img src="cat.jpg" alt="Cute kitten" />` | Additional info inside opening tag: `src`, `alt`, `href`, `id`, `class`.  |
-| **Void Tag**  | `<br>` `<img>` `<input>` `<hr>`           | Elements that do not wrap content—just `<br />` or `<hr />` for a line.   |
-
-> **Tip for non-native English readers:** Think of tags as “name labels,” elements as “pieces,” and attributes as “details” you attach to a piece.
+**بهترین شیوه**: همیشه با این قالب شروع کنید. حتی پروژه‌های پایه از تنظیمات charset، viewport و زبان بهره‌مند می‌شوند.
 
 ---
 
-### 1.3 Block vs. Inline Cheat-Sheet
+### ۱.۲ تگ‌ها، عناصر و ویژگی‌ها
 
-| **Block (starts new line)**                             | **Inline (flows with text)**             |
+| مفهوم       | مثال                                          | نکات کلیدی                                                        |
+| ----------- | --------------------------------------------- | ----------------------------------------------------------------- |
+| **تگ**      | `<p>`                                         | نام داخل براکت‌های زاویه‌دار، مثل `p`، `img`، `a`، `div`.         |
+| **عنصر**    | `<p>سلام</p>`                                 | تگ باز + محتوا + تگ بسته. برخی تگ‌ها خودبسته هستند (مثل `<img>`). |
+| **ویژگی**   | `<img src="گربه.jpg" alt="بچه گربه بامزه" />` | اطلاعات اضافی داخل تگ باز: `src`، `alt`، `href`، `id`، `class`.   |
+| **تگ خالی** | `<br>` `<img>` `<input>` `<hr>`               | عناصری که محتوا را نمی‌پیچند—فقط `<br />` یا `<hr />` برای یک خط. |
+
+> **نکته برای خوانندگان غیر انگلیسی زبان:** تگ‌ها را به عنوان "برچسب‌های نام"، عناصر را به عنوان "قطعات" و ویژگی‌ها را به عنوان "جزئیات" که به یک قطعه متصل می‌کنید در نظر بگیرید.
+
+---
+
+### ۱.۳ چیت‌شیت بلوک در مقابل درون‌خطی
+
+| **بلوک (خط جدید شروع می‌کند)**                          | **درون‌خطی (با متن جریان دارد)**         |
 | ------------------------------------------------------- | ---------------------------------------- |
 | `<header>` `<section>` `<article>` `<p>` `<ul>` `<div>` | `<span>` `<a>` `<strong>` `<em>` `<img>` |
 
-- **Block** elements take full width and start on a new line.
-- **Inline** elements sit inside a line of text.
+- عناصر **بلوک** عرض کامل می‌گیرند و روی خط جدید شروع می‌شوند.
+- عناصر **درون‌خطی** داخل یک خط متن قرار می‌گیرند.
 
 ---
 
-### 1.4 Self-Closing (Void) Tags
+### ۱.۴ تگ‌های خودبسته (خالی)
 
-- `<img src="photo.jpg" alt="Description" />`
-- `<input type="text" name="name" />`
-- `<br />` (line break)
-- `<hr />` (horizontal rule)
+- `<img src="عکس.jpg" alt="توضیح" />`
+- `<input type="text" name="نام" />`
+- `<br />` (شکستن خط)
+- `<hr />` (خط افقی)
 
-> **Remember**: Void tags do not wrap text. They always end immediately (`/>`).
+> **به یاد داشته باشید**: تگ‌های خالی متن را نمی‌پیچند. آنها همیشه بلافاصله تمام می‌شوند (`/>`).
 
 ---
 
-### 1.5 Nesting Rules & Validation
+### ۱.۵ قوانین تودرتو و اعتبارسنجی
 
-- **Proper nesting**: Children go _inside_ parents.
-- **Closing order**: Close the innermost first (LIFO):
+- **تودرتو درست**: فرزندان _داخل_ والدین می‌روند.
+- **ترتیب بستن**: ابتدا درونی‌ترین را ببندید (LIFO):
 
   ```html
   <div>
-    <p>Text <strong>bold</strong></p>
+    <p>متن <strong>پررنگ</strong></p>
   </div>
   ```
 
-- **Invalid** example (do not do):
+- مثال **نامعتبر** (انجام ندهید):
 
   ```html
-  <p>Text <strong>Oops</p></strong>
+  <p>متن <strong>اوه</p></strong>
   ```
 
-- **Validation**: Use **Nikode Lint** or [validator.w3.org](https://validator.w3.org) to catch mistakes early.
+- **اعتبارسنجی**: از **لینت نیکود** یا [validator.w3.org](https://validator.w3.org) برای تشخیص زودهنگام اشتباهات استفاده کنید.
 
-> **Mini-Drill (10 min):** Build a two-section page with headings, paragraphs, lists, and an image—**no CSS**. Validate with **Nikode Lint** and post your score in the community forum.
+> **تمرین کوچک (۱۰ دقیقه):** یک صفحه دو بخشی با عناوین، پاراگراف‌ها، لیست‌ها و یک تصویر بسازید—**بدون CSS**. با **لینت نیکود** اعتبارسنجی کنید و امتیاز خود را در انجمن جامعه ارسال کنید.
 
 ---
 
-## 👓 Stage 2 · Document Landmarks
+## 👓 مرحله ۲ · نشانه‌های سند
 
-HTML5 introduced **landmark** elements so assistive tech can jump straight to sections. Landmarks help with navigation.
+HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمکی بتواند مستقیماً به بخش‌ها بپرد. نشانه‌ها به ناوبری کمک می‌کنند.
 
-### 2.1 Semantic Skeleton
+### ۲.۱ اسکلت معنادار
 
 ```html
 <header>
-  <h1>My Portfolio</h1>
-  <nav aria-label="Primary">
+  <h1>نمونه کار من</h1>
+  <nav aria-label="اصلی">
     <ul>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#پروژه‌ها">پروژه‌ها</a></li>
+      <li><a href="#درباره">درباره</a></li>
+      <li><a href="#تماس">تماس</a></li>
     </ul>
   </nav>
 </header>
 
-<main id="content">
-  <section id="projects">
-    <h2>Featured Projects</h2>
+<main id="محتوا">
+  <section id="پروژه‌ها">
+    <h2>پروژه‌های ویژه</h2>
     <article>
-      <h3>Project One</h3>
-      <p>Short description...</p>
+      <h3>پروژه اول</h3>
+      <p>توضیح کوتاه...</p>
     </article>
   </section>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>Write something about yourself.</p>
+  <section id="درباره">
+    <h2>درباره من</h2>
+    <p>چیزی درباره خودتان بنویسید.</p>
   </section>
 </main>
 
 <aside>
-  <h2>Related Links</h2>
+  <h2>لینک‌های مرتبط</h2>
   <ul>
-    <li><a href="https://example.com">External Resource</a></li>
-    <li><a href="blog.html">Blog</a></li>
+    <li><a href="https://example.com">منبع خارجی</a></li>
+    <li><a href="blog.html">وبلاگ</a></li>
   </ul>
 </aside>
 
 <footer>
-  <p>© 2025 Your Name</p>
+  <p>© ۲۰۲۵ نام شما</p>
 </footer>
 ```
 
-**Rules of Thumb**
+**قوانین سرانگشتی**
 
-1. Only _one_ `<main>` per page.
-2. Every landmark (`<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>`, `<form>` if standalone) should be discoverable via the _Rotor_ in VoiceOver.
-3. Use `<section>` / `<article>` for groups that earn their own heading.
-4. Use `<aside>` for tangential content (e.g., sidebar, related links).
+۱. فقط _یک_ `<main>` در هر صفحه.
+۲. هر نشانه (`<header>`، `<nav>`، `<main>`، `<aside>`، `<footer>`، `<form>` اگر مستقل باشد) باید از طریق _Rotor_ در VoiceOver قابل کشف باشد.
+۳. از `<section>` / `<article>` برای گروه‌هایی که عنوان خودشان را دارند استفاده کنید.
+۴. از `<aside>` برای محتوای حاشیه‌ای استفاده کنید (مثل نوار کناری، لینک‌های مرتبط).
 
-> **Nikode Deep-Dive:** Interactive landmark quiz with instant screen-reader preview.
+> **غور عمیق نیکود:** آزمون تعاملی نشانه با پیش‌نمایش فوری صفحه‌خوان.
 
 ---
 
-### 2.2 `<nav>` and Skip Links
+### ۲.۲ `<nav>` و لینک‌های پرش
 
-- Wrap primary navigation in `<nav>`.
-- Add `aria-label` if there are multiple navs:
+- ناوبری اصلی را در `<nav>` بپیچید.
+- اگر چندین nav وجود دارد `aria-label` اضافه کنید:
 
   ```html
-  <nav aria-label="Footer Navigation">
+  <nav aria-label="ناوبری فوتر">
     <ul>
       …
     </ul>
   </nav>
   ```
 
-- **Skip Link**: Let keyboard users jump to main content quickly.
+- **لینک پرش**: به کاربران کیبورد اجازه دهید سریع به محتوای اصلی بپرند.
 
   ```html
-  <a href="#content" class="skip-link">Skip to main</a>
+  <a href="#محتوا" class="skip-link">پرش به محتوا</a>
   ```
 
-- **CSS** (show only on focus):
+- **CSS** (فقط روی فوکوس نمایش دهید):
 
   ```css
   .skip-link {
@@ -210,380 +210,389 @@ HTML5 introduced **landmark** elements so assistive tech can jump straight to se
   }
   ```
 
-> **Tip**: Place skip link as the first child of `<body>`.
+> **نکته**: لینک پرش را به عنوان اولین فرزند `<body>` قرار دهید.
 
 ---
 
-## 🧭 Stage 3 · Text Structure & Headings
+## 🧭 مرحله ۳ · ساختار متن و عناوین
 
-### 3.1 Heading Hierarchy
+### ۳.۱ سلسله مراتب عناوین
 
 ```html
-<h1>Recipe Blog</h1>
+<h1>وبلاگ دستور پخت</h1>
 
 <section>
-  <h2>Chocolate Cake</h2>
-  <h3>Ingredients</h3>
+  <h2>کیک شکلاتی</h2>
+  <h3>مواد</h3>
   <ul>
-    <li>1 cup flour</li>
-    <li>2 eggs</li>
-    <li>1/2 cup sugar</li>
+    <li>۱ فنجان آرد</li>
+    <li>۲ تخم مرغ</li>
+    <li>۱/۲ فنجان شکر</li>
   </ul>
-  <h3>Steps</h3>
+  <h3>مراحل</h3>
   <ol>
-    <li>Preheat oven...</li>
-    <li>Mix ingredients...</li>
-    <li>Bake 30 minutes...</li>
+    <li>فر را گرم کنید...</li>
+    <li>مواد را مخلوط کنید...</li>
+    <li>۳۰ دقیقه بپزید...</li>
   </ol>
 </section>
 
 <section>
-  <h2>Lemon Tart</h2>
-  <h3>Ingredients</h3>
-  <h3>Steps</h3>
+  <h2>تارت لیمو</h2>
+  <h3>مواد</h3>
+  <h3>مراحل</h3>
 </section>
 ```
 
-- One—and only one—`<h1>` per page. ✅
-- Follow order: do not jump levels (`<h1>` → `<h3>`). ❌
-- Headings must be nested logically for outline: `<h1>`, then `<h2>`, then `<h3>`, etc.
-- Don’t use `role="heading"` unless you have a very complex widget. Native headings win.
+- یک—و فقط یک—`<h1>` در هر صفحه. ✅
+- ترتیب را دنبال کنید: سطوح را نپرید (`<h1>` → `<h3>`). ❌
+- عناوین باید منطقی برای طرح کلی تودرتو شوند: `<h1>`، سپس `<h2>`، سپس `<h3>`، و غیره.
+- از `role="heading"` استفاده نکنید مگر اینکه ویجت بسیار پیچیده‌ای داشته باشید. عناوین بومی برنده می‌شوند.
 
-> **Try It:** Paste your markup into **Nikode Outline** (online) to visualize the tree.
+> **امتحان کنید:** کد خود را در **طرح کلی نیکود** (آنلاین) بچسبانید تا درخت را تجسم کنید.
 
 ---
 
-### 3.2 Paragraphs, Lists & Inline Text
+### ۳.۲ پاراگراف‌ها، لیست‌ها و متن درون‌خطی
 
-**Paragraph (`<p>`)**
+**پاراگراف (`<p>`)**
 
 ```html
 <p>
-  HTML is the backbone of every web page. Write simple sentences in
-  <strong>paragraphs</strong>.
+  HTML ستون فقرات هر صفحه وب است. جملات ساده را در
+  <strong>پاراگراف‌ها</strong> بنویسید.
 </p>
 ```
 
-**Unordered List (`<ul>`)**
+**لیست نامرتب (`<ul>`)**
 
 ```html
 <ul>
-  <li>First item</li>
-  <li>Second item</li>
-  <li>Third item</li>
+  <li>مورد اول</li>
+  <li>مورد دوم</li>
+  <li>مورد سوم</li>
 </ul>
 ```
 
-**Ordered List (`<ol>`)**
+**لیست مرتب (`<ol>`)**
 
 ```html
 <ol>
-  <li>Step one</li>
-  <li>Step two</li>
-  <li>Step three</li>
+  <li>مرحله اول</li>
+  <li>مرحله دوم</li>
+  <li>مرحله سوم</li>
 </ol>
 ```
 
-**Description List (`<dl>`)**
+**لیست توضیحات (`<dl>`)**
 
 ```html
 <dl>
   <dt>HTML</dt>
-  <dd>HyperText Markup Language</dd>
+  <dd>زبان نشانه‌گذاری ابرمتن</dd>
   <dt>CSS</dt>
-  <dd>Cascading Style Sheets</dd>
+  <dd>صفحات استایل آبشاری</dd>
 </dl>
 ```
 
-**Inline Text Tags**
+**تگ‌های متن درون‌خطی**
 
-- `<strong>`: important text (often bold).
-- `<em>`: emphasis (often italic).
-- `<small>`: smaller fine print.
-- `<mark>`: highlighted text.
-- `<time datetime="2025-06-04">June 4, 2025</time>`: date/time with machine-readable format.
+- `<strong>`: متن مهم (اغلب پررنگ).
+- `<em>`: تأکید (اغلب ایتالیک).
+- `<small>`: متن ریزتر.
+- `<mark>`: متن برجسته شده.
+- `<time datetime="۲۰۲۵-۰۶-۰۴">۴ خرداد ۱۴۰۴</time>`: تاریخ/زمان با فرمت قابل خواندن ماشین.
 
-> **Best Practice**: Use lists when order or grouping matters. Screen readers announce the number of items.
+> **بهترین شیوه**: از لیست‌ها زمانی استفاده کنید که ترتیب یا گروه‌بندی مهم است. صفحه‌خوان‌ها تعداد موارد را اعلام می‌کنند.
 
 ---
 
-## ✍️ Stage 4 · Accessible Forms & User Input
+## ✍️ مرحله ۴ · فرم‌های دسترسی‌پذیر و ورودی کاربر
 
-Forms are critical for interaction. Every control must have a visible or hidden label.
+فرم‌ها برای تعامل حیاتی هستند. هر کنترل باید برچسب قابل مشاهده یا پنهان داشته باشد.
 
-### 4.1 Basic Form Structure
+### ۴.۱ ساختار فرم پایه
 
 ```html
-<form action="/subscribe" method="post" novalidate>
+<form action="/اشتراک" method="post" novalidate>
   <fieldset>
-    <legend>Email Newsletter</legend>
+    <legend>خبرنامه ایمیل</legend>
 
-    <label for="email">Email address</label>
+    <label for="email">آدرس ایمیل</label>
     <input
       type="email"
       id="email"
       name="email"
       required
       aria-describedby="email-hint"
-      placeholder="you@example.com"
+      placeholder="شما@مثال.com"
     />
-    <p id="email-hint">We’ll never share your email.</p>
+    <p id="email-hint">ما هرگز ایمیل شما را به اشتراک نمی‌گذاریم.</p>
 
-    <button type="submit">Subscribe</button>
+    <button type="submit">اشتراک</button>
   </fieldset>
 </form>
 ```
 
-- **`<fieldset>` + `<legend>`**: groups related controls.
-- **`<label for>` ↔ `id`**: connect label and field.
-- **`aria-describedby`**: link extra hint or error message.
-- **`required` attribute**: tells browser and AT (assistive tech) it’s mandatory.
-- Use `type="email"`, `type="number"`, etc., for input validation.
+- **`<fieldset>` + `<legend>`**: کنترل‌های مرتبط را گروه‌بندی می‌کند.
+- **`<label for>` ↔ `id`**: برچسب و فیلد را متصل می‌کند.
+- **`aria-describedby`**: راهنمای اضافی یا پیام خطا را لینک می‌کند.
+- **ویژگی `required`**: به مرورگر و AT (فناوری کمکی) می‌گوید اجباری است.
+- از `type="email"`، `type="number"` و غیره برای اعتبارسنجی ورودی استفاده کنید.
 
 ---
 
-### 4.2 Text Input, Textarea & Select
+### ۴.۲ ورودی متن، textarea و select
 
-**Text Input**
+**ورودی متن**
 
 ```html
-<label for="username">Username</label>
+<label for="username">نام کاربری</label>
 <input type="text" id="username" name="username" required />
 ```
 
 **Textarea**
 
 ```html
-<label for="bio">Short Bio</label>
+<label for="bio">بیو کوتاه</label>
 <textarea
   id="bio"
   name="bio"
   rows="4"
   cols="50"
-  placeholder="Tell us about you."
+  placeholder="درباره خودتان به ما بگویید."
 ></textarea>
 ```
 
-**Select Menu**
+**منوی انتخاب**
 
 ```html
-<label for="country">Country</label>
+<label for="country">کشور</label>
 <select id="country" name="country">
-  <option value="">Select one</option>
-  <option value="us">United States</option>
-  <option value="ca">Canada</option>
+  <option value="">یکی انتخاب کنید</option>
+  <option value="ir">ایران</option>
+  <option value="us">ایالات متحده</option>
 </select>
 ```
 
-- Always include `<label>` for `<input>` and `<textarea>`.
-- For complex forms, group with `<fieldset>`.
-- Use `<option>` inside `<select>`. The first `<option>` can be a placeholder.
+- همیشه `<label>` برای `<input>` و `<textarea>` شامل کنید.
+- برای فرم‌های پیچیده، با `<fieldset>` گروه‌بندی کنید.
+- از `<option>` داخل `<select>` استفاده کنید. اولین `<option>` می‌تواند یک placeholder باشد.
 
 ---
 
-### 4.3 Checkboxes & Radio Buttons
+### ۴.۳ چک‌باکس‌ها و دکمه‌های رادیویی
 
-**Checkbox Group**
+**گروه چک‌باکس**
 
 ```html
 <fieldset>
-  <legend>Subscribe to newsletters</legend>
+  <legend>اشتراک در خبرنامه‌ها</legend>
   <input type="checkbox" id="news" name="newsletter" value="news" />
-  <label for="news">News</label>
+  <label for="news">اخبار</label>
   <input type="checkbox" id="updates" name="newsletter" value="updates" />
-  <label for="updates">Product Updates</label>
+  <label for="updates">به‌روزرسانی محصول</label>
 </fieldset>
 ```
 
-**Radio Button Group**
+**گروه دکمه رادیویی**
 
 ```html
 <fieldset>
-  <legend>Preferred Contact Method</legend>
+  <legend>روش تماس ترجیحی</legend>
   <input type="radio" id="contact-email" name="contact" value="email" checked />
-  <label for="contact-email">Email</label>
+  <label for="contact-email">ایمیل</label>
   <input type="radio" id="contact-phone" name="contact" value="phone" />
-  <label for="contact-phone">Phone</label>
+  <label for="contact-phone">تلفن</label>
 </fieldset>
 ```
 
-- **Group** checkboxes or radios inside a single `<fieldset>` with a `<legend>`.
-- Each `<input>` needs its own `<label>`.
-- Screen readers announce the legend before listing options.
+- **گروه‌بندی** چک‌باکس‌ها یا رادیوها داخل یک `<fieldset>` با یک `<legend>`.
+- هر `<input>` به `<label>` خودش نیاز دارد.
+- صفحه‌خوان‌ها legend را قبل از لیست کردن گزینه‌ها اعلام می‌کنند.
 
 ---
 
-### 4.4 Form Validation & Error Messages
+### ۴.۴ اعتبارسنجی فرم و پیام‌های خطا
 
-1. Use HTML5 validation (`required`, `type="email"`, `minlength`, `maxlength`).
-2. Provide **inline error messages** using `aria-live` or `role="alert"`.
+۱. از اعتبارسنجی HTML5 (`required`، `type="email"`، `minlength`، `maxlength`) استفاده کنید.
+۲. **پیام‌های خطای درون‌خطی** با استفاده از `aria-live` یا `role="alert"` ارائه دهید.
 
-   ```html
-   <div id="username-error" role="alert" aria-live="assertive"></div>
-   <label for="username">Username</label>
-   <input
-     type="text"
-     id="username"
-     name="username"
-     aria-describedby="username-error"
-   />
-   ```
+```html
+<div id="username-error" role="alert" aria-live="assertive"></div>
+<label for="username">نام کاربری</label>
+<input
+  type="text"
+  id="username"
+  name="username"
+  aria-describedby="username-error"
+/>
+```
 
-3. After form submission, show errors next to fields, e.g.:
+۳. پس از ارسال فرم، خطاها را کنار فیلدها نمایش دهید، مثلاً:
 
-   ```html
-   <p id="username-error">Username is required.</p>
-   ```
+```html
+<p id="username-error">نام کاربری الزامی است.</p>
+```
 
-> **Nikode Challenge:** Convert a bogus form full of anti-patterns into a WCAG-compliant gem. Auto-grading included.
+> **چالش نیکود:** یک فرم جعلی پر از الگوهای ضد را به یک گوهر WCAG-compliant تبدیل کنید. نمره‌دهی خودکار شامل است.
 
 ---
 
-## 🖼️ Stage 5 · Images, Figures & Alt Text
+## 🖼️ مرحله ۵ · تصاویر، شکل‌ها و متن جایگزین
 
-Images need meaningful `alt` or should be hidden if decorative.
+تصاویر به `alt` معنادار نیاز دارند یا اگر تزئینی هستند باید پنهان شوند.
 
-### 5.1 `alt` Attribute Patterns
+### ۵.۱ الگوهای ویژگی `alt`
 
-| Purpose               | Correct `alt`                                                |
-| --------------------- | ------------------------------------------------------------ |
-| **Informative**       | `alt="Four team members standing in front of a whiteboard"`  |
-| **Decorative**        | `alt="" role="presentation"`                                 |
-| **Functional**        | `alt="Download PDF brochure"`                                |
-| **Complex (diagram)** | Use `<figure>` + `<figcaption>` and a long description link: |
+| هدف                 | `alt` صحیح                                                       |
+| ------------------- | ---------------------------------------------------------------- |
+| **اطلاعاتی**        | `alt="چهار عضو تیم در مقابل یک تخته سفید ایستاده‌اند"`           |
+| **تزئینی**          | `alt="" role="presentation"`                                     |
+| **عملکردی**         | `alt="دانلود بروشور PDF"`                                        |
+| **پیچیده (نمودار)** | از `<figure>` + `<figcaption>` و لینک توضیح طولانی استفاده کنید: |
 
-````html
+```html
 <figure>
-  <img src="chart.png" alt="Sales chart" />
+  <img src="نمودار.png" alt="نمودار فروش" />
   <figcaption>
-    Sales rose 20% in Q1. <a href="#longdesc">Long description</a>
+    فروش در Q1 ۲۰٪ افزایش یافت. <a href="#longdesc">توضیح طولانی</a>
   </figcaption>
 </figure>
 <div id="longdesc">
-  Full details: The chart shows Q1 sales increased due to …
+  جزئیات کامل: نمودار نشان می‌دهد فروش Q1 به دلیل … افزایش یافت
 </div>
-``` | **Rules** 1. If the image _adds_ meaning, write a clear, concise
-description. 2. If not, hide from assistive tech: `alt="" role="presentation"`.
-3. Avoid “image of...” or “picture of...” in the alt—screen readers announce
-“image” automatically. --- ### 5.2 Responsive & High-DPI Images ```html
-<img
-  src="photo-small.jpg"
-  srcset="photo-small.jpg 480w, photo-medium.jpg 800w, photo-large.jpg 1200w"
-  sizes="(max-width: 600px) 480px, (max-width: 1200px) 800px, 1200px"
-  alt="Scenic mountain landscape"
-/>
-````
+```
 
-- **`srcset`**: list of image files with width descriptors (`w`).
-- **`sizes`**: tells browser which image to pick at different viewport widths.
-- Ensures fast loading and crisp images on high-DPI screens.
+**قوانین**
+
+۱. اگر تصویر _معنی_ اضافه می‌کند، یک توضیح واضح و مختصر بنویسید.
+۲. اگر نه، از فناوری کمکی پنهان کنید: `alt="" role="presentation"`.
+۳. از "تصویر..." یا "عکس..." در alt اجتناب کنید—صفحه‌خوان‌ها "تصویر" را خودکار اعلام می‌کنند.
 
 ---
 
-## 🎵 Stage 6 · Multimedia, Links & Tables
+### ۵.۲ تصاویر واکنش‌گرا و High-DPI
 
-### 6.1 Audio & Video with Captions
+```html
+<img
+  src="عکس-کوچک.jpg"
+  srcset="عکس-کوچک.jpg 480w, عکس-متوسط.jpg 800w, عکس-بزرگ.jpg 1200w"
+  sizes="(max-width: 600px) 480px, (max-width: 1200px) 800px, 1200px"
+  alt="منظره کوهستان"
+/>
+```
+
+- **`srcset`**: لیست فایل‌های تصویر با توصیف‌کننده‌های عرض (`w`).
+- **`sizes`**: به مرورگر می‌گوید کدام تصویر را در عرض‌های مختلف viewport انتخاب کند.
+- بارگذاری سریع و تصاویر تیز روی صفحه‌های high-DPI را تضمین می‌کند.
+
+---
+
+## 🎵 مرحله ۶ · چندرسانه‌ای، لینک‌ها و جداول
+
+### ۶.۱ صدا و ویدیو با زیرنویس
 
 ```html
 <video controls>
   <source src="video.mp4" type="video/mp4" />
   <track
     kind="captions"
-    src="captions_en.vtt"
-    srclang="en"
-    label="English"
+    src="captions_fa.vtt"
+    srclang="fa"
+    label="فارسی"
     default
   />
-  Your browser does not support HTML5 video.
+  مرورگر شما از ویدیو HTML5 پشتیبانی نمی‌کند.
 </video>
 
 <audio controls>
   <source src="audio.mp3" type="audio/mpeg" />
-  Your browser does not support the audio element.
+  مرورگر شما از عنصر صدا پشتیبانی نمی‌کند.
 </audio>
 ```
 
-- Always include `controls`.
-- For video, provide at least one caption track (`<track kind="captions">`).
-- For audio-only, consider providing a transcript in text.
+- همیشه `controls` را شامل کنید.
+- برای ویدیو، حداقل یک مسیر زیرنویس (`<track kind="captions">`) ارائه دهید.
+- برای فقط صدا، ارائه رونوشت در متن را در نظر بگیرید.
 
 ---
 
-### 6.2 Links & Accessible Navigation
+### ۶.۲ لینک‌ها و ناوبری دسترسی‌پذیر
 
 ```html
-<a href="about.html">About Us</a>
+<a href="about.html">درباره ما</a>
 <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-  External Link (opens in new tab)
+  لینک خارجی (در تب جدید باز می‌شود)
 </a>
 ```
 
-**Best Practices**
+**بهترین شیوه‌ها**
 
-- **Descriptive link text**: “Click here” is vague. Use “Read our privacy policy.”
-- **`target="_blank"`**: if opening in new tab, add `rel="noopener noreferrer"`.
-- Use `title="..."` sparingly. Only when link text alone is ambiguous.
+- **متن لینک توصیفی**: "اینجا کلیک کنید" مبهم است. از "سیاست حریم خصوصی ما را بخوانید" استفاده کنید.
+- **`target="_blank"`**: اگر در تب جدید باز می‌شود، `rel="noopener noreferrer"` اضافه کنید.
+- از `title="..."` به ندرت استفاده کنید. فقط زمانی که متن لینک به تنهایی مبهم است.
 
 ---
 
-### 6.3 Tables for Tabular Data
+### ۶.۳ جداول برای داده‌های جدولی
 
 ```html
 <table>
   <caption>
-    Monthly Sales Data
+    داده‌های فروش ماهانه
   </caption>
   <thead>
     <tr>
-      <th scope="col">Month</th>
-      <th scope="col">Revenue</th>
-      <th scope="col">Expenses</th>
+      <th scope="col">ماه</th>
+      <th scope="col">درآمد</th>
+      <th scope="col">هزینه‌ها</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row">January</th>
-      <td>$10,000</td>
-      <td>$7,000</td>
+      <th scope="row">فروردین</th>
+      <td>۱۰,۰۰۰ تومان</td>
+      <td>۷,۰۰۰ تومان</td>
     </tr>
     <tr>
-      <th scope="row">February</th>
-      <td>$12,000</td>
-      <td>$8,000</td>
+      <th scope="row">اردیبهشت</th>
+      <td>۱۲,۰۰۰ تومان</td>
+      <td>۸,۰۰۰ تومان</td>
     </tr>
   </tbody>
 </table>
 ```
 
-- `<caption>`: brief explanation of the table’s purpose.
-- Use `<thead>`, `<tbody>`, `<tfoot>` for structure.
-- `scope="col"` or `scope="row"` for header cells so screen readers know relationships.
-- Avoid using tables for layout. Use CSS instead.
+- `<caption>`: توضیح مختصر هدف جدول.
+- از `<thead>`، `<tbody>`، `<tfoot>` برای ساختار استفاده کنید.
+- `scope="col"` یا `scope="row"` برای سلول‌های هدر تا صفحه‌خوان‌ها روابط را بدانند.
+- از جداول برای layout استفاده نکنید. از CSS استفاده کنید.
 
 ---
 
-## 🚦 Stage 7 · ARIA Labelling & Focus Management
+## 🚦 مرحله ۷ · برچسب‌گذاری ARIA و مدیریت فوکوس
 
-ARIA adds extra accessibility when HTML cannot handle it alone. Use sparingly.
+ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML به تنهایی نمی‌تواند آن را مدیریت کند. به ندرت استفاده کنید.
 
-### 7.1 Common ARIA Attributes
+### ۷.۱ ویژگی‌های ARIA رایج
 
-| Need                        | Attribute            | Example Snippet                                    |
-| --------------------------- | -------------------- | -------------------------------------------------- |
-| Hidden label (icon button)  | `aria-label`         | `<button aria-label="Close">✖</button>`            |
-| Visible label external      | `aria-labelledby`    | `<table aria-labelledby="pricing">…</table>`       |
-| Extra hint or error message | `aria-describedby`   | `<input aria-describedby="email-hint" />`          |
-| Dynamic role (live region)  | `aria-live="polite"` | `<div aria-live="polite">Loading updates...</div>` |
+| نیاز                      | ویژگی                | مثال کد                                                           |
+| ------------------------- | -------------------- | ----------------------------------------------------------------- |
+| برچسب پنهان (دکمه آیکون)  | `aria-label`         | `<button aria-label="بستن">✖</button>`                            |
+| برچسب قابل مشاهده خارجی   | `aria-labelledby`    | `<table aria-labelledby="قیمت‌گذاری">…</table>`                   |
+| راهنمای اضافی یا پیام خطا | `aria-describedby`   | `<input aria-describedby="email-hint" />`                         |
+| نقش پویا (منطقه زنده)     | `aria-live="polite"` | `<div aria-live="polite">در حال بارگذاری به‌روزرسانی‌ها...</div>` |
 
-> **Reading order**:
+> **ترتیب خواندن**:
 >
-> 1. `aria-labelledby`
-> 2. Visible `<label>`
-> 3. `aria-describedby`
+> ۱. `aria-labelledby`
+> ۲. `<label>` قابل مشاهده
+> ۳. `aria-describedby`
 
 ---
 
-### 7.2 Focus Styles & Keyboard Accessibility
+### ۷.۲ استایل‌های فوکوس و دسترسی‌پذیری کیبورد
 
 ```css
 :where(a, button, input, select, textarea, [tabindex]) :focus-visible {
@@ -592,39 +601,39 @@ ARIA adds extra accessibility when HTML cannot handle it alone. Use sparingly.
 }
 ```
 
-- **`:focus-visible`** ensures focus style shows only when navigating via keyboard.
-- Always ensure interactive elements (links, buttons, form controls) are reachable with **Tab**.
-- Don’t remove outline without replacing it with a visible style—keyboard users need it.
+- **`:focus-visible`** اطمینان می‌دهد استایل فوکوس فقط هنگام ناوبری از طریق کیبورد نمایش داده شود.
+- همیشه اطمینان حاصل کنید عناصر تعاملی (لینک‌ها، دکمه‌ها، کنترل‌های فرم) با **Tab** قابل دسترسی هستند.
+- outline را بدون جایگزینی با یک استایل قابل مشاهده حذف نکنید—کاربران کیبورد به آن نیاز دارند.
 
 ---
 
-## 🔧 Stage 8 · Additional HTML Parts & Best Practices
+## 🔧 مرحله ۸ · بخش‌های اضافی HTML و بهترین شیوه‌ها
 
-Beyond the core elements, here are more tags you’ll use every day. We provide simple examples and reasons.
+فراتر از عناصر اصلی، اینجا تگ‌های بیشتری هستند که هر روز استفاده خواهید کرد. ما مثال‌های ساده و دلایل ارائه می‌دهیم.
 
-### 8.1 Metadata & `<head>` Elements
+### ۸.۱ متادیتا و عناصر `<head>`
 
 ```html
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="A guide to semantic HTML & accessibility" />
+  <meta name="description" content="راهنمای HTML معنادار و دسترسی‌پذیری" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <title>Semantic HTML Guide</title>
+  <title>راهنمای HTML معنادار</title>
 </head>
 ```
 
-- `<meta name="description">`: summary for search engines.
-- `<link rel="stylesheet">`: link CSS files.
-- `<link rel="icon">`: site icon in browser tabs.
-- Consider `<meta name="author">`, `<meta name="keywords">` (though less critical for SEO today).
+- `<meta name="description">`: خلاصه برای موتورهای جستجو.
+- `<link rel="stylesheet">`: فایل‌های CSS را لینک کنید.
+- `<link rel="icon">`: آیکون سایت در تب‌های مرورگر.
+- `<meta name="author">`، `<meta name="keywords">` را در نظر بگیرید (اگرچه امروز برای سئو کمتر حیاتی هستند).
 
 ---
 
-### 8.2 Embedding SVG & Icons
+### ۸.۲ جاسازی SVG و آیکون‌ها
 
-Inline SVG example:
+مثال SVG درون‌خطی:
 
 ```html
 <svg
@@ -638,10 +647,10 @@ Inline SVG example:
 </svg>
 ```
 
-- For decorative SVGs, add `aria-hidden="true"`.
-- If SVG conveys meaning, include a `<title>` inside `<svg>`.
+- برای SVG‌های تزئینی، `aria-hidden="true"` اضافه کنید.
+- اگر SVG معنی منتقل می‌کند، `<title>` داخل `<svg>` شامل کنید.
 
-Example with title:
+مثال با عنوان:
 
 ```html
 <svg
@@ -651,23 +660,23 @@ Example with title:
   role="img"
   aria-labelledby="triangleTitle"
 >
-  <title id="triangleTitle">Warning Triangle Icon</title>
+  <title id="triangleTitle">آیکون مثلث هشدار</title>
   <path d="M50 5 L95 95 H5 Z" fill="orange" />
 </svg>
 ```
 
 ---
 
-### 8.3 Embedding External Content
+### ۸.۳ جاسازی محتوای خارجی
 
-**YouTube video** (with privacy improvement):
+**ویدیو یوتیوب** (با بهبود حریم خصوصی):
 
 ```html
 <iframe
   width="560"
   height="315"
   src="https://www.youtube-nocookie.com/embed/VIDEO_ID"
-  title="YouTube video player"
+  title="پخش‌کننده ویدیو یوتیوب"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowfullscreen
@@ -675,136 +684,136 @@ Example with title:
 </iframe>
 ```
 
-- Use `title="..."` on `<iframe>` so screen readers know the purpose.
-- Prefer “nocookie” domain to reduce tracking.
+- از `title="..."` روی `<iframe>` استفاده کنید تا صفحه‌خوان‌ها هدف را بدانند.
+- دامنه "nocookie" را برای کاهش ردیابی ترجیح دهید.
 
 ---
 
-### 8.4 Progressive Enhancement & No-JS Fallback
+### ۸.۴ بهبود تدریجی و پشتیبانی بدون JS
 
-When you eventually add JavaScript, always provide a working HTML/CSS fallback:
+وقتی سرانجام جاوااسکریپت اضافه می‌کنید، همیشه یک پشتیبانی HTML/CSS کارآمد ارائه دهید:
 
 ```html
-<button id="menu-toggle">Menu</button>
+<button id="menu-toggle">منو</button>
 <nav id="site-nav">
   <ul>
-    <li><a href="/">Home</a></li>
-    <!-- more links -->
+    <li><a href="/">خانه</a></li>
+    <!-- لینک‌های بیشتر -->
   </ul>
 </nav>
 
 <script>
-  // JavaScript toggles the “open” class
+  // جاوااسکریپت کلاس "open" را تغییر می‌دهد
   document.getElementById("menu-toggle").addEventListener("click", () => {
     document.getElementById("site-nav").classList.toggle("open");
   });
 </script>
 ```
 
-- Without JS, the menu is still visible.
-- With JS, you enhance it with show/hide and animations.
+- بدون JS، منو همچنان قابل مشاهده است.
+- با JS، آن را با نمایش/پنهان و انیمیشن‌ها بهبود می‌دهید.
 
 ---
 
-## 🛠️ Capstone · Build Your Accessible “About Me” (HTML-Only)
+## 🛠️ پروژه نهایی · "درباره من" دسترسی‌پذیر خود را بسازید (فقط HTML)
 
-1. **Semantic landmarks**: `<header>`, `<nav>`, `<main>`, `<aside>` (optional), `<footer>`.
-2. **Profile photo**: use `<img src="..." alt="Descriptive text" />`.
-3. **Contact form**:
+۱. **نشانه‌های معنادار**: `<header>`، `<nav>`، `<main>`، `<aside>` (اختیاری)، `<footer>`.
+۲. **عکس پروفایل**: از `<img src="..." alt="متن توصیفی" />` استفاده کنید.
+۳. **فرم تماس**:
 
-   - Email + message fields.
-   - Use proper `<label>`, `<fieldset>`, and `aria-describedby`.
+- فیلدهای ایمیل + پیام.
+- از `<label>`، `<fieldset>` و `aria-describedby` درست استفاده کنید.
 
-4. **WCAG AA colour palette**: use **Nikode Contrast** checker to pick colors.
-5. **Proper heading levels**: `<h1>` → `<h3>`, never skip.
-6. **Custom focus styles**: via CSS.
-7. **Responsive image**: use `srcset` + `sizes`.
-8. **External links**: all open in same tab unless necessary; add `rel="noopener noreferrer"` for new tabs.
-9. **SVG icon**: include an inline SVG with `aria-hidden` or a proper `<title>`.
+۴. **پالت رنگ WCAG AA**: از **بررسی‌کننده کنتراست نیکود** برای انتخاب رنگ‌ها استفاده کنید.
+۵. **سطوح عنوان درست**: `<h1>` → `<h3>`، هرگز نپرید.
+۶. **استایل‌های فوکوس سفارشی**: از طریق CSS.
+۷. **تصویر واکنش‌گرا**: از `srcset` + `sizes` استفاده کنید.
+۸. **لینک‌های خارجی**: همه در همان تب باز می‌شوند مگر اینکه ضروری باشد؛ برای تب‌های جدید `rel="noopener noreferrer"` اضافه کنید.
+۹. **آیکون SVG**: یک SVG درون‌خطی با `aria-hidden` یا `<title>` درست شامل کنید.
 
-> **Publish** on GitHub Pages. Submit the URL in the **Nikode Showcase** for feedback.
+> **انتشار** در GitHub Pages. URL را در **نمایشگاه نیکود** برای بازخورد ارسال کنید.
 
 ---
 
-## 🎒 Homework & Practice
+## 🎒 تکالیف و تمرین
 
-To cement your knowledge, complete these exercises and submit proof on **Nikode.ir**:
+برای تثبیت دانش خود، این تمرینات را کامل کنید و مدرک را در **نیکود** ارسال کنید:
 
-1. **Mini-Site: “About Me”**
+۱. **مینی‌سایت: "درباره من"**
 
-   - Build a one-page site with all capstone requirements.
-   - Proof: Live URL + short screen-reader walkthrough video (show jumping between landmarks).
+- یک سایت تک صفحه‌ای با تمام نیازمندی‌های پروژه نهایی بسازید.
+- مدرک: URL زنده + ویدیو کوتاه راه‌روم صفحه‌خوان (نشان دادن پرش بین نشانه‌ها).
 
-2. **Semantic News Article**
+۲. **مقاله خبری معنادار**
 
-   - Create an article page (no `<div>` for structure) using only semantic tags.
-   - Include at least one article, two sections, a figure with caption, and a table (tabular data).
-   - Proof: Repo link + screenshot of HTML outline.
+- یک صفحه مقاله (بدون `<div>` برای ساختار) فقط با تگ‌های معنادار ایجاد کنید.
+- حداقل یک مقاله، دو بخش، یک شکل با عنوان، و یک جدول (داده‌های جدولی) شامل کنید.
+- مدرک: لینک مخزن + اسکرین‌شات از طرح کلی HTML.
 
-3. **Accessible Contact Form**
+۳. **فرم تماس دسترسی‌پذیر**
 
-   - Design a form for booking a tour: name, email, date (use `<input type="date">`), number of guests (use `<select>`), and a message (`<textarea>`).
-   - Validate with HTML5 attributes (`required`, `type="email"`), and show error messages in-line with `aria-live`.
-   - Proof: Screenshot of form with error displayed + code snippet.
+- فرمی برای رزرو تور طراحی کنید: نام، ایمیل، تاریخ (از `<input type="date">` استفاده کنید)، تعداد مهمانان (از `<select>` استفاده کنید)، و پیام (`<textarea>`).
+- با ویژگی‌های HTML5 (`required`، `type="email"`) اعتبارسنجی کنید، و پیام‌های خطا را درون‌خطی با `aria-live` نمایش دهید.
+- مدرک: اسکرین‌شات از فرم با خطای نمایش داده شده + قطعه کد.
 
-4. **Images & Alt-text Exercise**
+۴. **تمرین تصاویر و متن جایگزین**
 
-   - Pick three images:
+- سه تصویر انتخاب کنید:
 
-     1. Informative diagram → write `alt` describing the key information.
-     2. Decorative graphic → hide from AT (`alt="" role="presentation"`).
-     3. Functional icon (e.g., print or download) → descriptive `alt`.
+  ۱. نمودار اطلاعاتی → `alt` بنویسید که اطلاعات کلیدی را توصیف کند.
+  ۲. گرافیک تزئینی → از AT پنهان کنید (`alt="" role="presentation"`).
+  ۳. آیکون عملکردی (مثل چاپ یا دانلود) → `alt` توصیفی.
 
-   - Proof: Code snippet of each `<img>` tag with explanation.
+- مدرک: قطعه کد از هر تگ `<img>` با توضیح.
 
-5. **WCAG AA Colour Contrast**
+۵. **کنتراست رنگ WCAG AA**
 
-   - Create a palette of at least three text/background combinations.
-   - Use **Nikode Contrast** or another checker.
-   - Proof: Screenshot of checker results + hex codes of colors.
+- پالت حداقل سه ترکیب متن/پس‌زمینه ایجاد کنید.
+- از **بررسی‌کننده کنتراست نیکود** یا دیگری استفاده کنید.
+- مدرک: اسکرین‌شات از نتایج بررسی‌کننده + کدهای هگز رنگ‌ها.
 
-6. **HTML Quiz** (bonus)
+۶. **آزمون HTML** (امتیاز اضافی)
 
-   - Complete the true/false mini-quiz on HTML semantics:
+- آزمون کوچک درست/غلط در معناداری HTML را کامل کنید:
 
-     - “`<div>` is recommended for section headings.” (False)
-     - “Skipping heading levels is acceptable if visually clean.” (False)
-     - “`<main>` should be unique per page.” (True)
+  - "`<div>` برای عناوین بخش توصیه می‌شود." (غلط)
+  - "پریدن از سطوح عنوان اگر از نظر بصری تمیز باشد قابل قبول است." (غلط)
+  - "`<main>` باید در هر صفحه منحصر به فرد باشد." (درست)
 
-   - Proof: Answers + short explanation (1–2 sentences each).
+- مدرک: پاسخ‌ها + توضیح کوتاه (۱–۲ جمله هر کدام).
 
-> **Extra Credit**: Create a responsive `<picture>` example with WebP fallback:
+> **امتیاز اضافی**: یک مثال واکنش‌گرا `<picture>` با پشتیبانی WebP ایجاد کنید:
 >
 > ```html
 > <picture>
 >   <source type="image/webp" srcset="image.webp" />
 >   <source type="image/jpeg" srcset="image.jpg" />
->   <img src="image.jpg" alt="Alt description" />
+>   <img src="image.jpg" alt="توضیح جایگزین" />
 > </picture>
 > ```
 >
-> Explain why browsers pick different formats.
+> توضیح دهید چرا مرورگرها فرمت‌های مختلف انتخاب می‌کنند.
 
 ---
 
-## 🔗 Quick Reference & Resources
+## 🔗 مرجع سریع و منابع
 
-- **MDN** — [HTML Elements Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
-- **Web.dev** — [Accessibility Fundamentals](https://web.dev/accessibility/)
-- **A11y Project** — [Checklist](https://www.a11yproject.com/checklist/)
-- **Nikode.ir** — Full front-end curriculum & community 💙
-- **Contrast Checker** — [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
-
----
-
-## ⭐ Final Checkpoint
-
-If you can ship the capstone with semantic landmarks, perfect headings, labeled forms, meaningful alt text, compliant contrast, and responsive images—**all without JavaScript**—🎉 **Congratulations!** You’re ready for CSS & interactivity. Continue your journey on **Nikode.ir**:
-
-1. Enroll in **Layout Landscapes** (Flexbox + Grid).
-2. Join the _Weekly Live Build_ session—free for all Nikode members.
-3. Grab your personalized certificate and share on LinkedIn.
+- **MDN** — [مرجع عناصر HTML](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
+- **Web.dev** — [مبانی دسترسی‌پذیری](https://web.dev/accessibility/)
+- **A11y Project** — [چک‌لیست](https://www.a11yproject.com/checklist/)
+- **نیکود** — برنامه درسی کامل فرانت‌اند و جامعه 💙
+- **بررسی‌کننده کنتراست** — [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
 
 ---
 
-_Made with ❤️ by [Nikode.ir](https://nikode.ir) — empowering absolute beginners to build accessible, semantic websites._
+## ⭐ نقطه بررسی نهایی
+
+اگر می‌توانید پروژه نهایی را با نشانه‌های معنادار، عناوین کامل، فرم‌های برچسب‌گذاری شده، متن جایگزین معنادار، کنتراست مطابق، و تصاویر واکنش‌گرا منتشر کنید—**همه بدون جاوااسکریپت**—🎉 **تبریک!** شما برای CSS و تعامل آماده هستید. سفر خود را در **نیکود** ادامه دهید:
+
+۱. در **مناظر Layout** (Flexbox + Grid) ثبت‌نام کنید.
+۲. به جلسه _ساخت زنده هفتگی_ بپیوندید—رایگان برای همه اعضای نیکود.
+۳. گواهی شخصی‌سازی شده خود را بگیرید و در LinkedIn به اشتراک بگذارید.
+
+---
+
+_ساخته شده با ❤️ توسط [نیکود](https://nikode.ir) — توانمندسازی مبتدیان مطلق برای ساخت سایت‌های دسترسی‌پذیر و معنادار._

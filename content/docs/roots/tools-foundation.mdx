@@ -1,134 +1,86 @@
 ---
-title: "Tools & Foundation"
-description: "A clear, practical guide to effortlessly setting up your essential frontend tools, laying a strong foundation for your coding journey."
+title: "ابزارها و پایه‌ها"
+description: "راهنمای واضح و عملی برای راه‌اندازی آسان ابزارهای ضروری فرانت‌اند، ایجاد پایه محکم برای سفر کدنویسی شما."
 ---
 
-## 🛠️ 1. Visual Studio Code (VS Code)
+## Visual Studio Code (VS Code)
 
-Visual Studio Code (VS Code) is a free, powerful, and easy-to-use editor that helps you write code efficiently.
+Visual Studio Code (VS Code) یک ویرایشگر رایگان، قدرتمند و آسان‌استفاده است که به شما کمک می‌کند کد را به طور کارآمد بنویسید.
 
-### Installation Steps:
+### مراحل نصب:
 
-- Visit [code.visualstudio.com](https://code.visualstudio.com/).
-- Download the installer suitable for your operating system (Windows, macOS, Linux).
-- Run the installer and follow the simple prompts to install VS Code.
-- Once installed, open VS Code and explore its friendly interface.
+- به [code.visualstudio.com](https://code.visualstudio.com/) بروید.
+- نصب‌کننده مناسب سیستم عامل خود را دانلود کنید (Windows، macOS، Linux).
+- نصب‌کننده را اجرا کنید و مراحل ساده را دنبال کنید.
+- پس از نصب، VS Code را باز کنید و رابط کاربری دوستانه آن را کاوش کنید.
 
-### Essential Extensions:
+### افزونه‌های ضروری:
 
-To improve productivity, install these recommended extensions:
+برای بهبود بهره‌وری، این افزونه‌های توصیه شده را نصب کنید:
 
-- **Prettier**: Formats code automatically.
-- **Live Server**: Allows you to quickly preview HTML pages in your browser.
-- **ESLint**: Helps find and fix errors in JavaScript code.
+- **Prettier**: کد را به طور خودکار فرمت می‌کند.
+- **Live Server**: به شما امکان پیش‌نمایش سریع صفحات HTML در مرورگر را می‌دهد.
+- **ESLint**: به پیدا کردن و رفع خطاهای کد JavaScript کمک می‌کند.
 
 ---
 
-## 🚀 2. Node.js LTS
+## Node.js LTS
 
-Node.js is essential for running JavaScript outside of your browser, installing libraries, and managing packages.
+Node.js برای اجرای JavaScript خارج از مرورگر، نصب کتابخانه‌ها و مدیریت پکیج‌ها ضروری است.
 
-### Installation Steps:
+### مراحل نصب:
 
-- Go to [nodejs.org](https://nodejs.org/en).
-- Select the LTS (Long-Term Support) version for stability.
-- Run the downloaded installer and follow the on-screen instructions.
-- Verify the installation by opening your terminal and typing:
+- به [nodejs.org](https://nodejs.org/en) بروید.
+- نسخه LTS (پشتیبانی بلندمدت) را برای پایداری انتخاب کنید.
+- نصب‌کننده دانلود شده را اجرا کنید و دستورالعمل‌های روی صفحه را دنبال کنید.
+- نصب را با باز کردن terminal و تایپ کردن تأیید کنید:
 
   ```bash
   node -v
   npm -v
   ```
 
-  These commands display the installed Node.js and npm versions, confirming successful installation.
+  این دستورات نسخه‌های نصب شده Node.js و npm را نمایش می‌دهند و نصب موفق را تأیید می‌کنند.
 
-### Best Practice:
+### بهترین شیوه:
 
-Always use the LTS version for production stability and avoid experimental versions.
-
----
-
-## 🧩 3. Git & GitHub
-
-Git is essential for tracking changes in your code, collaborating, and managing projects professionally.
-
-### Installing Git:
-
-- Visit [git-scm.com](https://git-scm.com/downloads) and download Git for your OS.
-- Install Git with default settings (recommended).
-- Check your installation by typing `git --version` in your terminal.
-
-### Basic Git Commands:
-
-- Initialize a new repository:
-
-  ```bash
-  git init
-  ```
-
-- Add files to tracking:
-
-  ```bash
-  git add .
-  ```
-
-- Commit changes:
-
-  ```bash
-  git commit -m "your commit message"
-  ```
-
-- Connect to GitHub:
-
-  ```bash
-  git remote add origin your_repo_link
-  git push -u origin main
-  ```
-
-### Setting up GitHub:
-
-- Create a free account at [github.com](https://github.com).
-- Click “New Repository,” name it, and follow the provided commands to connect your local Git to GitHub.
+همیشه از نسخه LTS برای پایداری production استفاده کنید و از نسخه‌های تجربی پرهیز کنید.
 
 ---
 
-## 🌍 4. Browser Developer Tools
+## Git و GitHub
 
-Developer tools are built-in tools in browsers like Chrome and Firefox for debugging, modifying, and understanding your web pages.
+Git برای ردیابی تغییرات در کد، همکاری و مدیریت حرفه‌ای پروژه‌ها ضروری است.
 
-### How to Open:
+### نصب Git:
 
-- **Chrome/Firefox:** Press `F12` or `Cmd + Option + J` (macOS).
+- به [git-scm.com](https://git-scm.com/downloads) بروید و Git را برای سیستم عامل خود دانلود کنید.
+- Git را با تنظیمات پیش‌فرض نصب کنید (توصیه شده).
+- نصب خود را با تایپ کردن `git --version` در terminal بررسی کنید.
 
-### Essential Tabs:
+### دستورات پایه Git:
 
-- **Elements:** Inspect and edit HTML/CSS directly in your browser.
-- **Console:** Write JavaScript commands and see logs/errors.
-- **Network:** Monitor and debug network requests.
+- راه‌اندازی repository جدید:
 
-### Best Practices:
+```bash
+git init
+```
 
-- Always test your UI changes here before changing your code.
-- Regularly check the console for errors and warnings.
+- اضافه کردن فایل‌ها به ردیابی:
 
----
+```bash
+git add .
+```
 
-## 🧑‍💻 Homework
+- ثبت تغییرات:
 
-Complete these hands-on tasks to solidify your understanding:
+```bash
+git commit -m "Your commit message"
+```
 
-1. **VS Code Setup**:
+- اتصال به GitHub:
 
-   - Install VS Code, install recommended extensions, and take a screenshot.
+### راه‌اندازی GitHub:
 
-2. **Node.js Verification**:
-
-   - Install Node.js LTS and run `node -v` and `npm -v`. Take screenshots of the terminal output.
-
-3. **Git & GitHub**:
-
-   - Create your first repository, push a commit named "Initial commit" with a README.md file, and provide a link to your GitHub repository.
-
-4. **Browser DevTools Exploration**:
-
-   - Open your favorite website, modify text and CSS in DevTools, log a JavaScript message in the console, and screenshot your work.
+- یک حساب رایگان در [github.com](https://github.com) ایجاد کنید.
+- روی "New Repository" کلیک کنید، نام آن را بگذارید و دستورات ارائه شده را برای اتصال Git محلی به GitHub دنبال کنید.
