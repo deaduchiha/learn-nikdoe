@@ -28,20 +28,20 @@ description: راهنمای ساده برای ساخت سایت‌هایی که 
 ۱. **متن جایگزین** روی هر تصویر.
 
 ```html
-<img src="سگ.jpg" alt="سگ قهوه‌ای که در پارک می‌دود" />
+<img src="dog.jpg" alt="Brown dog running in the park" />
 ```
 
 ۲. **عناوین** به ترتیب.
 
 ```html
-<h1>عنوان</h1>
-<h2>بخش</h2>
+<h1>Title</h1>
+<h2>Section</h2>
 ```
 
 ۳. **برچسب** برای هر ورودی.
 
 ```html
-<label for="نام">نام</label> <input id="نام" />
+<label for="name">Name</label> <input id="name" />
 ```
 
 ۴. **کنتراست**: متن تیره روی پس‌زمینه روشن (نسبت ≥ ۴.۵:۱).
@@ -53,24 +53,24 @@ description: راهنمای ساده برای ساخت سایت‌هایی که 
 <html lang="fa" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <title>صفحه سلام</title>
+    <title>Hello Page</title>
   </head>
   <body>
-    <a href="#اصلی" class="لینک-پرش">پرش به محتوا</a>
+    <a href="#main" class="skip-link">Skip to content</a>
 
     <header>
-      <h1>سلام، دنیا!</h1>
+      <h1>Hello, World!</h1>
     </header>
 
-    <main id="اصلی">
-      <p>اولین صفحه دسترسی‌پذیر من.</p>
+    <main id="main">
+      <p>My first accessible page.</p>
 
-      <img src="سلفی.jpg" alt="شخص خندان با هدفون" />
+      <img src="selfie.jpg" alt="Smiling person with headphones" />
 
       <form>
-        <label for="ایمیل">ایمیل</label>
-        <input id="ایمیل" type="email" required />
-        <button>ثبت‌نام</button>
+        <label for="email">Email</label>
+        <input id="email" type="email" required />
+        <button>Subscribe</button>
       </form>
     </main>
   </body>
@@ -90,8 +90,8 @@ description: راهنمای ساده برای ساخت سایت‌هایی که 
 
 ```html
 <header>…</header>
-<nav aria-label="منوی اصلی">…</nav>
-<main id="اصلی">…</main>
+<nav aria-label="main menu">…</nav>
+<main id="main">…</main>
 <footer>…</footer>
 ```
 
@@ -100,7 +100,7 @@ description: راهنمای ساده برای ساخت سایت‌هایی که 
 ### ۲.۲ لینک پرش (کمک‌کننده کیبورد)
 
 ```html
-<a href="#اصلی" class="لینک-پرش">پرش به محتوا</a>
+<a href="#main" class="skip-link">Skip to content</a>
 ```
 
 آن را در بالاترین قسمت قرار دهید. فقط هنگام فوکوس با CSS نمایش دهید.
@@ -110,12 +110,12 @@ description: راهنمای ساده برای ساخت سایت‌هایی که 
 ```html
 <form novalidate>
   <fieldset>
-    <legend>با من تماس بگیرید</legend>
+    <legend>Contact Me</legend>
 
-    <label for="پیام">پیام</label>
-    <textarea id="پیام" required></textarea>
+    <label for="message">Message</label>
+    <textarea id="message" required></textarea>
 
-    <button>ارسال</button>
+    <button>Send</button>
   </fieldset>
 </form>
 ```
@@ -147,7 +147,7 @@ description: راهنمای ساده برای ساخت سایت‌هایی که 
 ### ۳.۱ پیام‌های زنده (بدون تازه‌سازی)
 
 ```html
-<p aria-live="polite" id="وضعیت">پیام جدیدی نیست</p>
+<p aria-live="polite" id="status">No new messages</p>
 ```
 
 اگر جاوااسکریپت `#وضعیت` را به‌روزرسانی کند، صفحه‌خوان تغییر را اعلام می‌کند.
@@ -155,16 +155,16 @@ description: راهنمای ساده برای ساخت سایت‌هایی که 
 ### ۳.۲ الگوی آکاردئون
 
 ```html
-<button aria-expanded="false" aria-controls="پنل۱" class="آکاردئون">
-  سیاست بازپرداخت چیست؟
+<button aria-expanded="false" aria-controls="panel1" class="accordion">
+  What is the refund policy?
 </button>
-<div id="پنل۱" hidden>
-  <p>بازپرداخت کامل در ۳۰ روز.</p>
+<div id="panel1" hidden>
+  <p>Full refund within 30 days.</p>
 </div>
 ```
 
 ```js
-const btn = document.querySelector(".آکاردئون");
+const btn = document.querySelector(".accordion");
 btn.addEventListener("click", () => {
   const panel = document.getElementById(btn.getAttribute("aria-controls"));
   const open = btn.getAttribute("aria-expanded") === "true";

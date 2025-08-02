@@ -38,11 +38,11 @@ description: مسیر گام‌به‌گام بدون حاشیه برای HTML �
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>اولین صفحه من</title>
+    <title>My First Page</title>
   </head>
   <body>
-    <h1>سلام، دنیا!</h1>
-    <p>به HTML معنادار خوش آمدید.</p>
+    <h1>Hello, World!</h1>
+    <p>Welcome to semantic HTML.</p>
   </body>
 </html>
 ```
@@ -102,15 +102,17 @@ description: مسیر گام‌به‌گام بدون حاشیه برای HTML �
 
   ```html
   <div>
-    <p>متن <strong>پررنگ</strong></p>
+    <p>Text <strong>bold</strong></p>
   </div>
   ```
+
+````
 
 - مثال **نامعتبر** (انجام ندهید):
 
   ```html
-  <p>متن <strong>اوه</p></strong>
-  ```
+<p>Text <strong>oops</p></strong>
+````
 
 - **اعتبارسنجی**: از **لینت نیکود** یا [validator.w3.org](https://validator.w3.org) برای تشخیص زودهنگام اشتباهات استفاده کنید.
 
@@ -126,41 +128,41 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <header>
-  <h1>نمونه کار من</h1>
-  <nav aria-label="اصلی">
+  <h1>My Portfolio</h1>
+  <nav aria-label="main">
     <ul>
-      <li><a href="#پروژه‌ها">پروژه‌ها</a></li>
-      <li><a href="#درباره">درباره</a></li>
-      <li><a href="#تماس">تماس</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 </header>
 
-<main id="محتوا">
-  <section id="پروژه‌ها">
-    <h2>پروژه‌های ویژه</h2>
+<main id="content">
+  <section id="projects">
+    <h2>Featured Projects</h2>
     <article>
-      <h3>پروژه اول</h3>
-      <p>توضیح کوتاه...</p>
+      <h3>First Project</h3>
+      <p>Brief description...</p>
     </article>
   </section>
 
-  <section id="درباره">
-    <h2>درباره من</h2>
-    <p>چیزی درباره خودتان بنویسید.</p>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Write something about yourself.</p>
   </section>
 </main>
 
 <aside>
-  <h2>لینک‌های مرتبط</h2>
+  <h2>Related Links</h2>
   <ul>
-    <li><a href="https://example.com">منبع خارجی</a></li>
-    <li><a href="blog.html">وبلاگ</a></li>
+    <li><a href="https://example.com">External Resource</a></li>
+    <li><a href="blog.html">Blog</a></li>
   </ul>
 </aside>
 
 <footer>
-  <p>© ۲۰۲۵ نام شما</p>
+  <p>© 2025 Your Name</p>
 </footer>
 ```
 
@@ -180,35 +182,37 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 - ناوبری اصلی را در `<nav>` بپیچید.
 - اگر چندین nav وجود دارد `aria-label` اضافه کنید:
 
-  ```html
-  <nav aria-label="ناوبری فوتر">
-    <ul>
-      …
-    </ul>
-  </nav>
-  ```
+```html
+<nav aria-label="footer navigation">
+  <ul>
+    …
+  </ul>
+</nav>
+```
+
+````
 
 - **لینک پرش**: به کاربران کیبورد اجازه دهید سریع به محتوای اصلی بپرند.
 
   ```html
-  <a href="#محتوا" class="skip-link">پرش به محتوا</a>
-  ```
+<a href="#content" class="skip-link">Skip to content</a>
+````
 
 - **CSS** (فقط روی فوکوس نمایش دهید):
 
-  ```css
-  .skip-link {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    background: #fff;
-    padding: 8px;
-    z-index: 100;
-  }
-  .skip-link:focus {
-    top: 0;
-  }
-  ```
+```css
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #fff;
+  padding: 8px;
+  z-index: 100;
+}
+.skip-link:focus {
+  top: 0;
+}
+```
 
 > **نکته**: لینک پرش را به عنوان اولین فرزند `<body>` قرار دهید.
 
@@ -219,28 +223,28 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 ### ۳.۱ سلسله مراتب عناوین
 
 ```html
-<h1>وبلاگ دستور پخت</h1>
+<h1>Recipe Blog</h1>
 
 <section>
-  <h2>کیک شکلاتی</h2>
-  <h3>مواد</h3>
+  <h2>Chocolate Cake</h2>
+  <h3>Ingredients</h3>
   <ul>
-    <li>۱ فنجان آرد</li>
-    <li>۲ تخم مرغ</li>
-    <li>۱/۲ فنجان شکر</li>
+    <li>1 cup flour</li>
+    <li>2 eggs</li>
+    <li>1/2 cup sugar</li>
   </ul>
-  <h3>مراحل</h3>
+  <h3>Steps</h3>
   <ol>
-    <li>فر را گرم کنید...</li>
-    <li>مواد را مخلوط کنید...</li>
-    <li>۳۰ دقیقه بپزید...</li>
+    <li>Preheat oven...</li>
+    <li>Mix ingredients...</li>
+    <li>Bake for 30 minutes...</li>
   </ol>
 </section>
 
 <section>
-  <h2>تارت لیمو</h2>
-  <h3>مواد</h3>
-  <h3>مراحل</h3>
+  <h2>Lemon Tart</h2>
+  <h3>Ingredients</h3>
+  <h3>Steps</h3>
 </section>
 ```
 
@@ -259,8 +263,8 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <p>
-  HTML ستون فقرات هر صفحه وب است. جملات ساده را در
-  <strong>پاراگراف‌ها</strong> بنویسید.
+  HTML is the backbone of every web page. Write simple sentences in
+  <strong>paragraphs</strong>.
 </p>
 ```
 
@@ -268,9 +272,9 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <ul>
-  <li>مورد اول</li>
-  <li>مورد دوم</li>
-  <li>مورد سوم</li>
+  <li>First item</li>
+  <li>Second item</li>
+  <li>Third item</li>
 </ul>
 ```
 
@@ -278,9 +282,9 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <ol>
-  <li>مرحله اول</li>
-  <li>مرحله دوم</li>
-  <li>مرحله سوم</li>
+  <li>First step</li>
+  <li>Second step</li>
+  <li>Third step</li>
 </ol>
 ```
 
@@ -289,9 +293,9 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 ```html
 <dl>
   <dt>HTML</dt>
-  <dd>زبان نشانه‌گذاری ابرمتن</dd>
+  <dd>HyperText Markup Language</dd>
   <dt>CSS</dt>
-  <dd>صفحات استایل آبشاری</dd>
+  <dd>Cascading Style Sheets</dd>
 </dl>
 ```
 
@@ -301,7 +305,7 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 - `<em>`: تأکید (اغلب ایتالیک).
 - `<small>`: متن ریزتر.
 - `<mark>`: متن برجسته شده.
-- `<time datetime="۲۰۲۵-۰۶-۰۴">۴ خرداد ۱۴۰۴</time>`: تاریخ/زمان با فرمت قابل خواندن ماشین.
+- `<time datetime="2025-06-04">June 4, 2025</time>`: تاریخ/زمان با فرمت قابل خواندن ماشین.
 
 > **بهترین شیوه**: از لیست‌ها زمانی استفاده کنید که ترتیب یا گروه‌بندی مهم است. صفحه‌خوان‌ها تعداد موارد را اعلام می‌کنند.
 
@@ -314,22 +318,22 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 ### ۴.۱ ساختار فرم پایه
 
 ```html
-<form action="/اشتراک" method="post" novalidate>
+<form action="/subscribe" method="post" novalidate>
   <fieldset>
-    <legend>خبرنامه ایمیل</legend>
+    <legend>Email Newsletter</legend>
 
-    <label for="email">آدرس ایمیل</label>
+    <label for="email">Email Address</label>
     <input
       type="email"
       id="email"
       name="email"
       required
       aria-describedby="email-hint"
-      placeholder="شما@مثال.com"
+      placeholder="you@example.com"
     />
-    <p id="email-hint">ما هرگز ایمیل شما را به اشتراک نمی‌گذاریم.</p>
+    <p id="email-hint">We never share your email.</p>
 
-    <button type="submit">اشتراک</button>
+    <button type="submit">Subscribe</button>
   </fieldset>
 </form>
 ```
@@ -347,31 +351,31 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 **ورودی متن**
 
 ```html
-<label for="username">نام کاربری</label>
+<label for="username">Username</label>
 <input type="text" id="username" name="username" required />
 ```
 
 **Textarea**
 
 ```html
-<label for="bio">بیو کوتاه</label>
+<label for="bio">Short Bio</label>
 <textarea
   id="bio"
   name="bio"
   rows="4"
   cols="50"
-  placeholder="درباره خودتان به ما بگویید."
+  placeholder="Tell us about yourself."
 ></textarea>
 ```
 
 **منوی انتخاب**
 
 ```html
-<label for="country">کشور</label>
+<label for="country">Country</label>
 <select id="country" name="country">
-  <option value="">یکی انتخاب کنید</option>
-  <option value="ir">ایران</option>
-  <option value="us">ایالات متحده</option>
+  <option value="">Choose one</option>
+  <option value="ir">Iran</option>
+  <option value="us">United States</option>
 </select>
 ```
 
@@ -387,11 +391,11 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <fieldset>
-  <legend>اشتراک در خبرنامه‌ها</legend>
+  <legend>Subscribe to Newsletters</legend>
   <input type="checkbox" id="news" name="newsletter" value="news" />
-  <label for="news">اخبار</label>
+  <label for="news">News</label>
   <input type="checkbox" id="updates" name="newsletter" value="updates" />
-  <label for="updates">به‌روزرسانی محصول</label>
+  <label for="updates">Product Updates</label>
 </fieldset>
 ```
 
@@ -399,11 +403,11 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <fieldset>
-  <legend>روش تماس ترجیحی</legend>
+  <legend>Preferred Contact Method</legend>
   <input type="radio" id="contact-email" name="contact" value="email" checked />
-  <label for="contact-email">ایمیل</label>
+  <label for="contact-email">Email</label>
   <input type="radio" id="contact-phone" name="contact" value="phone" />
-  <label for="contact-phone">تلفن</label>
+  <label for="contact-phone">Phone</label>
 </fieldset>
 ```
 
@@ -420,7 +424,7 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <div id="username-error" role="alert" aria-live="assertive"></div>
-<label for="username">نام کاربری</label>
+<label for="username">Username</label>
 <input
   type="text"
   id="username"
@@ -432,7 +436,7 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 ۳. پس از ارسال فرم، خطاها را کنار فیلدها نمایش دهید، مثلاً:
 
 ```html
-<p id="username-error">نام کاربری الزامی است.</p>
+<p id="username-error">Username is required.</p>
 ```
 
 > **چالش نیکود:** یک فرم جعلی پر از الگوهای ضد را به یک گوهر WCAG-compliant تبدیل کنید. نمره‌دهی خودکار شامل است.
@@ -454,13 +458,13 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 
 ```html
 <figure>
-  <img src="نمودار.png" alt="نمودار فروش" />
+  <img src="chart.png" alt="Sales Chart" />
   <figcaption>
-    فروش در Q1 ۲۰٪ افزایش یافت. <a href="#longdesc">توضیح طولانی</a>
+    Sales increased 20% in Q1. <a href="#longdesc">Long description</a>
   </figcaption>
 </figure>
 <div id="longdesc">
-  جزئیات کامل: نمودار نشان می‌دهد فروش Q1 به دلیل … افزایش یافت
+  Complete details: Chart shows Q1 sales increased due to...
 </div>
 ```
 
@@ -498,17 +502,17 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
   <source src="video.mp4" type="video/mp4" />
   <track
     kind="captions"
-    src="captions_fa.vtt"
-    srclang="fa"
-    label="فارسی"
+    src="captions_en.vtt"
+    srclang="en"
+    label="English"
     default
   />
-  مرورگر شما از ویدیو HTML5 پشتیبانی نمی‌کند.
+  Your browser does not support HTML5 video.
 </video>
 
 <audio controls>
   <source src="audio.mp3" type="audio/mpeg" />
-  مرورگر شما از عنصر صدا پشتیبانی نمی‌کند.
+  Your browser does not support the audio element.
 </audio>
 ```
 
@@ -521,9 +525,9 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 ### ۶.۲ لینک‌ها و ناوبری دسترسی‌پذیر
 
 ```html
-<a href="about.html">درباره ما</a>
+<a href="about.html">About Us</a>
 <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-  لینک خارجی (در تب جدید باز می‌شود)
+  External link (opens in new tab)
 </a>
 ```
 
@@ -540,25 +544,25 @@ HTML5 عناصر **نشانه** را معرفی کرد تا فناوری کمک�
 ```html
 <table>
   <caption>
-    داده‌های فروش ماهانه
+    Monthly Sales Data
   </caption>
   <thead>
     <tr>
-      <th scope="col">ماه</th>
-      <th scope="col">درآمد</th>
-      <th scope="col">هزینه‌ها</th>
+      <th scope="col">Month</th>
+      <th scope="col">Revenue</th>
+      <th scope="col">Expenses</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row">فروردین</th>
-      <td>۱۰,۰۰۰ تومان</td>
-      <td>۷,۰۰۰ تومان</td>
+      <th scope="row">March</th>
+      <td>$10,000</td>
+      <td>$7,000</td>
     </tr>
     <tr>
-      <th scope="row">اردیبهشت</th>
-      <td>۱۲,۰۰۰ تومان</td>
-      <td>۸,۰۰۰ تومان</td>
+      <th scope="row">April</th>
+      <td>$12,000</td>
+      <td>$8,000</td>
     </tr>
   </tbody>
 </table>
@@ -577,12 +581,12 @@ ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML
 
 ### ۷.۱ ویژگی‌های ARIA رایج
 
-| نیاز                      | ویژگی                | مثال کد                                                           |
-| ------------------------- | -------------------- | ----------------------------------------------------------------- |
-| برچسب پنهان (دکمه آیکون)  | `aria-label`         | `<button aria-label="بستن">✖</button>`                            |
-| برچسب قابل مشاهده خارجی   | `aria-labelledby`    | `<table aria-labelledby="قیمت‌گذاری">…</table>`                   |
-| راهنمای اضافی یا پیام خطا | `aria-describedby`   | `<input aria-describedby="email-hint" />`                         |
-| نقش پویا (منطقه زنده)     | `aria-live="polite"` | `<div aria-live="polite">در حال بارگذاری به‌روزرسانی‌ها...</div>` |
+| نیاز                      | ویژگی                | مثال کد                                            |
+| ------------------------- | -------------------- | -------------------------------------------------- |
+| برچسب پنهان (دکمه آیکون)  | `aria-label`         | `<button aria-label="بستن">✖</button>`             |
+| برچسب قابل مشاهده خارجی   | `aria-labelledby`    | `<table aria-labelledby="قیمت‌گذاری">…</table>`    |
+| راهنمای اضافی یا پیام خطا | `aria-describedby`   | `<input aria-describedby="email-hint" />`          |
+| نقش پویا (منطقه زنده)     | `aria-live="polite"` | `<div aria-live="polite">Loading updates...</div>` |
 
 > **ترتیب خواندن**:
 >
@@ -617,10 +621,10 @@ ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="راهنمای HTML معنادار و دسترسی‌پذیری" />
+  <meta name="description" content="Semantic HTML and Accessibility Guide" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <title>راهنمای HTML معنادار</title>
+  <title>Semantic HTML Guide</title>
 </head>
 ```
 
@@ -660,7 +664,7 @@ ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML
   role="img"
   aria-labelledby="triangleTitle"
 >
-  <title id="triangleTitle">آیکون مثلث هشدار</title>
+  <title id="triangleTitle">Warning Triangle Icon</title>
   <path d="M50 5 L95 95 H5 Z" fill="orange" />
 </svg>
 ```
@@ -676,7 +680,7 @@ ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML
   width="560"
   height="315"
   src="https://www.youtube-nocookie.com/embed/VIDEO_ID"
-  title="پخش‌کننده ویدیو یوتیوب"
+  title="YouTube Video Player"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowfullscreen
@@ -694,16 +698,16 @@ ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML
 وقتی سرانجام جاوااسکریپت اضافه می‌کنید، همیشه یک پشتیبانی HTML/CSS کارآمد ارائه دهید:
 
 ```html
-<button id="menu-toggle">منو</button>
+<button id="menu-toggle">Menu</button>
 <nav id="site-nav">
   <ul>
-    <li><a href="/">خانه</a></li>
-    <!-- لینک‌های بیشتر -->
+    <li><a href="/">Home</a></li>
+    <!-- More links -->
   </ul>
 </nav>
 
 <script>
-  // جاوااسکریپت کلاس "open" را تغییر می‌دهد
+  // JavaScript toggles the "open" class
   document.getElementById("menu-toggle").addEventListener("click", () => {
     document.getElementById("site-nav").classList.toggle("open");
   });
@@ -788,7 +792,7 @@ ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML
 > <picture>
 >   <source type="image/webp" srcset="image.webp" />
 >   <source type="image/jpeg" srcset="image.jpg" />
->   <img src="image.jpg" alt="توضیح جایگزین" />
+>   <img src="image.jpg" alt="Alternative description" />
 > </picture>
 > ```
 >
@@ -803,17 +807,3 @@ ARIA دسترسی‌پذیری اضافی اضافه می‌کند وقتی HTML
 - **A11y Project** — [چک‌لیست](https://www.a11yproject.com/checklist/)
 - **نیکود** — برنامه درسی کامل فرانت‌اند و جامعه 💙
 - **بررسی‌کننده کنتراست** — [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
-
----
-
-## ⭐ نقطه بررسی نهایی
-
-اگر می‌توانید پروژه نهایی را با نشانه‌های معنادار، عناوین کامل، فرم‌های برچسب‌گذاری شده، متن جایگزین معنادار، کنتراست مطابق، و تصاویر واکنش‌گرا منتشر کنید—**همه بدون جاوااسکریپت**—🎉 **تبریک!** شما برای CSS و تعامل آماده هستید. سفر خود را در **نیکود** ادامه دهید:
-
-۱. در **مناظر Layout** (Flexbox + Grid) ثبت‌نام کنید.
-۲. به جلسه _ساخت زنده هفتگی_ بپیوندید—رایگان برای همه اعضای نیکود.
-۳. گواهی شخصی‌سازی شده خود را بگیرید و در LinkedIn به اشتراک بگذارید.
-
----
-
-_ساخته شده با ❤️ توسط [نیکود](https://nikode.ir) — توانمندسازی مبتدیان مطلق برای ساخت سایت‌های دسترسی‌پذیر و معنادار._
