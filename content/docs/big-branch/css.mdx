@@ -1,28 +1,28 @@
 ---
-title: "CSS Essentials"
-description: "An all-in-one, clear roadmap to learn modern CSS: cascade & inheritance, box-model, selectors & specificity, Flexbox, Grid, CSS Nesting & Layers (2025), logical properties, media & container queries, BEM / utility naming."
+title: "مبانی CSS"
+description: "راهنمای جامع و واضح برای یادگیری CSS مدرن: آبشاری و وراثت، مدل جعبه، انتخاب‌کننده‌ها و ویژگی، Flexbox، Grid، CSS Nesting و Layers (۲۰۲۵)، ویژگی‌های منطقی، media و container queries، نام‌گذاری BEM / utility."
 ---
 
-> **Pro Tip:** Every code snippet here is ready to copy-paste. Pause after each subsection and try it yourself.
+> **نکته حرفه‌ای:** تمام قطعه‌های کد اینجا آماده کپی-پیست هستند. بعد از هر بخش مکث کنید و خودتان امتحان کنید.
 
 ---
 
-## 🌱 0 · Groundwork — _Why CSS Matters & Setup_
+## 🌱 مرحله ۰ · کار مقدماتی — _چرا CSS مهم است و راه‌اندازی_
 
-| Topic                      | Why it Matters                                  | Nikode.ir Shortcut                                                        |
-| -------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------- |
-| **Visual Impact**          | CSS transforms plain HTML into engaging layouts | Video: _Why CSS Is the Heartbeat of Web Design_                           |
-| **Separation of Concerns** | Keeps HTML semantic and CSS purely stylistic    | Cheat-Sheet: _HTML vs. CSS: Responsibilities Split_                       |
-| **Productivity**           | Modern CSS features speed up development        | Quickstart: _Set Up a Live-Reload Environment with VS Code + Live Server_ |
+| موضوع                  | چرا مهم است؟                                   | میانبر نیکود                                                            |
+| ---------------------- | ---------------------------------------------- | ----------------------------------------------------------------------- |
+| **تأثیر بصری**         | CSS HTML ساده را به طرح‌های جذاب تبدیل می‌کند  | ویدیو: _چرا CSS قلب تپنده طراحی وب است_                                 |
+| **جداسازی مسئولیت‌ها** | HTML معنادار و CSS صرفاً استایل را نگه می‌دارد | چیت‌شیت: _HTML در مقابل CSS: تقسیم مسئولیت‌ها_                          |
+| **بهره‌وری**           | ویژگی‌های CSS مدرن سرعت توسعه را افزایش می‌دهد | راه‌اندازی سریع: _راه‌اندازی محیط Live-Reload با VS Code + Live Server_ |
 
-> **Action:**
+> **عمل:**
 >
-> 1. Install VS Code (or any code editor).
-> 2. Create a folder named `css-essentials`.
-> 3. Inside, add `index.html` and `styles.css`.
-> 4. Open Live Server (or equivalent) so every save refreshes in your browser.
+> ۱. VS Code (یا هر ویرایشگر کد) را نصب کنید.
+> ۲. پوشه‌ای به نام `css-essentials` ایجاد کنید.
+> ۳. داخل آن، `index.html` و `styles.css` را اضافه کنید.
+> ۴. Live Server (یا معادل آن) را باز کنید تا هر ذخیره‌سازی در مرورگر تازه شود.
 
-Your base HTML in `index.html`:
+HTML پایه شما در `index.html`:
 
 ```html
 <!DOCTYPE html>
@@ -34,28 +34,28 @@ Your base HTML in `index.html`:
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- We’ll add content here as we learn -->
+    <!-- We'll add content here as we learn -->
   </body>
 </html>
 ```
 
-In `styles.css`, start with an empty file:
+در `styles.css`، با فایل خالی شروع کنید:
 
 ```css
 /* styles.css */
 
-/* We’ll add CSS step by step. */
+/* We'll add CSS step by step. */
 ```
 
 ---
 
-## 🌀 1 · Cascade & Inheritance
+## 🌀 مرحله ۱ · آبشاری و وراثت
 
-### 1.1 The Cascade
+### ۱.۱ آبشاری (Cascade)
 
-- **Order Matters**: Later rules override earlier ones.
-- **Specificity Matters**: More specific selectors win.
-- **Important**: `!important` force-wins—but use sparingly.
+- **ترتیب مهم است**: قوانین بعدی قوانین قبلی را لغو می‌کنند.
+- **ویژگی مهم است**: انتخاب‌کننده‌های خاص‌تر برنده می‌شوند.
+- **مهم**: `!important` به زور برنده می‌شود—اما کم استفاده کنید.
 
 ```css
 /* styles.css */
@@ -80,15 +80,15 @@ p.intro {
 </body>
 ```
 
-> **Best Practice:** Structure CSS from general → specific. Modularize by component. Avoid deep selector chains.
+> **بهترین شیوه:** CSS را از عمومی → خاص ساختار دهید. بر اساس کامپوننت مدولار کنید. از زنجیره‌های عمیق انتخاب‌کننده اجتناب کنید.
 
 ---
 
-### 1.2 Inheritance
+### ۱.۲ وراثت (Inheritance)
 
-- Some properties naturally descend from parents: `color`, `font-family`, `line-height`.
-- Others do not: `margin`, `padding`, `border` must be set per element.
-- Use the `inherit` keyword to force inheritance.
+- برخی ویژگی‌ها به طور طبیعی از والدین به ارث می‌رسند: `color`، `font-family`، `line-height`.
+- برخی دیگر نه: `margin`، `padding`، `border` باید برای هر عنصر تنظیم شوند.
+- از کلمه کلیدی `inherit` برای اجبار وراثت استفاده کنید.
 
 ```css
 /* styles.css */
@@ -118,18 +118,18 @@ h1 {
 </body>
 ```
 
-> **Tip:** Use inheritance for typography to keep consistency. Avoid re-declaring common styles on every element.
+> **نکته:** از وراثت برای تایپوگرافی استفاده کنید تا یکپارچگی حفظ شود. از اعلان مجدد استایل‌های مشترک روی هر عنصر اجتناب کنید.
 
 ---
 
-## 📏 2 · Box Model
+## 📏 مرحله ۲ · مدل جعبه
 
-Every element is a **rectangular box** composed of:
+هر عنصر یک **جعبه مستطیلی** است که از موارد زیر تشکیل شده:
 
-1. **Content** (width/height)
-2. **Padding** (space inside border)
-3. **Border** (outline)
-4. **Margin** (space outside border)
+۱. **محتوا** (عرض/ارتفاع)
+۲. **پدینگ** (فضای داخل حاشیه)
+۳. **حاشیه** (خط دور)
+۴. **مارجین** (فضای خارج حاشیه)
 
 ```
 +-------------------------------------+
@@ -148,9 +148,9 @@ Every element is a **rectangular box** composed of:
 
 ---
 
-### 2.1 `box-sizing`
+### ۲.۱ `box-sizing`
 
-By default, `width`/`height` apply to **content** only. Use `box-sizing: border-box` so padding and border are included in the total width:
+به طور پیش‌فرض، `width`/`height` فقط روی **محتوا** اعمال می‌شود. از `box-sizing: border-box` استفاده کنید تا پدینگ و حاشیه در عرض کل گنجانده شوند:
 
 ```css
 /* styles.css */
@@ -174,7 +174,7 @@ By default, `width`/`height` apply to **content** only. Use `box-sizing: border-
 <div class="box">Content fits nicely inside 200px total.</div>
 ```
 
-> **Best Practice:** Always include
+> **بهترین شیوه:** همیشه این کد را در بالای CSS خود قرار دهید تا از شگفتی‌ها جلوگیری کنید:
 
 ```css
 *,
@@ -184,11 +184,9 @@ By default, `width`/`height` apply to **content** only. Use `box-sizing: border-
 }
 ```
 
-at the top of your CSS to avoid surprises.
-
 ---
 
-### 2.2 Padding, Border & Margin
+### ۲.۲ پدینگ، حاشیه و مارجین
 
 ```css
 /* styles.css */
@@ -208,24 +206,24 @@ at the top of your CSS to avoid surprises.
 </div>
 ```
 
-- **Margin collapse**: Vertical margins between sibling blocks may collapse (the larger margin takes effect).
-- **Shorthand**:
+- **فروپاشی مارجین**: مارجین‌های عمودی بین بلوک‌های هم‌سطح ممکن است فروپاشی شوند (مارجین بزرگتر اعمال می‌شود).
+- **کوتاه‌نویسی**:
 
-  - `margin: 10px 20px 30px 40px;` (top, right, bottom, left)
-  - `padding: 10px 20px;` (top/bottom, left/right)
+  - `margin: 10px 20px 30px 40px;` (بالا، راست، پایین، چپ)
+  - `padding: 10px 20px;` (بالا/پایین، چپ/راست)
 
 ---
 
-## 🔍 3 · Selectors & Specificity
+## 🔍 مرحله ۳ · انتخاب‌کننده‌ها و ویژگی
 
-### 3.1 Common Selectors
+### ۳.۱ انتخاب‌کننده‌های رایج
 
-- **Type selector**: `div`, `p`
-- **Class selector**: `.btn`, `.container`
-- **ID selector**: `#nav`, `#header`
-- **Attribute selector**: `input[type="text"]`, `a[target="_blank"]`
-- **Pseudo-class**: `a:hover`, `input:focus`, `li:nth-child(2)`
-- **Pseudo-element**: `p::first-line`, `h2::after`
+- **انتخاب‌کننده نوع**: `div`، `p`
+- **انتخاب‌کننده کلاس**: `.btn`، `.container`
+- **انتخاب‌کننده ID**: `#nav`، `#header`
+- **انتخاب‌کننده ویژگی**: `input[type="text"]`، `a[target="_blank"]`
+- **شبه‌کلاس**: `a:hover`، `input:focus`، `li:nth-child(2)`
+- **شبه‌عنصر**: `p::first-line`، `h2::after`
 
 ```css
 /* styles.css */
@@ -245,28 +243,28 @@ input[type="text"]:focus {
 
 ---
 
-### 3.2 Specificity Basics
+### ۳.۲ مبانی ویژگی
 
-Calculate specificity as a 4-tuple `(a, b, c, d)`:
+ویژگی را به عنوان یک ۴-تایی `(a, b, c, d)` محاسبه کنید:
 
-1. Inline styles → `a = 1` if `style="…"`; otherwise `0`.
-2. IDs → `b = number of IDs in selector`.
-3. Classes/attributes/pseudo-classes → `c = count of these`.
-4. Type selectors/pseudo-elements → `d = count of these`.
+۱. استایل‌های درون‌خطی → `a = 1` اگر `style="…"` باشد؛ در غیر این صورت `0`.
+۲. IDها → `b = تعداد IDها در انتخاب‌کننده`.
+۳. کلاس‌ها/ویژگی‌ها/شبه‌کلاس‌ها → `c = تعداد این موارد`.
+۴. انتخاب‌کننده‌های نوع/شبه‌عناصر → `d = تعداد این موارد`.
 
 - `p` → `(0,0,0,1)`
 - `.intro p` → `(0,0,1,1)`
 - `#main .intro p:hover` → `(0,1,2,1)`
 
-> **Rule of Thumb:**
+> **قاعده سرانگشتی:**
 >
-> 1. Prefer class selectors (specificity `0,0,1,0`).
-> 2. Avoid IDs in CSS; they can be too specific.
-> 3. Never chain more than 3 levels deep. Keep selectors simple.
+> ۱. انتخاب‌کننده‌های کلاس را ترجیح دهید (ویژگی `0,0,1,0`).
+> ۲. از ID در CSS اجتناب کنید؛ ممکن است خیلی خاص باشند.
+> ۳. هرگز بیش از ۳ سطح عمیق زنجیره نکنید. انتخاب‌کننده‌ها را ساده نگه دارید.
 
 ---
 
-### 3.3 Specificity Wars & `!important`
+### ۳.۳ جنگ‌های ویژگی و `!important`
 
 ```css
 /* styles.css */
@@ -283,15 +281,15 @@ Calculate specificity as a 4-tuple `(a, b, c, d)`:
 }
 ```
 
-> **Caution:** Overusing `!important` makes maintenance painful. Instead, reorganize your CSS or increase selector specificity minimally.
+> **هشدار:** استفاده بیش از حد از `!important` نگهداری را دردناک می‌کند. به جای آن، CSS خود را بازسازی کنید یا ویژگی انتخاب‌کننده را به حداقل افزایش دهید.
 
 ---
 
-## 📐 4 · Flexbox
+## 📐 مرحله ۴ · Flexbox
 
-Flexbox excels at one-dimensional layouts (row or column).
+Flexbox در طرح‌های یک‌بعدی (ردیف یا ستون) عالی عمل می‌کند.
 
-### 4.1 Flex Container vs. Flex Item
+### ۴.۱ کانتینر Flex در مقابل آیتم Flex
 
 ```html
 <!-- index.html -->
@@ -320,14 +318,14 @@ Flexbox excels at one-dimensional layouts (row or column).
 }
 ```
 
-- `display: flex` on the container.
-- `flex-direction`: defaults to `row`; can be `column`.
-- `flex-wrap: wrap` allows items to wrap onto multiple lines.
-- `justify-content` (main axis) and `align-items` (cross axis) control alignment.
+- `display: flex` روی کانتینر.
+- `flex-direction`: پیش‌فرض `row` است؛ می‌تواند `column` باشد.
+- `flex-wrap: wrap` به آیتم‌ها اجازه می‌دهد روی چندین خط بپیچند.
+- `justify-content` (محور اصلی) و `align-items` (محور عرضی) تراز را کنترل می‌کنند.
 
 ---
 
-### 4.2 Common Flex Properties
+### ۴.۲ ویژگی‌های رایج Flex
 
 ```css
 /* styles.css */
@@ -343,18 +341,18 @@ Flexbox excels at one-dimensional layouts (row or column).
 }
 ```
 
-| Property          | Description                                                                         |
+| ویژگی             | توضیح                                                                               |
 | ----------------- | ----------------------------------------------------------------------------------- |
-| `justify-content` | `flex-start`, `flex-end`, `center`, `space-between`, `space-around`, `space-evenly` |
-| `align-items`     | `stretch`, `flex-start`, `flex-end`, `center`, `baseline`                           |
-| `flex-wrap`       | `nowrap` (default), `wrap`, `wrap-reverse`                                          |
-| `flex`            | Shorthand for `flex-grow`, `flex-shrink`, `flex-basis`                              |
+| `justify-content` | `flex-start`، `flex-end`، `center`، `space-between`، `space-around`، `space-evenly` |
+| `align-items`     | `stretch`، `flex-start`، `flex-end`، `center`، `baseline`                           |
+| `flex-wrap`       | `nowrap` (پیش‌فرض)، `wrap`، `wrap-reverse`                                          |
+| `flex`            | کوتاه‌نویسی برای `flex-grow`، `flex-shrink`، `flex-basis`                           |
 
-> **Pro Tip:** Use `gap` instead of `margin` for spacing between flex items. It avoids margin-collapsing issues.
+> **نکته حرفه‌ای:** از `gap` به جای `margin` برای فاصله بین آیتم‌های flex استفاده کنید. از مشکلات فروپاشی مارجین جلوگیری می‌کند.
 
 ---
 
-### 4.3 Real-World Example: Navbar
+### ۴.۳ مثال دنیای واقعی: نوار ناوبری
 
 ```html
 <!-- index.html -->
@@ -415,11 +413,11 @@ Flexbox excels at one-dimensional layouts (row or column).
 
 ---
 
-## 🧱 5 · Grid
+## 🧱 مرحله ۵ · Grid
 
-CSS Grid handles two-dimensional layouts (both rows & columns).
+CSS Grid طرح‌های دو‌بعدی (هم ردیف و هم ستون) را مدیریت می‌کند.
 
-### 5.1 Defining a Grid Container
+### ۵.۱ تعریف کانتینر Grid
 
 ```html
 <!-- index.html -->
@@ -447,16 +445,16 @@ CSS Grid handles two-dimensional layouts (both rows & columns).
 }
 ```
 
-- `display: grid` on the container.
-- `grid-template-columns` & `grid-template-rows` define grid tracks.
-- `gap` defines both row and column gaps.
-- `repeat(4, 1fr)` creates 4 equal-width columns.
+- `display: grid` روی کانتینر.
+- `grid-template-columns` و `grid-template-rows` مسیرهای grid را تعریف می‌کنند.
+- `gap` هم فاصله ردیف و هم ستون را تعریف می‌کند.
+- `repeat(4, 1fr)` ۴ ستون با عرض مساوی ایجاد می‌کند.
 
 ---
 
-### 5.2 Explicit vs. Implicit Grids
+### ۵.۲ Grid های صریح در مقابل ضمنی
 
-- **Explicit**: You define rows/columns.
+- **صریح**: شما ردیف‌ها/ستون‌ها را تعریف می‌کنید.
 
   ```css
   .grid {
@@ -466,7 +464,7 @@ CSS Grid handles two-dimensional layouts (both rows & columns).
   }
   ```
 
-- **Implicit**: Browser creates additional tracks if items exceed defined grid.
+- **ضمنی**: مرورگر مسیرهای اضافی ایجاد می‌کند اگر آیتم‌ها از grid تعریف شده فراتر بروند.
 
   ```css
   .grid-auto {
@@ -478,7 +476,7 @@ CSS Grid handles two-dimensional layouts (both rows & columns).
 
 ---
 
-### 5.3 Placing Items
+### ۵.۳ قرار دادن آیتم‌ها
 
 ```css
 /* styles.css */
@@ -493,18 +491,18 @@ CSS Grid handles two-dimensional layouts (both rows & columns).
 }
 ```
 
-- **Shorthand**: `grid-column: 1 / span 2` (start at column 1, span 2 columns).
-- You can also define named areas with `grid-template-areas` and assign items via `grid-area`.
+- **کوتاه‌نویسی**: `grid-column: 1 / span 2` (شروع از ستون ۱، گسترش ۲ ستون).
+- همچنین می‌توانید مناطق نام‌گذاری شده را با `grid-template-areas` تعریف کنید و آیتم‌ها را از طریق `grid-area` اختصاص دهید.
 
 ---
 
-## 📦 6 · CSS Nesting & Layers (2025)
+## 📦 مرحله ۶ · CSS Nesting و Layers (۲۰۲۵)
 
-By 2025, modern browsers support **CSS Nesting** and **Layers**, which help organize and simplify CSS.
+تا سال ۲۰۲۵، مرورگرهای مدرن از **CSS Nesting** و **Layers** پشتیبانی می‌کنند که به سازماندهی و ساده‌سازی CSS کمک می‌کنند.
 
-### 6.1 CSS Nesting
+### ۶.۱ CSS Nesting
 
-Nest selectors inside a parent rule to reduce repetition:
+انتخاب‌کننده‌ها را داخل یک قانون والد قرار دهید تا تکرار کاهش یابد:
 
 ```css
 /* styles.css */
@@ -561,9 +559,9 @@ Nest selectors inside a parent rule to reduce repetition:
 
 ---
 
-### 6.2 CSS Layers
+### ۶.۲ CSS Layers
 
-Layers let you group your CSS into conceptual slices, controlling cascade order more predictably:
+Layers به شما اجازه می‌دهند CSS خود را در برش‌های مفهومی گروه‌بندی کنید و ترتیب آبشاری را به طور قابل پیش‌بینی‌تری کنترل کنید:
 
 ```css
 /* styles.css */
@@ -612,16 +610,16 @@ Layers let you group your CSS into conceptual slices, controlling cascade order 
 @import "styles.css"; /* Layers load and cascade in declared order */
 ```
 
-- **Order:** Layers appear in the declared order; rules in deeper layers override earlier layers.
-- **Benefits:** Isolates resets, base styles, components, and utility classes—reducing specificity conflicts and making code easier to reason about.
+- **ترتیب:** Layers به ترتیب اعلان شده ظاهر می‌شوند؛ قوانین در لایه‌های عمیق‌تر لایه‌های قبلی را لغو می‌کنند.
+- **مزایا:** resets، استایل‌های پایه، کامپوننت‌ها و کلاس‌های utility را جدا می‌کند—تعارضات ویژگی را کاهش می‌دهد و کد را آسان‌تر برای درک می‌کند.
 
 ---
 
-## 🔄 7 · Logical Properties & Writing Modes
+## 🔄 مرحله ۷ · ویژگی‌های منطقی و حالت‌های نوشتن
 
-Logical properties adapt layouts to different writing modes (LTR, RTL, vertical). Avoid physical properties like `margin-left`; use logical equivalents like `margin-inline-start`.
+ویژگی‌های منطقی طرح‌ها را با حالت‌های نوشتن مختلف (LTR، RTL، عمودی) تطبیق می‌دهند. از ویژگی‌های فیزیکی مانند `margin-left` اجتناب کنید؛ از معادل‌های منطقی مانند `margin-inline-start` استفاده کنید.
 
-### 7.1 Logical Margin & Padding
+### ۷.۱ مارجین و پدینگ منطقی
 
 ```css
 /* styles.css */
@@ -641,7 +639,7 @@ Logical properties adapt layouts to different writing modes (LTR, RTL, vertical)
 
 ---
 
-### 7.2 Text Flow & Writing Modes
+### ۷.۲ جریان متن و حالت‌های نوشتن
 
 ```css
 /* styles.css */
@@ -660,13 +658,13 @@ Logical properties adapt layouts to different writing modes (LTR, RTL, vertical)
 </div>
 ```
 
-> **Use Case:** Useful for multilingual sites, e-book readers, or vertical Asian text typesetting.
+> **مورد استفاده:** مفید برای سایت‌های چندزبانه، خوانندگان کتاب الکترونیکی، یا حروف‌چینی عمودی آسیایی.
 
 ---
 
-## 📱 8 · Media Queries & Container Queries
+## 📱 مرحله ۸ · Media Queries و Container Queries
 
-### 8.1 Media Queries (Responsive Breakpoints)
+### ۸.۱ Media Queries (نقاط شکست واکنش‌گرا)
 
 ```css
 /* styles.css */
@@ -689,14 +687,14 @@ Logical properties adapt layouts to different writing modes (LTR, RTL, vertical)
 }
 ```
 
-- Always use **mobile-first**: define base styles for small viewports, then override for larger screens.
-- Common breakpoints:
+- همیشه از **mobile-first** استفاده کنید: استایل‌های پایه را برای viewport های کوچک تعریف کنید، سپس برای صفحه‌های بزرگتر لغو کنید.
+- نقاط شکست رایج:
 
-  - `320px` (small phones)
-  - `480px` (large phones)
-  - `768px` (tablets)
-  - `1024px` (small laptops)
-  - `1280px`+ (desktops)
+  - `320px` (گوشی‌های کوچک)
+  - `480px` (گوشی‌های بزرگ)
+  - `768px` (تبلت‌ها)
+  - `1024px` (لپ‌تاپ‌های کوچک)
+  - `1280px`+ (دسکتاپ‌ها)
 
 ---
 
@@ -755,15 +753,15 @@ Container queries let components adapt based on their own container’s size, no
 
 ---
 
-## 🔖 9 · Naming Conventions: BEM & Utility Classes
+## 🔖 مرحله ۹ · قراردادهای نام‌گذاری: BEM و کلاس‌های Utility
 
-Clear naming makes maintenance easier, especially in teams or open-source projects.
+نام‌گذاری واضح نگهداری را آسان‌تر می‌کند، به خصوص در تیم‌ها یا پروژه‌های open-source.
 
-### 9.1 BEM (Block, Element, Modifier)
+### ۹.۱ BEM (Block، Element، Modifier)
 
-- **Block**: standalone component (e.g., `product-card`).
-- **Element**: part of a block, written as `block__element` (e.g., `product-card__title`).
-- **Modifier**: variant or state, written as `block--modifier` or `block__element--modifier` (e.g., `product-card--featured`, `button--primary`).
+- **Block**: کامپوننت مستقل (مثلاً، `product-card`).
+- **Element**: بخشی از یک block، به صورت `block__element` نوشته می‌شود (مثلاً، `product-card__title`).
+- **Modifier**: نوع یا حالت، به صورت `block--modifier` یا `block__element--modifier` نوشته می‌شود (مثلاً، `product-card--featured`، `button--primary`).
 
 ```html
 <!-- index.html -->
@@ -821,13 +819,13 @@ Clear naming makes maintenance easier, especially in teams or open-source projec
 }
 ```
 
-> **Best Practice:** BEM keeps classes flat (no descendant selectors). This reduces specificity and makes components portable.
+> **بهترین شیوه:** BEM کلاس‌ها را مسطح نگه می‌دارد (بدون انتخاب‌کننده‌های نسل). این ویژگی را کاهش می‌دهد و کامپوننت‌ها را قابل حمل می‌کند.
 
 ---
 
-### 9.2 Utility-First CSS
+### ۹.۲ CSS Utility-First
 
-Instead of writing new component classes, use small, reusable utility classes. Example:
+به جای نوشتن کلاس‌های کامپوننت جدید، از کلاس‌های utility کوچک و قابل استفاده مجدد استفاده کنید. مثال:
 
 ```html
 <!-- index.html -->
@@ -904,20 +902,20 @@ Instead of writing new component classes, use small, reusable utility classes. E
 }
 ```
 
-> **Pros & Cons:**
+> **مزایا و معایب:**
 >
-> - **Pros:** Faster prototyping, consistent spacing/colors.
-> - **Cons:** Markup becomes verbose. Balance utility classes with component classes for maintainability.
+> - **مزایا:** نمونه‌سازی سریع‌تر، فاصله‌گذاری/رنگ‌های یکپارچه.
+> - **معایب:** Markup طولانی می‌شود. کلاس‌های utility را با کلاس‌های کامپوننت برای قابلیت نگهداری متعادل کنید.
 
 ---
 
-## 🎨 10 · Mini-Project — Product Card (Pixel-Perfect & Fluid)
+## 🎨 مرحله ۱۰ · پروژه کوچک — کارت محصول (پیکسل-پرفکت و سیال)
 
 ### 10.1 Objective
 
 Recreate this e-commerce product card exactly as shown in your design, then ensure it’s fluid down to **320 px**. No CSS frameworks—pure CSS.
 
-> **Note:** Place a local image at `public/images/product-card-example.jpg` to reference below.
+> **نکته:** یک تصویر محلی در `public/images/product-card-example.jpg` قرار دهید تا در زیر به آن مراجعه کنید.
 
 ```mdx
 ![Product Card Example](/images/product-card-example.jpg)
@@ -937,7 +935,7 @@ Recreate this e-commerce product card exactly as shown in your design, then ensu
 
 ---
 
-### 10.2 HTML Structure
+### ۱۰.۲ ساختار HTML
 
 ```html
 <!-- index.html -->
@@ -960,14 +958,14 @@ Recreate this e-commerce product card exactly as shown in your design, then ensu
 </div>
 ```
 
-- **`.product-card`**: Block container.
-- **`.product-card__image`**: Element for the image.
-- **`.product-card__info`**: Wraps title, price, rating, and button.
-- **`.button`** & **`.button--primary`**: Reusable button classes.
+- **`.product-card`**: کانتینر بلوک.
+- **`.product-card__image`**: عنصر برای تصویر.
+- **`.product-card__info`**: عنوان، قیمت، امتیاز و دکمه را می‌پیچد.
+- **`.button`** و **`.button--primary`**: کلاس‌های دکمه قابل استفاده مجدد.
 
 ---
 
-### 10.3 Base CSS
+### ۱۰.۳ CSS پایه
 
 ```css
 /* styles.css */
@@ -1155,13 +1153,13 @@ Add media queries for very small screens:
 }
 ```
 
-- **480 px**: Slightly reduce paddings and font sizes for small phones.
-- **320 px**: Further reduce to prevent any overflow.
-- Test by shrinking your browser window down to 320 px—no horizontal scrollbar appears, and all text remains readable.
+- **۴۸۰ پیکسل**: پدینگ‌ها و اندازه فونت‌ها را برای گوشی‌های کوچک کمی کاهش دهید.
+- **۳۲۰ پیکسل**: بیشتر کاهش دهید تا از سرریز جلوگیری شود.
+- با کوچک کردن پنجره مرورگر تا ۳۲۰ پیکسل تست کنید—هیچ نوار اسکرول افقی ظاهر نمی‌شود و تمام متن قابل خواندن باقی می‌ماند.
 
 ---
 
-## 🔗 11 · Further Reading & Resources
+## 🔗 مرحله ۱۱ · مطالعه بیشتر و منابع
 
 - **Flexbox Guide** — Kevin Powell: [“Learn CSS Flexbox”](https://www.youtube.com/watch?v=JJSoEo8JSnc)
 - **Grid Tutorial** — Kevin Powell: [“Learn CSS Grid”](https://www.youtube.com/watch?v=7kVeCqQCxlk)
@@ -1171,53 +1169,53 @@ Add media queries for very small screens:
 - **Logical Properties** — MDN: [“CSS Logical Properties”](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties)
 - **BEM Methodology** — getbem.com: [“BEM 101”](https://getbem.com/introduction/)
 
-> **Tip:** Bookmark these links and revisit as you build larger projects. Video tutorials can make complex concepts easier to grasp.
+> **نکته:** این لینک‌ها را بوکمارک کنید و هنگام ساخت پروژه‌های بزرگتر دوباره مراجعه کنید. آموزش‌های ویدیویی می‌توانند مفاهیم پیچیده را آسان‌تر درک کنند.
 
 ---
 
-## 🎒 Homework & Practice
+## 🎒 تکالیف و تمرین
 
-1. **Box Model Drill**
+۱. **تمرین مدل جعبه**
 
-   - Create three nested `<div>` elements. Give each a distinct border color, padding, and margin. Inspect in DevTools to see how width is calculated.
-   - **Proof:** Screenshot showing computed size values in DevTools.
+- سه عنصر `<div>` تودرتو ایجاد کنید. به هر کدام یک رنگ حاشیه، پدینگ و مارجین متمایز بدهید. در DevTools بررسی کنید تا ببینید عرض چگونه محاسبه می‌شود.
+- **مدرک:** اسکرین‌شات نشان‌دهنده مقادیر اندازه محاسبه شده در DevTools.
 
-2. **Specificity Quiz**
+۲. **آزمون ویژگی**
 
-   - Write five CSS scenarios with mixed selectors. Predict which style wins in each case.
-   - **Proof:** A code snippet with your answers commented inline.
+- پنج سناریوی CSS با انتخاب‌کننده‌های مختلط بنویسید. پیش‌بینی کنید کدام استایل در هر مورد برنده می‌شود.
+- **مدرک:** یک قطعه کد با پاسخ‌های شما که به صورت درون‌خطی کامنت شده‌اند.
 
-3. **Flexbox Layout**
+۳. **طرح Flexbox**
 
-   - Build a responsive card grid: three columns on desktop, two columns on tablet (≥ 768 px), and one column on mobile (≤ 480 px). Each card must contain an image and text.
-   - **Proof:** Live URL or a screen recording showing the layout adjusting as you resize.
+- یک شبکه کارت واکنش‌گرا بسازید: سه ستون در دسکتاپ، دو ستون در تبلت (≥ ۷۶۸ پیکسل)، و یک ستون در موبایل (≤ ۴۸۰ پیکسل). هر کارت باید شامل تصویر و متن باشد.
+- **مدرک:** URL زنده یا ضبط صفحه نمایش نشان‌دهنده تنظیم طرح هنگام تغییر اندازه.
 
-4. **Grid Gallery**
+۴. **گالری Grid**
 
-   - Create a photo gallery using CSS Grid with equal gaps. At `< 600 px`, switch to two columns; at `< 400 px`, use one column.
-   - **Proof:** CodePen link or live URL demonstrating the responsive behavior.
+- یک گالری عکس با استفاده از CSS Grid با فاصله‌های مساوی ایجاد کنید. در `< ۶۰۰ پیکسل`، به دو ستون تغییر دهید؛ در `< ۴۰۰ پیکسل`، از یک ستون استفاده کنید.
+- **مدرک:** لینک CodePen یا URL زنده نشان‌دهنده رفتار واکنش‌گرا.
 
 5. **Nesting & Layers Practice**
 
    - Take an existing project (e.g., a mini portfolio) and refactor its CSS to use `@layer` and nesting. Create at least three layers (`resets`, `base`, `components`).
    - **Proof:** Paste the reorganized CSS with comments explaining each layer’s purpose.
 
-6. **Logical Properties Challenge**
+۶. **چالش ویژگی‌های منطقی**
 
-   - Build a two-column layout for English (LTR). Then add `dir="rtl"` to the `<html>` tag and verify that paddings/margins adapt automatically using logical properties.
-   - **Proof:** Screenshots of both LTR and RTL views showing correct alignment.
+- یک طرح دو ستونی برای انگلیسی (LTR) بسازید. سپس `dir="rtl"` را به تگ `<html>` اضافه کنید و تأیید کنید که پدینگ‌ها/مارجین‌ها به طور خودکار با استفاده از ویژگی‌های منطقی تطبیق می‌یابند.
+- **مدرک:** اسکرین‌شات‌های هر دو نمای LTR و RTL نشان‌دهنده تراز صحیح.
 
-7. **Container Query Card**
+۷. **کارت Container Query**
 
-   - Create a testimonial card that shows avatar and text side by side when the container is ≥ 300 px wide; otherwise stack vertically. Use `container-type` and `@container`.
-   - **Proof:** Code snippet and a brief explanation of how the container query affects the layout.
+- یک کارت گواهی ایجاد کنید که آواتار و متن را کنار هم نشان دهد وقتی کانتینر ≥ ۳۰۰ پیکسل عرض دارد؛ در غیر این صورت عمودی روی هم قرار دهید. از `container-type` و `@container` استفاده کنید.
+- **مدرک:** قطعه کد و توضیح مختصری از اینکه چگونه container query بر طرح تأثیر می‌گذارد.
 
-8. **BEM vs. Utility Comparison**
+۸. **مقایسه BEM در مقابل Utility**
 
-   - Rebuild the product card twice: once with BEM naming and once with utility classes. Compare HTML verbosity and CSS file size.
-   - **Proof:** Provide both code versions and a short write-up (2–3 sentences) on which approach you prefer and why.
+- کارت محصول را دو بار بازسازی کنید: یک بار با نام‌گذاری BEM و یک بار با کلاس‌های utility. طولانی بودن HTML و اندازه فایل CSS را مقایسه کنید.
+- **مدرک:** هر دو نسخه کد و یک نوشته کوتاه (۲–۳ جمله) در مورد اینکه کدام روش را ترجیح می‌دهید و چرا ارائه دهید.
 
-> **Submission:** Upload your files or URLs to the **Nikode.ir Homework Portal**. Share your process and reflections in the community forum.
+> **ارسال:** فایل‌ها یا URL های خود را به **پورتال تکالیف نیکود** آپلود کنید. فرآیند و تأملات خود را در انجمن جامعه به اشتراک بگذارید.
 
 ---
 

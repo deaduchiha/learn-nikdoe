@@ -174,7 +174,7 @@ const response = await fetch("https://api.example.com/users");
 const params = new URLSearchParams({
   page: 1,
   limit: 10,
-  search: "علی",
+  search: "alireza",
 });
 const response = await fetch(`https://api.example.com/users?${params}`);
 ```
@@ -183,8 +183,8 @@ const response = await fetch(`https://api.example.com/users?${params}`);
 
 ```javascript
 const newUser = {
-  name: "علی احمدی",
-  email: "ali@example.com",
+  name: "Alireza Nikzad",
+  email: "alireza@example.com",
   age: 30,
 };
 
@@ -192,7 +192,7 @@ const response = await fetch("https://api.example.com/users", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    Authorization: "Bearer توکن-شما-اینجا",
+    Authorization: "Bearer <token>",
   },
   body: JSON.stringify(newUser),
 });
@@ -205,8 +205,8 @@ console.log("کاربر ایجاد شد:", createdUser);
 
 ```javascript
 const updatedUser = {
-  name: "علی احمدی",
-  email: "ali.ahmadi@example.com",
+  name: "Alireza Nikzad",
+  email: "alireza@example.com",
   age: 31,
 };
 
@@ -591,78 +591,6 @@ github
   .catch((error) => console.error("خطا:", error));
 ```
 
-### JSONPlaceholder (API تست)
-
-```javascript
-class JSONPlaceholderAPI {
-  constructor() {
-    this.baseUrl = "https://jsonplaceholder.typicode.com";
-  }
-
-  async getPosts() {
-    const response = await fetch(`${this.baseUrl}/posts`);
-    return await response.json();
-  }
-
-  async getPost(id) {
-    const response = await fetch(`${this.baseUrl}/posts/${id}`);
-
-    if (!response.ok) {
-      throw new Error(`پست پیدا نشد: ${id}`);
-    }
-
-    return await response.json();
-  }
-
-  async createPost(postData) {
-    const response = await fetch(`${this.baseUrl}/posts`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
-
-    return await response.json();
-  }
-
-  async updatePost(id, postData) {
-    const response = await fetch(`${this.baseUrl}/posts/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
-
-    return await response.json();
-  }
-
-  async deletePost(id) {
-    const response = await fetch(`${this.baseUrl}/posts/${id}`, {
-      method: "DELETE",
-    });
-
-    return response.ok;
-  }
-}
-
-// استفاده
-const api = new JSONPlaceholderAPI();
-
-// دریافت همه پست‌ها
-api.getPosts().then((posts) => console.log("پست‌ها:", posts));
-
-// ایجاد پست جدید
-api
-  .createPost({
-    title: "پست جدید من",
-    body: "این محتوای پست من است",
-    userId: 1,
-  })
-  .then((post) => console.log("ایجاد شد:", post));
-```
-
 ---
 
 ## 🎯 تمرینات عملی
@@ -886,7 +814,7 @@ try {
 
 ### منابع مفید
 
-- **API های عمومی**: [JSONPlaceholder](https://jsonplaceholder.typicode.com/)، [OpenWeatherMap](https://openweathermap.org/api)
+- **API های عمومی**: [JSONPlaceholder](https://jsonplaceholder.typicode.com/)، [Nikode Api](https://api.nikode.ir)
 - **کدهای وضعیت HTTP**: [MDN HTTP Status](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 - **Fetch API**: [MDN Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 - **Chrome DevTools**: [راهنمای تب Network](https://developers.google.com/web/tools/chrome-devtools/network)
