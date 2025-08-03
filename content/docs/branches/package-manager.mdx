@@ -1,59 +1,59 @@
 ---
-title: "Package Managers"
-description: "A comprehensive guide to JavaScript package management, comparing npm and Bun. Covers installation, versioning, and dependency management best practices."
+title: "مدیران بسته‌ها"
+description: "راهنمای جامع مدیریت بسته‌های جاوااسکریپت، مقایسه npm و Bun. شامل نصب، نسخه‌گذاری و بهترین شیوه‌های مدیریت وابستگی‌ها."
 ---
 
-## Introduction
+## مقدمه
 
-In modern JavaScript development, **packages** are reusable pieces of code—libraries or tools—that you can install and use in your projects. A **package manager** helps you find, install, update, and remove these packages. Two popular JavaScript package managers today are **npm** (Node Package Manager) and **Bun**. This document explains:
+در توسعه مدرن جاوااسکریپت، **بسته‌ها** قطعات قابل استفاده مجدد کد هستند - کتابخانه‌ها یا ابزارهایی که می‌توانید در پروژه‌های خود نصب و استفاده کنید. یک **مدیر بسته** به شما کمک می‌کند تا این بسته‌ها را پیدا، نصب، به‌روزرسانی و حذف کنید. دو مدیر بسته محبوب جاوااسکریپت امروز **npm** (Node Package Manager) و **Bun** هستند. این سند توضیح می‌دهد:
 
-1. What packages and package managers are
-2. How to use **npm**
-3. How to use **Bun**
-4. Key differences between npm and Bun
-5. Best practices
-6. Homework exercises
-
----
-
-## Section 1: What Are Packages and Package Managers?
-
-### 1.1 Packages
-
-- A **package** (sometimes called a "module") is a folder of code that can include:
-
-  - JavaScript files
-  - Metadata (like name, version, author)
-  - Dependencies (other packages it needs to work)
-
-- Example packages:
-
-  - **Lodash** (`lodash`) for utility functions (e.g., `_.map`, `_.cloneDeep`)
-  - **Express** (`express`) for web servers
-  - **React** (`react`) for building user interfaces
-
-When you install a package, you can use its exported functions or objects in your code via `import` (ESM) or `require` (CommonJS).
-
-### 1.2 Package Managers
-
-A **package manager** is a tool that:
-
-1. **Installs** packages from a central registry (like the npm registry)
-2. **Manages** versions and dependencies of packages
-3. **Updates** packages when new versions are available
-4. **Uninstalls** packages you no longer need
-
-Without a package manager, you would have to manually download, copy, and link code—very error prone. With a package manager, you simply run a command like `npm install lodash` and it handles everything.
+1. بسته‌ها و مدیران بسته چیستند
+2. چگونه از **npm** استفاده کنیم
+3. چگونه از **Bun** استفاده کنیم
+4. تفاوت‌های کلیدی بین npm و Bun
+5. بهترین شیوه‌ها
+6. تمرینات تکلیف
 
 ---
 
-## Section 2: npm (Node Package Manager)
+## بخش 1: بسته‌ها و مدیران بسته چیستند؟
 
-npm is the oldest and most widely used JavaScript package manager. It comes bundled with Node.js and uses the **npm registry** to download packages.
+### 1.1 بسته‌ها
 
-### 2.1 Initializing a Project (`package.json`)
+- یک **بسته** (گاهی "ماژول" نامیده می‌شود) پوشه‌ای از کد است که می‌تواند شامل باشد:
 
-Every npm-based project has a `package.json` file at its root. This file holds metadata and lists dependencies. To create one:
+  - فایل‌های جاوااسکریپت
+  - فراداده (مانند نام، نسخه، نویسنده)
+  - وابستگی‌ها (بسته‌های دیگری که برای کار نیاز دارد)
+
+- نمونه بسته‌ها:
+
+  - **Lodash** (`lodash`) برای توابع کمکی (مثل `_.map`، `_.cloneDeep`)
+  - **Express** (`express`) برای سرورهای وب
+  - **React** (`react`) برای ساخت رابط‌های کاربری
+
+وقتی یک بسته را نصب می‌کنید، می‌توانید از توابع یا اشیاء صادر شده آن در کد خود از طریق `import` (ESM) یا `require` (CommonJS) استفاده کنید.
+
+### 1.2 مدیران بسته
+
+یک **مدیر بسته** ابزاری است که:
+
+1. **نصب** بسته‌ها از یک ثبت مرکزی (مانند ثبت npm)
+2. **مدیریت** نسخه‌ها و وابستگی‌های بسته‌ها
+3. **به‌روزرسانی** بسته‌ها وقتی نسخه‌های جدید در دسترس هستند
+4. **حذف** بسته‌هایی که دیگر نیاز ندارید
+
+بدون مدیر بسته، باید به صورت دستی کد را دانلود، کپی و پیوند دهید - بسیار مستعد خطا. با مدیر بسته، به سادگی دستوری مثل `npm install lodash` اجرا می‌کنید و همه چیز را مدیریت می‌کند.
+
+---
+
+## بخش 2: npm (Node Package Manager)
+
+npm قدیمی‌ترین و پرکاربردترین مدیر بسته جاوااسکریپت است. همراه با Node.js ارائه می‌شود و از **ثبت npm** برای دانلود بسته‌ها استفاده می‌کند.
+
+### 2.1 راه‌اندازی یک پروژه (`package.json`)
+
+هر پروژه مبتنی بر npm یک فایل `package.json` در ریشه خود دارد. این فایل فراداده را نگه می‌دارد و وابستگی‌ها را فهرست می‌کند. برای ایجاد یکی:
 
 ```bash
 mkdir my-project
@@ -61,15 +61,15 @@ cd my-project
 npm init
 ```
 
-You will be prompted to enter:
+از شما خواسته می‌شود وارد کنید:
 
-- **name** (e.g., `my-project`)
-- **version** (e.g., `1.0.0`)
-- **description** (e.g., `A demo project using npm`)
-- **entry point** (e.g., `index.js`)
-- **author** and **license**
+- **name** (مثل `my-project`)
+- **version** (مثل `1.0.0`)
+- **description** (مثل `A demo project using npm`)
+- **entry point** (مثل `index.js`)
+- **author** و **license**
 
-If you want to skip the prompts and accept defaults, run `npm init -y`. A minimal `package.json` might look like:
+اگر می‌خواهید از درخواست‌ها رد شوید و پیش‌فرض‌ها را بپذیرید، `npm init -y` اجرا کنید. یک `package.json` حداقلی ممکن است شبیه این باشد:
 
 ```jsonc
 {
@@ -88,128 +88,128 @@ If you want to skip the prompts and accept defaults, run `npm init -y`. A minima
 }
 ```
 
-- **`scripts`**: Custom commands you can run via `npm run <script-name>`.
-- **`dependencies`**: Packages your project needs at runtime.
-- **`devDependencies`**: Packages needed only during development (e.g., testing tools, linters).
+- **`scripts`**: دستورات سفارشی که می‌توانید از طریق `npm run <script-name>` اجرا کنید.
+- **`dependencies`**: بسته‌هایی که پروژه شما در زمان اجرا نیاز دارد.
+- **`devDependencies`**: بسته‌هایی که فقط در طول توسعه نیاز هستند (مثل ابزارهای تست، لینترها).
 
-### 2.2 Installing Packages
+### 2.2 نصب بسته‌ها
 
-To install a package and save it to **dependencies**:
+برای نصب یک بسته و ذخیره آن در **dependencies**:
 
 ```bash
 npm install lodash
 ```
 
-This does three things:
+این سه کار انجام می‌دهد:
 
-1. Downloads `lodash` (latest version) into `node_modules/`
-2. Adds `"lodash": "^<version>"` under `"dependencies"` in `package.json`
-3. Creates or updates `package-lock.json` to lock exact versions
+1. `lodash` (آخرین نسخه) را در `node_modules/` دانلود می‌کند
+2. `"lodash": "^<version>"` را زیر `"dependencies"` در `package.json` اضافه می‌کند
+3. `package-lock.json` را ایجاد یا به‌روزرسانی می‌کند تا نسخه‌های دقیق را قفل کند
 
-To install a package as a **development dependency**:
+برای نصب یک بسته به عنوان **وابستگی توسعه**:
 
 ```bash
 npm install --save-dev eslint
 ```
 
-This adds `"eslint": "^<version>"` under `"devDependencies"`. Development dependencies will not be bundled when you deploy production code (for example, Docker builds will typically omit devDependencies).
+این `"eslint": "^<version>"` را زیر `"devDependencies"` اضافه می‌کند. وابستگی‌های توسعه هنگام استقرار کد تولید بسته‌بندی نمی‌شوند (مثلاً، ساخت‌های Docker معمولاً devDependencies را حذف می‌کنند).
 
-#### 2.2.1 Common npm Commands
+#### 2.2.1 دستورات رایج npm
 
-- **`npm install`** (or `npm i`): Installs all packages listed in `package.json` (reads `dependencies` and `devDependencies`).
-- **`npm install <package-name>@<version>`**: Installs a specific version, e.g. `npm install express@4.18.2`.
-- **`npm update`**: Updates packages to the latest version that satisfies the semver range in `package.json`.
-- **`npm uninstall <package-name>`**: Removes a package from `node_modules` and from `package.json`.
-- **`npm outdated`**: Lists packages that have newer versions than what your `package.json` allows.
-- **`npm audit`**: Checks for known security vulnerabilities in installed dependencies.
+- **`npm install`** (یا `npm i`): همه بسته‌های فهرست شده در `package.json` را نصب می‌کند (dependencies و devDependencies را می‌خواند).
+- **`npm install <package-name>@<version>`**: یک نسخه خاص نصب می‌کند، مثلاً `npm install express@4.18.2`.
+- **`npm update`**: بسته‌ها را به آخرین نسخه‌ای که محدوده semver در `package.json` را برآورده می‌کند به‌روزرسانی می‌کند.
+- **`npm uninstall <package-name>`**: یک بسته را از `node_modules` و از `package.json` حذف می‌کند.
+- **`npm outdated`**: بسته‌هایی را که نسخه‌های جدیدتری از آنچه `package.json` شما اجازه می‌دهد دارند فهرست می‌کند.
+- **`npm audit`**: آسیب‌پذیری‌های امنیتی شناخته شده در وابستگی‌های نصب شده را بررسی می‌کند.
 
-### 2.3 Semantic Versioning (semver)
+### 2.3 نسخه‌گذاری معنایی (semver)
 
-npm uses [Semantic Versioning](https://semver.org/) (semver) to manage package versions. A version has three parts: `MAJOR.MINOR.PATCH`, for example `2.5.1`.
+npm از [نسخه‌گذاری معنایی](https://semver.org/) (semver) برای مدیریت نسخه‌های بسته استفاده می‌کند. یک نسخه سه بخش دارد: `MAJOR.MINOR.PATCH`، مثلاً `2.5.1`.
 
-- **PATCH** (`x.y.1` → `x.y.2`): Bug fixes, no new features.
-- **MINOR** (`x.1.0` → `x.2.0`): Backward-compatible new features.
-- **MAJOR** (`1.0.0` → `2.0.0`): Breaking changes or incompatible API updates.
+- **PATCH** (`x.y.1` → `x.y.2`): رفع اشکالات، بدون ویژگی‌های جدید.
+- **MINOR** (`x.1.0` → `x.2.0`): ویژگی‌های جدید سازگار با گذشته.
+- **MAJOR** (`1.0.0` → `2.0.0`): تغییرات شکستن یا به‌روزرسانی‌های API ناسازگار.
 
-In `package.json`, version ranges often include a caret (`^`) or tilde (`~`):
+در `package.json`، محدوده‌های نسخه اغلب شامل caret (`^`) یا tilde (`~`) هستند:
 
 ```json
 {
   "dependencies": {
-    "lodash": "^4.17.21", // install the latest 4.x.x version (>=4.17.21 <5.0.0)
-    "lodash": "~4.17.21" // install the latest 4.17.x version (>=4.17.21 <4.18.0)
+    "lodash": "^4.17.21", // نصب آخرین نسخه 4.x.x (>=4.17.21 <5.0.0)
+    "lodash": "~4.17.21" // نصب آخرین نسخه 4.17.x (>=4.17.21 <4.18.0)
   }
 }
 ```
 
-Using caret (`^`) is common because it allows non-breaking updates automatically when you run `npm update`.
+استفاده از caret (`^`) رایج است زیرا به‌روزرسانی‌های غیرشکستن را به طور خودکار هنگام اجرای `npm update` اجازه می‌دهد.
 
-### 2.4 Global vs Local Installs
+### 2.4 نصب سراسری در مقابل محلی
 
-- **Local install** (default): Places packages under `./node_modules/` and records them in your project's `package.json`. Use this for libraries your code depends on.
+- **نصب محلی** (پیش‌فرض): بسته‌ها را زیر `./node_modules/` قرار می‌دهد و آنها را در `package.json` پروژه شما ثبت می‌کند. از این برای کتابخانه‌هایی که کد شما به آنها وابسته است استفاده کنید.
 
   ```bash
   npm install express
   ```
 
-- **Global install**: Installs a package to a central location on your machine, making its CLI tools available anywhere. Use `-g` or `--global`:
+- **نصب سراسری**: یک بسته را در یک مکان مرکزی روی دستگاه شما نصب می‌کند و ابزارهای CLI آن را در همه جا در دسترس قرار می‌دهد. از `-g` یا `--global` استفاده کنید:
 
   ```bash
   npm install -g http-server
   ```
 
-  Now you can run `http-server` from any terminal. Do **not** install libraries (React, Lodash, etc.) globally—only CLI tools (e.g., `eslint`, `nodemon`, `npm` itself).
+  حالا می‌توانید `http-server` را از هر ترمینال اجرا کنید. کتابخانه‌ها (React، Lodash، و غیره) را سراسری نصب **نکنید** - فقط ابزارهای CLI (مثل `eslint`، `nodemon`، خود `npm`).
 
 ### 2.5 `package-lock.json`
 
-- When you install or update packages, npm creates or updates a `package-lock.json`.
-- This file **locks exact dependency versions**, including nested dependencies, so that every install on any machine yields identical code.
-- **Do not edit** `package-lock.json` manually. Commit it to version control to ensure consistency for your entire team.
+- وقتی بسته‌ها را نصب یا به‌روزرسانی می‌کنید، npm یک `package-lock.json` ایجاد یا به‌روزرسانی می‌کند.
+- این فایل **نسخه‌های دقیق وابستگی‌ها را قفل می‌کند**، شامل وابستگی‌های تو در تو، تا هر نصب روی هر دستگاه کد یکسانی تولید کند.
+- **دستکاری نکنید** `package-lock.json` را به صورت دستی. آن را در کنترل نسخه commit کنید تا سازگاری برای کل تیم شما تضمین شود.
 
 ---
 
-## Section 3: Bun (A New JavaScript Runtime & Package Manager)
+## بخش 3: Bun (یک Runtime و مدیر بسته جدید جاوااسکریپت)
 
-[Bun](https://bun.sh/) is a newer JavaScript runtime (like Node.js) that includes its own built-in package manager, bundler, and task runner. It aims to be faster and more efficient than Node.js + npm/Yarn.
+[Bun](https://bun.sh/) یک runtime جاوااسکریپت جدیدتر (مثل Node.js) است که شامل مدیر بسته داخلی خود، bundler و task runner است. هدف آن سریع‌تر و کارآمدتر از Node.js + npm/Yarn بودن است.
 
-> **Note**: Bun is still evolving. Some packages or tools may not yet work 100% with Bun. Always check compatibility before adopting Bun for production.
+> **نکته**: Bun هنوز در حال تکامل است. برخی بسته‌ها یا ابزارها ممکن است هنوز 100% با Bun کار نکنند. همیشه سازگاری را قبل از پذیرش Bun برای تولید بررسی کنید.
 
-### 3.1 Installing Bun
+### 3.1 نصب Bun
 
-1. On macOS or Linux, run:
+1. روی macOS یا Linux، اجرا کنید:
 
    ```bash
    curl https://bun.sh/install | bash
    ```
 
-2. On Windows, follow instructions at [https://bun.sh/](https://bun.sh/) (using WSL or a native build).
-3. After installation, restart your terminal and confirm:
+2. روی Windows، دستورالعمل‌های [https://bun.sh/](https://bun.sh/) را دنبال کنید (با استفاده از WSL یا یک build بومی).
+3. بعد از نصب، ترمینال خود را مجدداً راه‌اندازی کنید و تأیید کنید:
 
    ```bash
    bun --version
    ```
 
-### 3.2 Bun Project Initialization (`bun init`)
+### 3.2 راه‌اندازی پروژه Bun (`bun init`)
 
-Like `npm init`, Bun can create a `package.json` (and other project files) with one command:
+مثل `npm init`، Bun می‌تواند یک `package.json` (و فایل‌های پروژه دیگر) را با یک دستور ایجاد کند:
 
 ```bash
 bun init
 ```
 
-You will be prompted for:
+از شما خواسته می‌شود برای:
 
-- **Project name**
-- **Version**
-- **Entry file** (e.g., `index.js`)
-- **Description**, **author**, **license**
+- **نام پروژه**
+- **نسخه**
+- **فایل ورودی** (مثل `index.js`)
+- **توضیحات**، **نویسنده**، **مجوز**
 
-After running `bun init`, you'll see:
+بعد از اجرای `bun init`، خواهید دید:
 
-- A `package.json` similar to npm's
-- A lockfile called `bun.lockb` (binary format, specific to Bun)
+- یک `package.json` مشابه npm
+- یک فایل قفل به نام `bun.lockb` (فرمت باینری، مخصوص Bun)
 
-Example `package.json` created by Bun:
+نمونه `package.json` ایجاد شده توسط Bun:
 
 ```jsonc
 {
@@ -223,46 +223,46 @@ Example `package.json` created by Bun:
 }
 ```
 
-### 3.3 Installing Packages with Bun
+### 3.3 نصب بسته‌ها با Bun
 
-To install a package, use:
+برای نصب یک بسته، استفاده کنید:
 
 ```bash
 bun add lodash
 ```
 
-This does:
+این انجام می‌دهد:
 
-1. Fetches package metadata from the npm registry by default.
-2. Installs `lodash` into `node_modules/`.
-3. Updates `package.json` under `"dependencies"`.
-4. Updates or creates `bun.lockb` to lock dependencies.
+1. فراداده بسته را از ثبت npm به طور پیش‌فرض دریافت می‌کند.
+2. `lodash` را در `node_modules/` نصب می‌کند.
+3. `package.json` را زیر `"dependencies"` به‌روزرسانی می‌کند.
+4. `bun.lockb` را برای قفل کردن وابستگی‌ها به‌روزرسانی یا ایجاد می‌کند.
 
-If you want to add a **development dependency**:
+اگر می‌خواهید یک **وابستگی توسعه** اضافه کنید:
 
 ```bash
 bun add --dev eslint
 ```
 
-Key Bun equivalents for npm commands:
+معادل‌های کلیدی Bun برای دستورات npm:
 
-| Purpose                  | npm Command            | Bun Command               |
-| ------------------------ | ---------------------- | ------------------------- |
-| Install all dependencies | `npm install`          | `bun install`             |
-| Add a dependency         | `npm install <pkg>`    | `bun add <pkg>`           |
-| Add a dev dependency     | `npm install -D <pkg>` | `bun add --dev <pkg>`     |
-| Remove a dependency      | `npm uninstall <pkg>`  | `bun remove <pkg>`        |
-| Update dependencies      | `npm update`           | `bun update`              |
-| List outdated packages   | `npm outdated`         | (Not yet fully supported) |
+| هدف                         | دستور npm              | دستور Bun                      |
+| --------------------------- | ---------------------- | ------------------------------ |
+| نصب همه وابستگی‌ها          | `npm install`          | `bun install`                  |
+| اضافه کردن یک وابستگی       | `npm install <pkg>`    | `bun add <pkg>`                |
+| اضافه کردن یک وابستگی توسعه | `npm install -D <pkg>` | `bun add --dev <pkg>`          |
+| حذف یک وابستگی              | `npm uninstall <pkg>`  | `bun remove <pkg>`             |
+| به‌روزرسانی وابستگی‌ها      | `npm update`           | `bun update`                   |
+| فهرست بسته‌های قدیمی        | `npm outdated`         | (هنوز کاملاً پشتیبانی نمی‌شود) |
 
-#### 3.3.1 Speed Comparison
+#### 3.3.1 مقایسه سرعت
 
-- **Bun** uses a faster resolver and native code for many tasks, often installing packages several times faster than npm.
-- **npm** is stable, mature, and supported by most CI/CD systems, but can be slower on large dependency trees.
+- **Bun** از یک resolver سریع‌تر و کد بومی برای بسیاری از کارها استفاده می‌کند، اغلب بسته‌ها را چندین برابر سریع‌تر از npm نصب می‌کند.
+- **npm** پایدار، بالغ و پشتیبانی شده توسط اکثر سیستم‌های CI/CD است، اما می‌تواند روی درخت‌های وابستگی بزرگ کندتر باشد.
 
-### 3.4 Running Scripts with Bun
+### 3.4 اجرای اسکریپت‌ها با Bun
 
-In `package.json`, scripts work similarly:
+در `package.json`، اسکریپت‌ها به طور مشابه کار می‌کنند:
 
 ```jsonc
 {
@@ -273,99 +273,99 @@ In `package.json`, scripts work similarly:
 }
 ```
 
-To run an npm-style script, use:
+برای اجرای یک اسکریپت به سبک npm، استفاده کنید:
 
 ```bash
 bun run start
 bun run test
 ```
 
-Bun also offers `bun x` to run binaries from your local `node_modules/.bin`:
+Bun همچنین `bun x` را برای اجرای باینری‌ها از `node_modules/.bin` محلی شما ارائه می‌دهد:
 
 ```bash
 bun x eslint .
 ```
 
-(This runs the locally installed `eslint` without needing `npx`.)
+(این eslint نصب شده محلی را بدون نیاز به `npx` اجرا می‌کند.)
 
-### 3.5 Bun's Lockfile: `bun.lockb`
+### 3.5 فایل قفل Bun: `bun.lockb`
 
-- Bun uses a binary lockfile (`bun.lockb`) instead of JSON (`package-lock.json` or `yarn.lock`).
-- **Do not edit** `bun.lockb` manually.
-- Commit `bun.lockb` to version control to ensure every developer uses the same locked versions.
+- Bun از یک فایل قفل باینری (`bun.lockb`) به جای JSON (`package-lock.json` یا `yarn.lock`) استفاده می‌کند.
+- **دستکاری نکنید** `bun.lockb` را به صورت دستی.
+- `bun.lockb` را در کنترل نسخه commit کنید تا تضمین شود هر توسعه‌دهنده از همان نسخه‌های قفل شده استفاده می‌کند.
 
-### 3.6 Using Bun vs Node.js Directly
+### 3.6 استفاده از Bun در مقابل Node.js مستقیم
 
-- **`bun run <script>`** automatically uses Bun's runtime (which is very fast).
-- You can still run `node index.js` if you want to use Node.js instead of Bun's JS engine (e.g., to test compatibility).
-
----
-
-## Section 4: Comparing npm and Bun
-
-| Feature                         | npm                                                     | Bun                                                                                        |
-| ------------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| **Age & Maturity**              | Released 2010, very stable & widely used                | Released 2022, rapidly evolving but newer                                                  |
-| **Speed**                       | Generally slower on large installs                      | Very fast – especially for installs and script execution                                   |
-| **Lockfile Format**             | `package-lock.json` (JSON)                              | `bun.lockb` (binary)                                                                       |
-| **Registry**                    | npm registry by default                                 | npm registry by default (can add alternate registries)                                     |
-| **CLI Syntax**                  | `npm install`, `npm run`, `npm uninstall`, etc.         | `bun add`, `bun remove`, `bun run`, `bun install`                                          |
-| **Compatibility**               | Works with all Node.js packages and tools               | Aims to be compatible with most npm packages, but some native addons or scripts might fail |
-| **Global Installs**             | `npm install -g <pkg>`                                  | `bun install -g <pkg>`                                                                     |
-| **Scripts Execution**           | Uses Node.js by default                                 | Uses Bun's JS runtime by default                                                           |
-| **Ecosystem & Community Tools** | Huge ecosystem, many tutorials, many CI/CD integrations | Growing ecosystem; integrate Bun as drop-in replacement, but check build pipelines         |
-
-### 4.1 Choosing Between npm and Bun
-
-- Use **npm** if:
-
-  - You need maximum stability and compatibility.
-  - Your CI/CD pipeline already expects `npm` or `yarn`.
-  - You use older or obscure packages that may not work well with Bun.
-
-- Use **Bun** if:
-
-  - You want faster installs and builds.
-  - You are starting a new project and want to experiment.
-  - You are comfortable troubleshooting occasional compatibility issues.
-
-You can even mix: use Bun locally for speed, but keep `npm` scripts in CI until you confirm Bun works there.
+- **`bun run <script>`** به طور خودکار از runtime Bun (که بسیار سریع است) استفاده می‌کند.
+- هنوز می‌توانید `node index.js` اجرا کنید اگر می‌خواهید از Node.js به جای موتور JS Bun استفاده کنید (مثلاً برای تست سازگاری).
 
 ---
 
-## Section 5: Best Practices
+## بخش 4: مقایسه npm و Bun
 
-### 5.1 Always Commit Your Lockfile
+| ویژگی                         | npm                                                           | Bun                                                                                              |
+| ----------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **سن و بلوغ**                 | منتشر شده 2010، بسیار پایدار و پرکاربرد                       | منتشر شده 2022، به سرعت در حال تکامل اما جدیدتر                                                  |
+| **سرعت**                      | معمولاً کندتر روی نصب‌های بزرگ                                | بسیار سریع - خصوصاً برای نصب‌ها و اجرای اسکریپت                                                  |
+| **فرمت فایل قفل**             | `package-lock.json` (JSON)                                    | `bun.lockb` (باینری)                                                                             |
+| **ثبت**                       | ثبت npm به طور پیش‌فرض                                        | ثبت npm به طور پیش‌فرض (می‌توان ثبت‌های جایگزین اضافه کرد)                                       |
+| **نحو CLI**                   | `npm install`، `npm run`، `npm uninstall`، و غیره             | `bun add`، `bun remove`، `bun run`، `bun install`                                                |
+| **سازگاری**                   | با همه بسته‌ها و ابزارهای Node.js کار می‌کند                  | هدف سازگاری با اکثر بسته‌های npm است، اما برخی addon های بومی یا اسکریپت‌ها ممکن است شکست بخورند |
+| **نصب سراسری**                | `npm install -g <pkg>`                                        | `bun install -g <pkg>`                                                                           |
+| **اجرای اسکریپت‌ها**          | به طور پیش‌فرض از Node.js استفاده می‌کند                      | به طور پیش‌فرض از runtime JS Bun استفاده می‌کند                                                  |
+| **اکوسیستم و ابزارهای جامعه** | اکوسیستم عظیم، بسیاری آموزش‌ها، بسیاری یکپارچه‌سازی‌های CI/CD | اکوسیستم در حال رشد؛ Bun را به عنوان جایگزین drop-in یکپارچه کنید، اما خطوط ساخت را بررسی کنید   |
 
-- For **npm**: commit `package-lock.json`.
-- For **Bun**: commit `bun.lockb`.
-- This ensures everyone on your team (or in your CI environment) installs identical versions of dependencies.
+### 4.1 انتخاب بین npm و Bun
 
-### 5.2 Separate Dependencies vs DevDependencies
+- از **npm** استفاده کنید اگر:
 
-- **Dependencies**: needed when your code runs in production (e.g., `express`, `react`).
-- **DevDependencies**: needed during development only (e.g., `eslint`, `jest`, `webpack`).
+  - به حداکثر پایداری و سازگاری نیاز دارید.
+  - خط CI/CD شما قبلاً انتظار `npm` یا `yarn` را دارد.
+  - از بسته‌های قدیمی یا مبهم استفاده می‌کنید که ممکن است با Bun خوب کار نکنند.
 
-Example:
+- از **Bun** استفاده کنید اگر:
+
+  - نصب‌ها و ساخت‌های سریع‌تر می‌خواهید.
+  - یک پروژه جدید شروع می‌کنید و می‌خواهید آزمایش کنید.
+  - با عیب‌یابی گاه‌به‌گاه مشکلات سازگاری راحت هستید.
+
+حتی می‌توانید ترکیب کنید: از Bun محلی برای سرعت استفاده کنید، اما اسکریپت‌های `npm` را در CI نگه دارید تا تأیید کنید Bun آنجا کار می‌کند.
+
+---
+
+## بخش 5: بهترین شیوه‌ها
+
+### 5.1 همیشه فایل قفل خود را commit کنید
+
+- برای **npm**: `package-lock.json` را commit کنید.
+- برای **Bun**: `bun.lockb` را commit کنید.
+- این تضمین می‌کند که همه در تیم شما (یا در محیط CI شما) نسخه‌های یکسان وابستگی‌ها را نصب کنند.
+
+### 5.2 جدا کردن Dependencies در مقابل DevDependencies
+
+- **Dependencies**: زمانی که کد شما در تولید اجرا می‌شود نیاز است (مثل `express`، `react`).
+- **DevDependencies**: فقط در طول توسعه نیاز است (مثل `eslint`، `jest`، `webpack`).
+
+مثال:
 
 ```bash
-npm install express        # => added to "dependencies"
-npm install --save-dev jest # => added to "devDependencies"
+npm install express        # => به "dependencies" اضافه شد
+npm install --save-dev jest # => به "devDependencies" اضافه شد
 ```
 
-or with Bun:
+یا با Bun:
 
 ```bash
 bun add express
 bun add --dev jest
 ```
 
-### 5.3 Semantic Versioning & Version Ranges
+### 5.3 نسخه‌گذاری معنایی و محدوده‌های نسخه
 
-- Use caret (`^`) by default so that minor/patch updates apply when you run `npm update` or `bun update`.
-- Avoid using asterisks (`*`) or overly broad ranges, which can cause unexpected breaking changes.
+- به طور پیش‌فرض از caret (`^`) استفاده کنید تا به‌روزرسانی‌های جزئی/پچ هنگام اجرای `npm update` یا `bun update` اعمال شوند.
+- از ستاره‌ها (`*`) یا محدوده‌های بیش از حد گسترده که می‌توانند تغییرات شکستن غیرمنتظره ایجاد کنند اجتناب کنید.
 
-Example in `package.json`:
+مثال در `package.json`:
 
 ```jsonc
 "dependencies": {
@@ -374,18 +374,18 @@ Example in `package.json`:
 }
 ```
 
-### 5.4 Lockfile Hygiene
+### 5.4 بهداشت فایل قفل
 
-- After adding or removing dependencies, run:
+- بعد از اضافه یا حذف وابستگی‌ها، اجرا کنید:
 
-  - **npm**: `npm install` to update `package-lock.json`.
-  - **Bun**: `bun install` to update `bun.lockb`.
+  - **npm**: `npm install` برای به‌روزرسانی `package-lock.json`.
+  - **Bun**: `bun install` برای به‌روزرسانی `bun.lockb`.
 
-- Don't manually edit lockfiles.
+- فایل‌های قفل را دستی ویرایش نکنید.
 
-### 5.5 Script Naming & Usage
+### 5.5 نام‌گذاری و استفاده از اسکریپت
 
-- Use clear script names. For example:
+- از نام‌های اسکریپت واضح استفاده کنید. مثلاً:
 
   ```jsonc
   "scripts": {
@@ -396,71 +396,71 @@ Example in `package.json`:
   }
   ```
 
-- Run scripts consistently:
+- اسکریپت‌ها را به طور مداوم اجرا کنید:
 
   - **npm**: `npm run dev`
-  - **Bun**: `bun run dev` or `bun x jest` (if you want to run a binary directly)
+  - **Bun**: `bun run dev` یا `bun x jest` (اگر می‌خواهید یک باینری مستقیماً اجرا کنید)
 
-### 5.6 When to Upgrade or Migrate
+### 5.6 چه زمانی ارتقا یا مهاجرت کنید
 
-- If you have a stable project using **npm**, you can experiment with Bun in a separate branch or fork.
-- Run your test suite under Bun:
+- اگر یک پروژه پایدار با **npm** دارید، می‌توانید با Bun در یک شاخه یا fork جداگانه آزمایش کنید.
+- مجموعه تست خود را تحت Bun اجرا کنید:
 
   ```bash
   bun run test
   ```
 
-- Ensure your build (production bundle) works as expected under Bun before fully switching. Some native modules or Node-specific APIs may need polyfills or adjustments.
+- قبل از تغییر کامل، اطمینان حاصل کنید که ساخت شما (bundle تولید) تحت Bun همانطور که انتظار می‌رود کار می‌کند. برخی ماژول‌های بومی یا API های مخصوص Node ممکن است نیاز به polyfill یا تنظیمات داشته باشند.
 
 ---
 
-## Section 6: Homework Exercises
+## بخش 6: تمرینات تکلیف
 
-1. **Initialize a project using npm and add dependencies**
+1. **راه‌اندازی یک پروژه با استفاده از npm و اضافه کردن وابستگی‌ها**
 
-   - Create a new folder `npm-demo`.
-   - Run `npm init -y` to generate `package.json`.
-   - Install `express` as a dependency and `nodemon` as a devDependency.
-   - Verify that `package.json` contains correct entries under `"dependencies"` and `"devDependencies"`.
-   - Run `npm install` to generate `package-lock.json`.
+   - یک پوشه جدید `npm-demo` ایجاد کنید.
+   - `npm init -y` اجرا کنید تا `package.json` تولید شود.
+   - `express` را به عنوان وابستگی و `nodemon` را به عنوان devDependency نصب کنید.
+   - تأیید کنید که `package.json` شامل ورودی‌های صحیح زیر `"dependencies"` و `"devDependencies"` است.
+   - `npm install` اجرا کنید تا `package-lock.json` تولید شود.
 
-2. **Initialize a project using Bun and compare**
+2. **راه‌اندازی یک پروژه با استفاده از Bun و مقایسه**
 
-   - In a separate folder `bun-demo`, run `bun init`.
-   - Install `express` and `nodemon` with `bun add express` and `bun add --dev nodemon`.
-   - Verify `package.json` and `bun.lockb` are created and contain correct information.
-   - Compare the speed of `npm install` vs `bun install` by adding a few more packages (e.g., `lodash`, `axios`, `jest`). Note timings.
+   - در یک پوشه جداگانه `bun-demo`، `bun init` اجرا کنید.
+   - `express` و `nodemon` را با `bun add express` و `bun add --dev nodemon` نصب کنید.
+   - تأیید کنید که `package.json` و `bun.lockb` ایجاد شده‌اند و شامل اطلاعات صحیح هستند.
+   - سرعت `npm install` در مقابل `bun install` را با اضافه کردن چند بسته بیشتر (مثل `lodash`، `axios`، `jest`) مقایسه کنید. زمان‌ها را یادداشت کنید.
 
-3. **Experiment with scripts**
+3. **آزمایش با اسکریپت‌ها**
 
-   - In `npm-demo/package.json`, add a script `"dev": "nodemon index.js"`.
-   - In `bun-demo/package.json`, add a script `"dev": "bun run index.js"`.
-   - Create a simple `index.js` that logs "Hello, package manager!" to the console.
-   - Run `npm run dev` in `npm-demo` and `bun run dev` in `bun-demo`. Confirm both print the message and reload on file changes (using nodemon for npm, and manually restarting for Bun if necessary).
+   - در `npm-demo/package.json`، یک اسکریپت `"dev": "nodemon index.js"` اضافه کنید.
+   - در `bun-demo/package.json`، یک اسکریپت `"dev": "bun run index.js"` اضافه کنید.
+   - یک `index.js` ساده ایجاد کنید که "Hello, package manager!" را در کنسول ثبت کند.
+   - `npm run dev` را در `npm-demo` و `bun run dev` را در `bun-demo` اجرا کنید. تأیید کنید که هر دو پیام را چاپ می‌کنند و روی تغییرات فایل reload می‌کنند (با استفاده از nodemon برای npm، و restart دستی برای Bun در صورت لزوم).
 
-4. **Semantic Versioning practice**
+4. **تمرین نسخه‌گذاری معنایی**
 
-   - In `npm-demo`, install a package with a specific version: `npm install lodash@4.17.20`.
-   - Update your `package.json` to use `"lodash": "^4.17.20"`.
-   - Run `npm outdated` to see if a newer version is available. If yes, run `npm update` and verify `package.json` and `package-lock.json` update accordingly.
-   - Repeat the same steps in `bun-demo` using `bun add lodash@4.17.20` and `bun update`.
+   - در `npm-demo`، یک بسته با نسخه خاص نصب کنید: `npm install lodash@4.17.20`.
+   - `package.json` خود را به‌روزرسانی کنید تا از `"lodash": "^4.17.20"` استفاده کند.
+   - `npm outdated` اجرا کنید تا ببینید آیا نسخه جدیدتری در دسترس است. اگر بله، `npm update` اجرا کنید و تأیید کنید که `package.json` و `package-lock.json` بر اساس آن به‌روزرسانی می‌شوند.
+   - همان مراحل را در `bun-demo` با استفاده از `bun add lodash@4.17.20` و `bun update` تکرار کنید.
 
-5. **Lockfile consistency check**
+5. **بررسی سازگاری فایل قفل**
 
-   - Clone your `npm-demo` repo to another folder (simulate a teammate).
-   - Run `npm install`. Ensure `node_modules` is populated exactly as in the original folder (including nested dependencies).
-   - Repeat with `bun-demo` in a fresh clone: run `bun install` and compare `node_modules` contents.
+   - repo `npm-demo` خود را به پوشه دیگری clone کنید (شبیه‌سازی یک هم‌تیمی).
+   - `npm install` اجرا کنید. اطمینان حاصل کنید که `node_modules` دقیقاً مثل پوشه اصلی پر شده است (شامل وابستگی‌های تو در تو).
+   - با `bun-demo` در یک clone تازه تکرار کنید: `bun install` اجرا کنید و محتوای `node_modules` را مقایسه کنید.
 
 ---
 
-## Conclusion
+## نتیجه‌گیری
 
-You now have a clear understanding of:
+حالا درک واضحی از دارید:
 
-- **What packages are** and why package managers exist
-- **How to use npm**: initialization, installing, versioning, scripts, lockfile
-- **How to use Bun**: initialization, installing, Bun-specific commands, lockfile
-- **Key differences** between npm and Bun to help you choose or combine them
-- **Best practices** for versioning, lockfiles, dev vs prod dependencies, and scripts
+- **بسته‌ها چیستند** و چرا مدیران بسته وجود دارند
+- **چگونه از npm استفاده کنیم**: راه‌اندازی، نصب، نسخه‌گذاری، اسکریپت‌ها، فایل قفل
+- **چگونه از Bun استفاده کنیم**: راه‌اندازی، نصب، دستورات مخصوص Bun، فایل قفل
+- **تفاوت‌های کلیدی** بین npm و Bun تا به شما کمک کند آنها را انتخاب یا ترکیب کنید
+- **بهترین شیوه‌ها** برای نسخه‌گذاری، فایل‌های قفل، وابستگی‌های dev در مقابل prod، و اسکریپت‌ها
 
-Completing the homework gives hands-on practice. Whether you stick with **npm** for its maturity or experiment with **Bun** for speed, you'll be able to manage dependencies confidently in any JavaScript project. Good luck!
+تکمیل تکلیف تمرین عملی می‌دهد. چه با **npm** برای بلوغ آن بمانید یا با **Bun** برای سرعت آزمایش کنید، قادر خواهید بود وابستگی‌ها را با اطمینان در هر پروژه جاوااسکریپت مدیریت کنید. موفق باشید!
