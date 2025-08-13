@@ -1,83 +1,84 @@
 ---
-title: "3. Babel — The JavaScript Transpiler"
-description: "Modern JavaScript (ES6+) and JSX aren’t fully understood by older browsers. That’s why we use *Babel* — a tool that *translates (transpiles)* your shiny modern code into something that *all browsers* can safely run."
+title: "۳. Babel — ترنسپایلر جاوااسکریپت"
+description: "جاوااسکریپت مدرن (ES6+) و JSX توسط مرورگرهای قدیمی کاملاً درک نمی‌شوند. به همین دلیل از *Babel* استفاده می‌کنیم — ابزاری که کد مدرن و درخشان شما را *ترجمه (ترنسپایل)* می‌کند به چیزی که *همه مرورگرها* می‌توانند با امنیت اجرا کنند."
 ---
 
-## 🧠 What You’ll Learn
+## 🧠 آنچه یاد خواهید گرفت
 
-- What a transpiler is and why we need one
-- What Babel does behind the scenes
-- How Babel handles JSX
-- Babel in tools like **Vite**, **Next.js**, or **Create React App**
+- ترنسپایلر چیست و چرا به آن نیاز داریم
+- Babel پشت صحنه چه کاری انجام می‌دهد
+- چگونه Babel با JSX کار می‌کند
+- Babel در ابزارهایی مانند **Vite**، **Next.js** یا **Create React App**
 
 ---
 
-## 🔹 What is a Transpiler?
+## 🔹 ترنسپایلر چیست؟
 
-A **transpiler** is like a translator — it takes **modern code** and converts it to **older JavaScript syntax**.
+یک **ترنسپایلر** مانند یک مترجم است — **کد مدرن** را می‌گیرد و به **نحو جاوااسکریپت قدیمی** تبدیل می‌کند.
 
-````js
-// You write this (ES6+)
+```js
+// شما این را می‌نویسید (ES6+)
 const greet = () => console.log("Hi");
 
-// Babel turns it into:
+// Babel آن را تبدیل می‌کند به:
 var greet = function () {
   return console.log("Hi");
 };
+```
 
 ---
 
-## 🔸 What Is Babel?
+## 🔸 Babel چیست؟
 
-🧠 **Babel** is the most popular JavaScript transpiler.
+🧠 **Babel** محبوب‌ترین ترنسپایلر جاوااسکریپت است.
 
-It can:
+می‌تواند:
 
-* Transform modern JS (`import`, `class`, `arrow functions`, etc.)
-* Convert JSX into JavaScript
-* Add browser polyfills for features like `Promise`, `Array.includes()`, etc.
+- جاوااسکریپت مدرن را تبدیل کند (`import`، `class`، `arrow functions` و غیره)
+- JSX را به جاوااسکریپت تبدیل کند
+- polyfill های مرورگر را برای ویژگی‌هایی مانند `Promise`، `Array.includes()` و غیره اضافه کند
 
 ---
 
-## 🔹 JSX with Babel
+## 🔹 JSX با Babel
 
-You write:
+شما می‌نویسید:
 
 ```jsx
 const heading = <h1>Hello, Nikode!</h1>;
-````
+```
 
-Babel transpiles it into:
+Babel آن را ترنسپایل می‌کند به:
 
 ```js
 const heading = React.createElement("h1", null, "Hello, Nikode!");
 ```
 
-💡 Babel is what makes **JSX work** in the browser — it converts it into real JavaScript.
+💡 Babel همان چیزی است که **JSX را کار می‌کند** در مرورگر — آن را به جاوااسکریپت واقعی تبدیل می‌کند.
 
 ---
 
-## 🔧 Babel in Your Tools
+## 🔧 Babel در ابزارهای شما
 
-Most modern dev tools come with Babel pre-installed:
+بیشتر ابزارهای توسعه مدرن با Babel از پیش نصب شده‌اند:
 
-| Tool                 | Babel Setup                             |
-| -------------------- | --------------------------------------- |
-| **Create React App** | ✅ Built-in                             |
-| **Next.js**          | ✅ Built-in                             |
-| **Vite**             | ✅ Uses esbuild with Babel-like support |
-| **Parcel/Webpack**   | Needs Babel plugin (`babel-loader`)     |
+| ابزار                | راه‌اندازی Babel                                    |
+| -------------------- | --------------------------------------------------- |
+| **Create React App** | ✅ داخلی                                            |
+| **Next.js**          | ✅ داخلی                                            |
+| **Vite**             | ✅ از esbuild با پشتیبانی شبیه Babel استفاده می‌کند |
+| **Parcel/Webpack**   | نیاز به پلاگین Babel دارد (`babel-loader`)          |
 
-You don’t usually configure Babel manually unless you’re building a **custom setup**.
+شما معمولاً Babel را به صورت دستی پیکربندی نمی‌کنید مگر اینکه **راه‌اندازی سفارشی** بسازید.
 
 ---
 
-## 🔸 Babel Plugins & Presets
+## 🔸 پلاگین‌ها و پیش‌تنظیم‌های Babel
 
-A **plugin** tells Babel what kind of code to transform.
-A **preset** is a group of plugins.
+یک **پلاگین** به Babel می‌گوید چه نوع کدی را تبدیل کند.
+یک **پیش‌تنظیم** گروهی از پلاگین‌ها است.
 
-Example in `.babelrc` file:
+مثال در فایل `.babelrc`:
 
 ```json
 {
@@ -90,88 +91,84 @@ Example in `.babelrc` file:
 
 ---
 
-➡️ Next: [Virtual DOM & React Rendering](/flowers/virtual-dom)
+➡️ بعدی: [Virtual DOM & React Rendering](/flowers/virtual-dom)
 
-````
-Here’s a clear and beginner-friendly **visual diagram** that shows the flow from JSX to rendered output in the browser — perfect for your **Nikode** platform:
+در اینجا یک **نمودار بصری** واضح و دوستانه برای مبتدیان وجود دارد که جریان از JSX تا خروجی رندر شده در مرورگر را نشان می‌دهد — عالی برای پلتفرم **Nikode** شما:
 
 ---
 
-
-### 🖼 JSX → Babel → JavaScript → Browser (Visual Flow)
-
-
+### 🖼 JSX → Babel → JavaScript → Browser (جریان بصری)
 
 ```css
 ┌─────────────┐
-│   JSX Code  │
+│   کد JSX    │
 │ <h1>Hi!</h1>│
 └─────┬───────┘
       │
       ▼
 ┌─────────────────────────────┐
-│     Babel Transpilation     │
+│     ترنسپایل Babel         │
 │ JSX → React.createElement() │
 └─────┬───────────────────────┘
       │
       ▼
 ┌──────────────────────────────┐
-│  Browser-Ready JavaScript    │
+│  جاوااسکریپت آماده مرورگر   │
 │ React.createElement("h1",...)│
 └─────┬────────────────────────┘
       │
       ▼
 ┌───────────────────────────────┐
 │   React Virtual DOM (VDOM)    │
-│ Builds lightweight JS objects │
+│ اشیاء JS سبک وزن می‌سازد     │
 └─────┬─────────────────────────┘
       │
       ▼
 ┌───────────────────────────────┐
 │      React Reconciler         │
-│ Compares VDOM → Real DOM diff │
+│ VDOM → Real DOM diff را مقایسه می‌کند │
 └─────┬─────────────────────────┘
       │
       ▼
 ┌──────────────────────┐
-│   Real DOM (Browser) │
-│ <h1>Hi!</h1> appears  │
+│   Real DOM (مرورگر)  │
+│ <h1>Hi!</h1> ظاهر می‌شود │
 └──────────────────────┘
-````
+```
 
 ---
 
-### 🧠 Summary of Each Step:
+### 🧠 خلاصه هر مرحله:
 
-1. **JSX Code**: You write JSX in `.jsx` or `.tsx` files.
-2. **Babel**: Transpiles it into browser-compatible JavaScript.
-3. **React.createElement**: JSX becomes JS function calls.
-4. **Virtual DOM**: React builds a virtual version of the UI.
-5. **Reconciler**: React compares old and new VDOMs for changes.
-6. **Real DOM**: Browser updates only what changed — efficiently.
-
----
-
-## 🧪 Homework Tasks
-
-1. ✅ Try writing a JSX element and paste it into [Babel REPL](https://babeljs.io/repl) to see the compiled code.
-2. ✅ Create a basic HTML + JS file and include a script compiled by Babel.
-3. ✅ Research how Vite or Next.js use Babel internally (optional advanced task).
+۱. **کد JSX**: شما JSX را در فایل‌های `.jsx` یا `.tsx` می‌نویسید.
+۲. **Babel**: آن را به جاوااسکریپت سازگار با مرورگر ترنسپایل می‌کند.
+۳. **React.createElement**: JSX تبدیل به فراخوانی‌های تابع JS می‌شود.
+۴. **Virtual DOM**: React یک نسخه مجازی از UI می‌سازد.
+۵. **Reconciler**: React VDOM های قدیمی و جدید را برای تغییرات مقایسه می‌کند.
+۶. **Real DOM**: مرورگر فقط آنچه تغییر کرده را به‌روزرسانی می‌کند — به صورت کارآمد.
 
 ---
 
-## 🧠 Summary
+## 🧪 تکالیف تمرینی
 
-| Concept         | Explanation                                            |
-| --------------- | ------------------------------------------------------ |
-| Transpiler      | Translates new JS/JSX to old JS                        |
-| Babel           | Most-used JS transpiler                                |
-| JSX Compilation | Babel converts JSX into `React.createElement`          |
-| Tools           | Tools like CRA, Next, Vite use Babel behind the scenes |
+۱. ✅ سعی کنید یک عنصر JSX بنویسید و آن را در [Babel REPL](https://babeljs.io/repl) بچسبانید تا کد کامپایل شده را ببینید.
+۲. ✅ یک فایل HTML + JS پایه بسازید و اسکریپتی که توسط Babel کامپایل شده را شامل کنید.
+۳. ✅ تحقیق کنید که چگونه Vite یا Next.js از Babel به صورت داخلی استفاده می‌کنند (تکلیف پیشرفته اختیاری).
 
 ---
 
-## 📚 Further Reading
+## 🧠 خلاصه
 
-- 🔗 [Babel Official Site](https://babeljs.io/)
-- 🔗 [JSX to JS — Try Babel REPL](https://babeljs.io/repl)
+| مفهوم       | توضیحات                                                           |
+| ----------- | ----------------------------------------------------------------- |
+| ترنسپایلر   | JS/JSX جدید را به JS قدیمی ترجمه می‌کند                           |
+| Babel       | پرکاربردترین ترنسپایلر JS                                         |
+| کامپایل JSX | Babel JSX را به `React.createElement` تبدیل می‌کند                |
+| ابزارها     | ابزارهایی مانند CRA، Next، Vite از Babel پشت صحنه استفاده می‌کنند |
+
+---
+
+## 📚 مطالعه بیشتر
+
+- 🔗 [سایت رسمی Babel](https://babeljs.io/)
+- 🔗 [JSX به JS — Babel REPL را امتحان کنید](https://babeljs.io/repl)

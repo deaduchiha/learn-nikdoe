@@ -1,157 +1,157 @@
 ---
-title: "7. React Events — Synthetic Event System"
-description: "Learn how React uses a single smart event listener to handle events efficiently and consistently across browsers."
-sidebar_label: "Events (Synthetic System)"
+title: "۷. React Events — سیستم رویداد مصنوعی"
+description: "یاد بگیرید که چگونه React از یک listener رویداد هوشمند واحد برای مدیریت کارآمد و یکپارچه رویدادها در تمام مرورگرها استفاده می‌کند."
+sidebar_label: "Events (سیستم مصنوعی)"
 slug: /flowers/events
 ---
 
-# 🖱 React Events — Synthetic Event System
+# 🖱 React Events — سیستم رویداد مصنوعی
 
-In plain HTML/JS, you might attach multiple native event listeners:
+در HTML/JS ساده، ممکن است چندین native event listener اضافه کنید:
 
-````js
+```js
 button.addEventListener("click", handleClick);
+```
 
-
-But in **React**, you write:
+اما در **React**، شما می‌نویسید:
 
 ```jsx
 <button onClick={handleClick}>Click Me</button>
-````
+```
 
-So what's the difference?
+پس تفاوت چیست؟
 
-React uses a **Synthetic Event System** — a smart layer that wraps around native browser events.
-
----
-
-## 🧠 What You’ll Learn
-
-- What synthetic events are
-- Why React uses them
-- How React improves performance with one listener
-- How to use events in components
-- Differences from native events
+React از یک **سیستم رویداد مصنوعی** استفاده می‌کند — لایه هوشمندی که دور رویدادهای native مرورگر می‌پیچد.
 
 ---
 
-## 🔹 What Is a Synthetic Event?
+## 🧠 آنچه یاد خواهید گرفت
 
-A **synthetic event** is a **wrapper around a native event** that works the same way **across all browsers**.
-
-React doesn't attach hundreds of listeners — instead, it uses **one global listener** at the root (like `document`) and delegates events internally.
-
-✅ Benefits:
-
-- Unified, cross-browser behavior
-- Memory efficient — fewer listeners
-- Built-in event pooling (until React 17)
-- Performance optimized for large apps
+- رویدادهای مصنوعی چیست
+- چرا React از آنها استفاده می‌کند
+- چگونه React عملکرد را با یک listener بهبود می‌دهد
+- چگونه از رویدادها در کامپوننت‌ها استفاده کنید
+- تفاوت‌ها با رویدادهای native
 
 ---
 
-## 🧪 Example: Using Synthetic Events
+## 🔹 رویداد مصنوعی چیست؟
+
+یک **رویداد مصنوعی** یک **wrapper دور یک رویداد native** است که به همان روش **در تمام مرورگرها** کار می‌کند.
+
+React صدها listener اضافه نمی‌کند — در عوض، از **یک global listener** در root (مانند `document`) استفاده می‌کند و رویدادها را به صورت داخلی delegate می‌کند.
+
+✅ مزایا:
+
+- رفتار یکپارچه و cross-browser
+- کارآمد از نظر حافظه — listener های کمتر
+- event pooling داخلی (تا React 17)
+- بهینه‌سازی عملکرد برای اپ‌های بزرگ
+
+---
+
+## 🧪 مثال: استفاده از رویدادهای مصنوعی
 
 ```jsx
 function App() {
   const handleClick = (event) => {
-    console.log("Clicked!", event.type); // Synthetic event
+    console.log("Clicked!", event.type); // رویداد مصنوعی
   };
 
   return <button onClick={handleClick}>Click Me</button>;
 }
 ```
 
-🧠 `event` is a **SyntheticEvent**, not a raw browser event.
+🧠 `event` یک **SyntheticEvent** است، نه یک رویداد خام مرورگر.
 
 ---
 
-## 🔸 How React Listens to Events
+## 🔸 چگونه React به رویدادها گوش می‌دهد
 
-Instead of doing this:
+به جای انجام این کار:
 
 ```html
 <button onclick="..."></button>
-<!-- one listener per button -->
+<!-- یک listener برای هر دکمه -->
 ```
 
-React does this under the hood:
+React این کار را پشت صحنه انجام می‌دهد:
 
 ```
-document.addEventListener("click", ...) // only once!
+document.addEventListener("click", ...) // فقط یک بار!
 ```
 
-Then it figures out which component actually triggered the event. This is called **event delegation**.
+سپس تشخیص می‌دهد که کدام کامپوننت واقعاً رویداد را trigger کرده است. این **event delegation** نامیده می‌شود.
 
 ---
 
-## 🔸 Supported Events
+## 🔸 رویدادهای پشتیبانی شده
 
-React supports most common events:
+React از بیشتر رویدادهای رایج پشتیبانی می‌کند:
 
-- **Mouse**: `onClick`, `onDoubleClick`, `onMouseEnter`
-- **Keyboard**: `onKeyDown`, `onKeyPress`, `onKeyUp`
-- **Form**: `onChange`, `onSubmit`, `onFocus`, `onBlur`
-- **Touch**: `onTouchStart`, `onTouchEnd`, `onTouchMove`
+- **Mouse**: `onClick`، `onDoubleClick`، `onMouseEnter`
+- **Keyboard**: `onKeyDown`، `onKeyPress`، `onKeyUp`
+- **Form**: `onChange`، `onSubmit`، `onFocus`، `onBlur`
+- **Touch**: `onTouchStart`، `onTouchEnd`، `onTouchMove`
 
-✅ These work the same across browsers — thanks to the synthetic event layer.
+✅ این‌ها در تمام مرورگرها یکسان کار می‌کنند — به لطف لایه رویداد مصنوعی.
 
 ---
 
-## 🔹 Event Object Properties
+## 🔹 ویژگی‌های شیء رویداد
 
 ```jsx
 function Input() {
   const handleChange = (e) => {
-    console.log(e.target.value); // just like normal JS
+    console.log(e.target.value); // دقیقاً مثل JS معمولی
   };
 
   return <input onChange={handleChange} />;
 }
 ```
 
-Synthetic events mimic native ones, so you still get access to:
+رویدادهای مصنوعی از رویدادهای native تقلید می‌کنند، بنابراین شما هنوز دسترسی دارید به:
 
 - `e.target`
 - `e.preventDefault()`
 - `e.stopPropagation()`
-- `e.type`, `e.currentTarget`, etc.
+- `e.type`، `e.currentTarget` و غیره
 
 ---
 
-## ⚠️ Note on React 17+
+## ⚠️ نکته در مورد React 17+
 
-In React 17+, events **bubble to the root of the container**, not the `document`.
+در React 17+، رویدادها **به root کانتینر bubble می‌کنند**، نه به `document`.
 
-This gives you:
+این به شما می‌دهد:
 
-- Better control with multiple React apps on one page
-- More native-like behavior
-- Still one listener, but scoped more tightly
-
----
-
-## 🧪 Homework Tasks
-
-1. ✅ Create a `Button` component and log the event object inside `onClick`.
-2. ✅ Try using `e.preventDefault()` on a link to stop it from navigating.
-3. ✅ Create an `Input` that logs `e.target.value` on every keystroke.
+- کنترل بهتر با چندین اپ React در یک صفحه
+- رفتار بیشتر شبیه native
+- هنوز یک listener، اما محدودتر
 
 ---
 
-## 🧠 Summary
+## 🧪 تکالیف تمرینی
 
-| Concept              | Explanation                                     |
-| -------------------- | ----------------------------------------------- |
-| Synthetic Event      | React's cross-browser wrapper for native events |
-| One Global Listener  | React uses delegation, not per-element handlers |
-| Unified API          | Works the same across Chrome, Firefox, Safari   |
-| Supports Most Events | Keyboard, Mouse, Touch, Forms, Clipboard, etc.  |
+۱. ✅ یک کامپوننت `Button` بسازید و شیء رویداد را داخل `onClick` log کنید.
+۲. ✅ سعی کنید از `e.preventDefault()` روی یک لینک استفاده کنید تا از navigate کردن آن جلوگیری کنید.
+۳. ✅ یک `Input` بسازید که `e.target.value` را در هر keystroke log کند.
 
 ---
 
-## 📚 Learn More
+## 🧠 خلاصه
 
-- 🔗 [React SyntheticEvent Docs](https://react.dev/reference/react/SyntheticEvent)
-- 🔗 [Event Delegation in React Explained](https://reactjs.org/docs/events.html)
-- 🔗 [React 17 Event Changes](https://reactjs.org/blog/2020/08/10/react-v17-rc.html)
+| مفهوم                      | توضیحات                                                        |
+| -------------------------- | -------------------------------------------------------------- |
+| رویداد مصنوعی              | wrapper cross-browser React برای رویدادهای native              |
+| یک Global Listener         | React از delegation استفاده می‌کند، نه handler های per-element |
+| API یکپارچه                | در Chrome، Firefox، Safari یکسان کار می‌کند                    |
+| پشتیبانی از بیشتر رویدادها | Keyboard، Mouse، Touch، Forms، Clipboard و غیره                |
+
+---
+
+## 📚 یادگیری بیشتر
+
+- 🔗 [مستندات React SyntheticEvent](https://react.dev/reference/react/SyntheticEvent)
+- 🔗 [Event Delegation در React توضیح داده شده](https://reactjs.org/docs/events.html)
+- 🔗 [تغییرات رویداد React 17](https://reactjs.org/blog/2020/08/10/react-v17-rc.html)

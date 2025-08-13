@@ -1,78 +1,78 @@
 ---
-title: "2. JSX — JavaScript XML"
-description: "JSX stands for *JavaScript XML*. It’s a syntax extension that lets you write **HTML-like code inside JavaScript**, and it’s the secret sauce behind how React builds user interfaces."
+title: "۲. JSX — جاوااسکریپت XML"
+description: "JSX مخفف *JavaScript XML* است. این یک پسوند نحو (syntax extension) است که به شما اجازه می‌دهد **کد HTML-like را داخل جاوااسکریپت** بنویسید، و این راز موفقیت React در ساخت رابط‌های کاربری است."
 ---
 
-## 🧠 What You’ll Learn
+## 🧠 آنچه یاد خواهید گرفت
 
-- What JSX is and how it works
-- How JSX turns into regular JavaScript
-- Embedding JavaScript expressions inside JSX
-- Common JSX rules and gotchas
-- Writing clean and readable JSX with examples
+- JSX چیست و چگونه کار می‌کند
+- چگونه JSX به جاوااسکریپت معمولی تبدیل می‌شود
+- جاسازی عبارات جاوااسکریپت داخل JSX
+- قوانین رایج JSX و نکات مهم
+- نوشتن JSX تمیز و قابل خواندن با مثال‌ها
 
 ---
 
-## 🔹 What Is JSX?
+## 🔹 JSX چیست؟
 
-JSX looks like HTML, but it's actually **JavaScript**. This code:
+JSX شبیه HTML به نظر می‌رسد، اما در واقع **جاوااسکریپت** است. این کد:
 
 ```jsx
 const element = <h1>Hello, Nikode!</h1>;
 ```
 
-…gets compiled into this:
+…به این تبدیل می‌شود:
 
 ```js
 const element = React.createElement("h1", null, "Hello, Nikode!");
 ```
 
-💡 **Why JSX?**
+💡 **چرا JSX؟**
 
-- It's more **readable** and looks like the UI you build
-- It's **faster** to write and understand than `React.createElement()`
-- It supports **JavaScript logic** inside `{}` braces
+- **قابل خواندن‌تر** است و شبیه UI ای است که می‌سازید
+- **سریع‌تر** نوشته و درک می‌شود تا `React.createElement()`
+- از **منطق جاوااسکریپت** داخل آکولاد `{}` پشتیبانی می‌کند
 
 ---
 
-## 🔹 JSX in Action
+## 🔹 JSX در عمل
 
 ```jsx
 function Welcome(props) {
   return <h1>Hello, {props.name}!</h1>;
 }
 
-<Welcome name="Zahra" />;
+<Welcome name="Alireza" />;
 ```
 
-🧠 Inside the `<h1>`, `{props.name}` is a **JavaScript expression** — not a string!
+🧠 داخل `<h1>`، `{props.name}` یک **عبارت جاوااسکریپت** است — نه یک رشته!
 
 ---
 
-## 🔸 Embedding Expressions in JSX
+## 🔸 جاسازی عبارات در JSX
 
-You can use **any JS expression** inside curly braces `{}`:
+شما می‌توانید **هر عبارت JS** را داخل آکولاد `{}` استفاده کنید:
 
 ```jsx
 const age = 20;
 const message = <p>You are {age >= 18 ? "an adult" : "a minor"}.</p>;
 ```
 
-✅ Valid expressions: variables, functions, conditionals, math, etc.
+✅ عبارات معتبر: متغیرها، توابع، شرطی‌ها، ریاضیات و غیره.
 
 ---
 
-## ⚠️ JSX Rules You Must Know
+## ⚠️ قوانین JSX که باید بدانید
 
-### 1. **One Parent Element**
+### ۱. **یک عنصر والد**
 
-This is invalid:
+این نامعتبر است:
 
 ```jsx
 return <h1>Title</h1><p>Text</p>; ❌
 ```
 
-This is valid:
+این معتبر است:
 
 ```jsx
 return (
@@ -83,23 +83,23 @@ return (
 ); ✅
 ```
 
-> Use a wrapping `<div>` or a **fragment** (`<>...</>`) if needed.
+> از یک `<div>` پوششی یا یک **fragment** (`<>...</>`) در صورت نیاز استفاده کنید.
 
 ---
 
-### 2. **Use `className` Instead of `class`**
+### ۲. **استفاده از `className` به جای `class`**
 
 ```jsx
 <p className="intro">Welcome!</p> ✅
 ```
 
-> `class` is a reserved word in JS, so JSX uses `className`.
+> `class` یک کلمه رزرو شده در JS است، بنابراین JSX از `className` استفاده می‌کند.
 
 ---
 
-### 3. **Self-Closing Tags**
+### ۳. **تگ‌های خودبسته**
 
-Always close single tags:
+همیشه تگ‌های تکی را ببندید:
 
 ```jsx
 <img src="logo.png" /> ✅
@@ -108,9 +108,9 @@ Always close single tags:
 
 ---
 
-## 🔸 Conditional Rendering
+## 🔸 رندر شرطی
 
-Show elements only when needed:
+عناصر را فقط زمانی که نیاز است نشان دهید:
 
 ```jsx
 {
@@ -118,7 +118,7 @@ Show elements only when needed:
 }
 ```
 
-Or:
+یا:
 
 ```jsx
 {
@@ -128,7 +128,7 @@ Or:
 
 ---
 
-## 🔸 Lists in JSX
+## 🔸 لیست‌ها در JSX
 
 ```jsx
 const items = ["HTML", "CSS", "JS"];
@@ -141,32 +141,32 @@ return (
 );
 ```
 
-🧠 **Always add `key`** to items in a list to help React track changes.
+🧠 **همیشه `key` را اضافه کنید** به آیتم‌های لیست تا به React در پیگیری تغییرات کمک کند.
 
 ---
 
-## 🧪 Homework Tasks
+## 🧪 تکالیف تمرینی
 
-1. ✅ Create a component that shows your name and a short bio using JSX.
-2. ✅ Create a list of 3 favorite movies using `.map()` in JSX.
-3. ✅ Make a component that receives a boolean prop `isDark` and conditionally renders dark/light theme message.
-
----
-
-## 🎓 Summary
-
-| Feature            | Description                                |
-| ------------------ | ------------------------------------------ |
-| Looks like HTML    | But it compiles to `React.createElement()` |
-| Curly Braces `{}`  | Embed JS expressions                       |
-| Fragments `<> </>` | Wrap multiple JSX elements                 |
-| Props              | Pass data into components                  |
-| Lists with `key`   | Help React update efficiently              |
+۱. ✅ کامپوننتی بسازید که نام شما و یک بیو کوتاه را با استفاده از JSX نشان دهد.
+۲. ✅ لیستی از ۳ فیلم مورد علاقه با استفاده از `.map()` در JSX بسازید.
+۳. ✅ کامپوننتی بسازید که یک prop بولین `isDark` دریافت می‌کند و پیام تم تاریک/روشن را به صورت شرطی رندر می‌کند.
 
 ---
 
-## 📚 Resources
+## 🎓 خلاصه
 
-- 🔗 [JSX on react.dev](https://react.dev/learn/writing-markup-with-jsx)
-- 🔗 [JSX Deep Dive at MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/JSX)
-- 🎥 Fireship: JSX Explained in 100 Seconds
+| ویژگی             | توضیحات                                       |
+| ----------------- | --------------------------------------------- |
+| شبیه HTML         | اما به `React.createElement()` کامپایل می‌شود |
+| آکولاد `{}`       | جاسازی عبارات JS                              |
+| Fragment `<> </>` | پیچیدن چندین عنصر JSX                         |
+| Props             | انتقال داده به کامپوننت‌ها                    |
+| لیست‌ها با `key`  | کمک به React برای به‌روزرسانی کارآمد          |
+
+---
+
+## 📚 منابع
+
+- 🔗 [JSX در react.dev](https://react.dev/learn/writing-markup-with-jsx)
+- 🔗 [JSX Deep Dive در MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/JSX)
+- 🎥 Fireship: JSX در ۱۰۰ ثانیه توضیح داده شده

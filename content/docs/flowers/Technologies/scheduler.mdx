@@ -1,135 +1,133 @@
 ---
-title: "6. React Fiber — The Scheduler"
-description: "Learn how React Fiber slices big rendering tasks into smaller chunks to keep your app smooth and responsive."
+title: "۶. React Fiber — Scheduler"
+description: "یاد بگیرید که چگونه React Fiber وظایف رندر بزرگ را به قطعات کوچک‌تر تقسیم می‌کند تا اپ شما نرم و پاسخگو بماند."
 ---
 
-# ⏳ Scheduler — React Fiber Engine
+# ⏳ Scheduler — موتور React Fiber
 
-When you update state in React, a lot of work might happen: recalculating components, rerendering UI, managing side effects…
+وقتی state را در React به‌روزرسانی می‌کنید، ممکن است کارهای زیادی اتفاق بیفتد: محاسبه مجدد کامپوننت‌ها، رندر مجدد UI، مدیریت side effect ها…
 
-So how does React stay fast and smooth even with thousands of components?
+پس چگونه React حتی با هزاران کامپوننت سریع و نرم می‌ماند؟
 
-🎯 **Answer:** React uses a clever scheduling system called **Fiber**.
-
----
-
-## 🧠 What You’ll Learn
-
-- What React Fiber is and what problem it solves
-- How scheduling keeps apps fast
-- What "interruptible rendering" means
-- The idea of priority-based updates
-- Examples of how React slices work
+🎯 **پاسخ:** React از یک سیستم زمانبندی هوشمند به نام **Fiber** استفاده می‌کند.
 
 ---
 
-## 🔹 What Is Fiber?
+## 🧠 آنچه یاد خواهید گرفت
 
-**Fiber** is the internal rendering engine introduced in **React 16**.  
-Its main goal is to make rendering **interruptible** and **non-blocking**.
-
-> 🧠 Before Fiber, React updates were synchronous — once started, they couldn't be paused.
-
-Now, Fiber lets React:
-
-- **Pause** and **resume** work
-- **Cancel** work that’s no longer needed
-- **Prioritize** urgent tasks (like clicks) over slow ones (like animations)
+- React Fiber چیست و چه مشکلی را حل می‌کند
+- چگونه زمانبندی اپ‌ها را سریع نگه می‌دارد
+- "interruptible rendering" چه معنایی دارد
+- ایده به‌روزرسانی‌های مبتنی بر اولویت
+- مثال‌هایی از اینکه چگونه React کار را تقسیم می‌کند
 
 ---
 
-## 🔄 Why Is Scheduling Important?
+## 🔹 Fiber چیست؟
 
-Imagine this:
+**Fiber** موتور رندر داخلی است که در **React 16** معرفی شد.  
+هدف اصلی آن این است که رندر **قابل قطع** و **غیر مسدودکننده** باشد.
 
-````js
-// A slow component
+> 🧠 قبل از Fiber، به‌روزرسانی‌های React همزمان بودند — یک بار شروع می‌شدند، نمی‌توانستند متوقف شوند.
+
+حالا، Fiber به React اجازه می‌دهد:
+
+- کار را **متوقف** و **ادامه** دهد
+- کاری که دیگر مورد نیاز نیست را **لغو** کند
+- وظایف فوری (مانند کلیک‌ها) را بر وظایف کند (مانند انیمیشن‌ها) **اولویت‌بندی** کند
+
+---
+
+## 🔄 چرا زمانبندی مهم است؟
+
+این را تصور کنید:
+
+```js
+// یک کامپوننت کند
 useEffect(() => {
   for (let i = 0; i < 1_000_000_000; i++) {}
 }, []);
+```
 
+بدون زمانبندی، مرورگر **یخ می‌زند**.
 
-Without scheduling, the browser **freezes**.
-
-With Fiber, React breaks that work into **chunks**, rendering part by part when the browser is idle — keeping the page **snappy** and **interactive**.
+با Fiber، React آن کار را به **قطعات** تقسیم می‌کند، بخش به بخش رندر می‌کند وقتی مرورگر بیکار است — صفحه را **چابک** و **تعاملی** نگه می‌دارد.
 
 ---
 
-## ⚙️ How Fiber Schedules Work
+## ⚙️ چگونه Fiber کار را زمانبندی می‌کند
 
-```pgsql
+```css
 ┌────────────────────────────┐
-│ User clicks a button │
+│ کاربر روی دکمه کلیک می‌کند │
 └───────┬────────────────────┘
 ▼
 ┌────────────────────────────┐
-│ React starts rendering │
-│ - Checks if work is urgent │
-│ - Breaks big updates into │
-│ tiny "units of work" │
+│ React شروع به رندر می‌کند │
+│ - بررسی می‌کند آیا کار فوری است │
+│ - به‌روزرسانی‌های بزرگ را به │
+│ "واحدهای کار" کوچک تقسیم می‌کند │
 └───────┬────────────────────┘
 ▼
 ┌────────────────────────────┐
-│ Browser stays interactive │
-│ React works in background │
+│ مرورگر تعاملی می‌ماند │
+│ React در پس‌زمینه کار می‌کند │
 └────────────────────────────┘
 ```
 
-````
-
-✅ This is called **concurrent rendering** — React does only what’s needed **right now**, and defers the rest.
+✅ این **concurrent rendering** نامیده می‌شود — React فقط کاری را انجام می‌دهد که **الان** مورد نیاز است، و بقیه را به تعویق می‌اندازد.
 
 ---
 
-## 🔸 High vs Low Priority Updates
+## 🔸 به‌روزرسانی‌های با اولویت بالا در مقابل پایین
 
-React automatically assigns **priority levels** to updates:
+React به طور خودکار **سطوح اولویت** را به به‌روزرسانی‌ها اختصاص می‌دهد:
 
-| Example             | Priority |
-| ------------------- | -------- |
-| Typing into input   | High     |
-| Clicking a button   | High     |
-| Loading long list   | Low      |
-| Animating something | Low      |
+| مثال                 | اولویت |
+| -------------------- | ------ |
+| تایپ کردن در input   | بالا   |
+| کلیک روی دکمه        | بالا   |
+| بارگذاری لیست طولانی | پایین  |
+| انیمیشن چیزی         | پایین  |
 
-React **schedules high-priority updates first**, and fits low-priority work when the browser is free.
+React **به‌روزرسانی‌های با اولویت بالا را ابتدا زمانبندی می‌کند**، و کار با اولویت پایین را وقتی مرورگر آزاد است انجام می‌دهد.
 
 ---
 
-## 🔸 When Does Fiber Run?
+## 🔸 چه زمانی Fiber اجرا می‌شود؟
 
-Fiber is used every time React does:
+Fiber هر بار که React این کارها را انجام می‌دهد استفاده می‌شود:
 
 - `setState()`
-- `useState()` or `useReducer()` updates
-- Component mounting or updating
-- Lazy component loading
+- به‌روزرسانی‌های `useState()` یا `useReducer()`
+- mount یا update کردن کامپوننت
+- بارگذاری lazy کامپوننت
 
-React **rebuilds a Fiber tree** and renders it **piece-by-piece**.
-
----
-
-## 🧪 Homework Tasks
-
-1. ✅ Create a heavy component with a long loop in `useEffect()` — see the blocking behavior.
-2. ✅ Add a `setTimeout` or `useTransition` to delay work and observe smoother behavior.
-3. ✅ Explore `React DevTools Profiler` to see rendering times and Fiber scheduling.
+React **یک درخت Fiber می‌سازد** و آن را **قطعه به قطعه** رندر می‌کند.
 
 ---
 
-## 🧠 Summary
+## 🧪 تکالیف تمرینی
 
-| Concept       | Meaning                                             |
-| ------------- | --------------------------------------------------- |
-| Fiber Engine  | React’s internal scheduler since React 16           |
-| Interruptible | Can pause, split, cancel rendering                  |
-| Concurrent    | React can prioritize quick updates over heavy tasks |
-| Keeps UI fast | No blocking or freezing even with big components    |
+۱. ✅ یک کامپوننت سنگین با حلقه طولانی در `useEffect()` بسازید — رفتار مسدودکننده را ببینید.
+۲. ✅ یک `setTimeout` یا `useTransition` اضافه کنید تا کار را به تأخیر بیندازید و رفتار نرم‌تر را مشاهده کنید.
+۳. ✅ `React DevTools Profiler` را بررسی کنید تا زمان‌های رندر و زمانبندی Fiber را ببینید.
 
 ---
 
-## 📚 Further Reading
+## 🧠 خلاصه
 
-- 🔗 [React Docs — Rendering with Concurrent Features](https://react.dev/learn/rendering)
-- 🔗 [React Fiber Architecture](https://github.com/acdlite/react-fiber-architecture)
-- 🔗 [React Working Group Notes on Scheduling](https://github.com/reactwg)
+| مفهوم                  | معنی                                                             |
+| ---------------------- | ---------------------------------------------------------------- |
+| موتور Fiber            | زمانبند داخلی React از React 16                                  |
+| قابل قطع               | می‌تواند رندر را متوقف، تقسیم، لغو کند                           |
+| همزمان                 | React می‌تواند به‌روزرسانی‌های سریع را بر وظایف سنگین اولویت دهد |
+| UI را سریع نگه می‌دارد | حتی با کامپوننت‌های بزرگ مسدود یا یخ نمی‌زند                     |
+
+---
+
+## 📚 مطالعه بیشتر
+
+- 🔗 [مستندات React — رندر با ویژگی‌های همزمان](https://react.dev/learn/rendering)
+- 🔗 [معماری React Fiber](https://github.com/acdlite/react-fiber-architecture)
+- 🔗 [یادداشت‌های گروه کاری React در مورد زمانبندی](https://github.com/reactwg)

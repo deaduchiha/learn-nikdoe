@@ -1,32 +1,32 @@
 ---
-title: "1. JavaScript (ES6+)"
-description: "Modern JavaScript (also called ES6+) is easier to write, read, and maintain. This guide covers the most important syntax you’ll use in **React, Next.js**, and every real-world project."
+title: "۱. جاوااسکریپت (ES6+)"
+description: "جاوااسکریپت مدرن (که ES6+ نیز نامیده می‌شود) نوشتن، خواندن و نگهداری آن آسان‌تر است. این راهنما مهم‌ترین نحو (syntax)‌هایی را که در **React، Next.js** و هر پروژه واقعی استفاده خواهید کرد، پوشش می‌دهد."
 ---
 
-## 🧠 Skill Targets
+## 🧠 اهداف مهارتی
 
-- Understand `let`, `const`, and block scoping
-- Use arrow functions for clean callbacks
-- Build reusable modules with `import/export`
-- Structure code with classes and methods
-- Write readable strings using template literals
+- درک `let`، `const` و محدوده بلوکی
+- استفاده از توابع arrow برای callback های تمیز
+- ساخت ماژول‌های قابل استفاده مجدد با `import/export`
+- ساختاردهی کد با کلاس‌ها و متدها
+- نوشتن رشته‌های قابل خواندن با استفاده از template literals
 
 ---
 
-## 🧩 Concepts & Examples
+## 🧩 مفاهیم و مثال‌ها
 
-### 🔹 `let` and `const`
+### 🔹 `let` و `const`
 
 ````js
-let age = 20;          // value can be changed
-const siteName = "Nikode"; // value cannot be changed
+let age = 20;          // مقدار قابل تغییر است
+const siteName = "Nikode"; // مقدار قابل تغییر نیست
 
 
-> ✅ Use `const` by default. Switch to `let` only if you plan to reassign.
+> ✅ به طور پیش‌فرض از `const` استفاده کنید. فقط در صورتی که قصد تغییر مجدد مقدار را دارید، به `let` تغییر دهید.
 
 ---
 
-### 🔹 Arrow Functions
+### 🔹 توابع Arrow
 
 ```js
 const greet = (name) => {
@@ -34,7 +34,7 @@ const greet = (name) => {
 };
 ````
 
-✅ Shorter and avoids problems with `this` in callbacks.
+✅ کوتاه‌تر است و از مشکلات `this` در callback ها جلوگیری می‌کند.
 
 ---
 
@@ -45,11 +45,11 @@ const lang = "JavaScript";
 console.log(`I love ${lang}!`);
 ```
 
-No more `+` for string joining. Just use backticks `` ` `` and `${}`.
+دیگر نیازی به `+` برای اتصال رشته‌ها نیست. فقط از backtick `` ` `` و `${}` استفاده کنید.
 
 ---
 
-### 🔹 Modules: `import` and `export`
+### 🔹 ماژول‌ها: `import` و `export`
 
 **math.js**
 
@@ -67,11 +67,11 @@ console.log(add(10, 5)); // 15
 console.log(subtract(10, 5)); // 5
 ```
 
-> Modules = cleaner and reusable code across files.
+> ماژول‌ها = کد تمیزتر و قابل استفاده مجدد در فایل‌های مختلف.
 
 ---
 
-### 🔹 Classes
+### 🔹 کلاس‌ها
 
 ```js
 class Person {
@@ -88,21 +88,21 @@ const user = new Person("Nikode");
 console.log(user.greet());
 ```
 
-> Think of classes like blueprints for objects with logic.
+> کلاس‌ها را مانند نقشه‌های ساختمانی برای اشیاء با منطق در نظر بگیرید.
 
 ---
 
-## 🧪 Homework Tasks
+## 🧪 تکالیف تمرینی
 
-🎯 Try these on your own or in Replit / CodePen:
+🎯 این موارد را به تنهایی یا در Replit / CodePen امتحان کنید:
 
-1. ✅ Create a function with arrow syntax that triples a number.
-2. ✅ Write and import a module with `multiply` and `divide` functions.
-3. ✅ Make a class `Book` with `title` and `author` and a method `getInfo()` that returns a string like: `"The Hobbit by Tolkien"`.
+1. ✅ تابعی با نحو arrow بسازید که یک عدد را سه برابر کند.
+2. ✅ ماژولی با توابع `multiply` و `divide` بنویسید و import کنید.
+3. ✅ کلاس `Book` با `title` و `author` بسازید و متدی به نام `getInfo()` که رشته‌ای مانند این برمی‌گرداند: `"The Hobbit by Tolkien"`.
 
 ---
 
-## 📚 Bonus Resources
+## 📚 منابع تکمیلی
 
 - 🔗 [MDN ES6 Features Overview](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - 🔗 [JavaScript.info — Modern JS](https://javascript.info)

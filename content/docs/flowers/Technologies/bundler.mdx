@@ -1,22 +1,22 @@
 ---
-title: "4. Bundlers — Vite, esbuild, Webpack"
-description: "In modern frontend development, you don’t just load one file — you load a bundle: a single, optimized package of all your code, styles, and assets."
+title: "۴. Bundler ها — Vite، esbuild، Webpack"
+description: "در توسعه فرانت‌اند مدرن، شما فقط یک فایل را بارگذاری نمی‌کنید — شما یک bundle را بارگذاری می‌کنید: یک بسته بهینه‌سازی شده واحد از تمام کد، استایل‌ها و دارایی‌های شما."
 ---
 
-## 🧠 What You’ll Learn
+## 🧠 آنچه یاد خواهید گرفت
 
-- What a bundler does (and why it’s important)
-- How Vite, esbuild, and Webpack work
-- What bundling means in a modern React project
-- How bundlers help with performance and scalability
+- bundler چه کاری انجام می‌دهد (و چرا مهم است)
+- چگونه Vite، esbuild و Webpack کار می‌کنند
+- bundling در یک پروژه React مدرن چه معنایی دارد
+- چگونه bundler ها به عملکرد و مقیاس‌پذیری کمک می‌کنند
 
 ---
 
-## 🔹 What Is a Bundler?
+## 🔹 Bundler چیست؟
 
-A **bundler** takes your app's many files (JS, CSS, images, etc.) and **combines them into a few optimized output files**.
+یک **bundler** فایل‌های متعدد اپلیکیشن شما (JS، CSS، تصاویر و غیره) را می‌گیرد و **آنها را در چند فایل خروجی بهینه‌سازی شده ترکیب می‌کند**.
 
-````txt
+```txt
 input/
 ├─ App.jsx
 ├─ styles.css
@@ -29,121 +29,121 @@ input/
 output/
 ├─ bundle.js
 ├─ style.css
+```
 
+✅ مزایا:
 
-✅ Benefits:
-
-* Fewer HTTP requests
-* Minified and compressed files
-* Faster load time
-* Supports modern tools like JSX and modules
-
----
-
-## 🔧 Popular Bundlers at a Glance
-
-| Tool        | Engine         | Key Features                           |
-| ----------- | -------------- | -------------------------------------- |
-| **Vite**    | uses `esbuild` | Lightning-fast dev server, hot reload  |
-| **esbuild** | written in Go  | Ultra-fast JS/TS bundler, zero config  |
-| **Webpack** | plugin-based   | Powerful and flexible, used by Next.js |
+- درخواست‌های HTTP کمتر
+- فایل‌های فشرده و بهینه‌سازی شده
+- زمان بارگذاری سریع‌تر
+- پشتیبانی از ابزارهای مدرن مانند JSX و ماژول‌ها
 
 ---
 
-## ⚡ Vite (Default for Modern React)
+## 🔧 Bundler های محبوب در یک نگاه
 
-Vite is a new-generation bundler that uses **esbuild** under the hood for development.
+| ابزار       | موتور                       | ویژگی‌های کلیدی                                 |
+| ----------- | --------------------------- | ----------------------------------------------- |
+| **Vite**    | از `esbuild` استفاده می‌کند | سرور توسعه فوق‌العاده سریع، hot reload          |
+| **esbuild** | با Go نوشته شده             | bundler JS/TS فوق‌العاده سریع، zero config      |
+| **Webpack** | مبتنی بر پلاگین             | قدرتمند و انعطاف‌پذیر، استفاده شده توسط Next.js |
+
+---
+
+## ⚡ Vite (پیش‌فرض برای React مدرن)
+
+Vite یک bundler نسل جدید است که از **esbuild** در پس‌زمینه برای توسعه استفاده می‌کند.
 
 ```bash
 npm create vite@latest
-````
+```
 
-### 🔥 Features:
+### 🔥 ویژگی‌ها:
 
-- Instant startup (no bundling on dev)
+- راه‌اندازی فوری (بدون bundling در توسعه)
 - HMR (Hot Module Reloading)
-- Native ESM support
-- Works great with React, Vue, Svelte, etc.
+- پشتیبانی بومی ESM
+- با React، Vue، Svelte و غیره عالی کار می‌کند
 
 ---
 
-## 🛠 esbuild (The Speed King)
+## 🛠 esbuild (پادشاه سرعت)
 
-esbuild is an extremely fast JS bundler and minifier.
+esbuild یک bundler و minifier JS فوق‌العاده سریع است.
 
 ```bash
 npx esbuild app.jsx --bundle --outfile=bundle.js
 ```
 
-✅ It's often used **behind the scenes** in tools like:
+✅ اغلب **پشت صحنه** در ابزارهایی مانند این استفاده می‌شود:
 
-- Vite (for dev)
+- Vite (برای توسعه)
 - Bun
 - Snowpack
 
 ---
 
-## 🏗 Webpack (The Old Giant)
+## 🏗 Webpack (غول قدیمی)
 
-Webpack is the traditional bundler used in **Create React App** and **Next.js**.
+Webpack bundler سنتی است که در **Create React App** و **Next.js** استفاده می‌شود.
 
 ```bash
 npx create-react-app my-app
 ```
 
-### Key Features:
+### ویژگی‌های کلیدی:
 
-- Highly customizable with loaders and plugins
-- Handles images, CSS, SVG, and more
-- Powerful production optimizations
+- بسیار قابل تنظیم با loader ها و پلاگین‌ها
+- تصاویر، CSS، SVG و موارد دیگر را مدیریت می‌کند
+- بهینه‌سازی‌های قدرتمند تولید
 
-> 🧠 More flexible, but also more complex to configure manually.
+> 🧠 انعطاف‌پذیرتر، اما همچنین پیچیده‌تر برای تنظیم دستی.
 
 ---
 
-## 📦 How Bundlers Work (Simplified)
+## 📦 چگونه Bundler ها کار می‌کنند (ساده‌شده)
 
 ```
 ┌────────────┐
-│  Your Code │  (JSX, CSS, TS, images...)
+│  کد شما    │  (JSX، CSS، TS، تصاویر...)
 └─────┬──────┘
       ▼
 ┌──────────────┐
-│   Transpiler │  (Babel, esbuild)
+│   ترنسپایلر │  (Babel، esbuild)
 └─────┬────────┘
       ▼
 ┌─────────────┐
-│   Bundler   │  (Vite, Webpack)
+│   Bundler   │  (Vite، Webpack)
 └─────┬───────┘
       ▼
 ┌────────────────────┐
-│  Output Bundle(s)  │ → Delivered to browser
+│  Bundle خروجی      │ → تحویل به مرورگر
 └────────────────────┘
 ```
 
 ---
 
-## 🧪 Homework Tasks
+## 🧪 تکالیف تمرینی
 
-1. ✅ Create a new React app using **Vite** and explore the `vite.config.js`.
-2. ✅ Use `esbuild` from CLI to bundle a simple JS file.
-3. ✅ Compare the output bundle sizes between CRA and Vite.
-
----
-
-## 🧠 Summary
-
-| Concept | Description                            |
-| ------- | -------------------------------------- |
-| Bundler | Combines files into 1+ optimized files |
-| Vite    | Fastest dev experience using esbuild   |
-| esbuild | Core tech behind many new bundlers     |
-| Webpack | Very flexible, powerful, but heavier   |
+۱. ✅ یک اپ React جدید با استفاده از **Vite** بسازید و `vite.config.js` را بررسی کنید.
+۲. ✅ از `esbuild` از CLI برای bundle کردن یک فایل JS ساده استفاده کنید.
+۳. ✅ اندازه bundle های خروجی بین CRA و Vite را مقایسه کنید.
 
 ---
 
-## 📚 Learn More
+## 🧠 خلاصه
 
-- 🔗 [Vite Official Docs](https://vitejs.dev)
-- 🔗 [esbuild Docs](https://esbuild.github.io)
-- 🔗 [Webpack Docs](https://webpack.js.org)
+| مفهوم   | توضیحات                                     |
+| ------- | ------------------------------------------- |
+| Bundler | فایل‌ها را در ۱+ فایل بهینه ترکیب می‌کند    |
+| Vite    | سریع‌ترین تجربه توسعه با استفاده از esbuild |
+| esbuild | فناوری اصلی پشت بسیاری از bundler های جدید  |
+| Webpack | بسیار انعطاف‌پذیر، قدرتمند، اما سنگین‌تر    |
+
+---
+
+## 📚 یادگیری بیشتر
+
+- 🔗 [مستندات رسمی Vite](https://vitejs.dev)
+- 🔗 [مستندات esbuild](https://esbuild.github.io)
+- 🔗 [مستندات Webpack](https://webpack.js.org)
