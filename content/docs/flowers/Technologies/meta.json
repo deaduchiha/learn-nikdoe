@@ -1,5 +1,5 @@
 {
-  "title": "Technologies",
+  "title": "تکنولوژی ها",
   "icon": "Computer",
   "defaultOpen": false,
   "pages": ["es6", "jsx", "babel", "bundler", "runtime", "scheduler", "events"]
