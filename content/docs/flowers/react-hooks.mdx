@@ -1,71 +1,71 @@
 ---
-title: React 19 Hooks Cookbook
-description: A practical, example‑driven reference to every official React 19 hook with best practices and hands‑on exercises.
+title: کتاب آشپزی هوک‌های React 19
+description: مرجع عملی و مثال‌محور برای تمام هوک‌های رسمی React 19 با بهترین شیوه‌ها و تمرینات عملی.
 ---
 
-# React 19 Hooks
+# هوک‌های React 19
 
-> **What are Hooks?** Hooks are just JavaScript functions whose names start with `use*`. They let you “hook into” React features from function components.
-
----
-
-## 1. Fundamental hooks
-
-These hooks cover most day‑to‑day needs.
-
-### 1.1 `useState`
-
-Imagine your component is a **piggy bank** 🐷 that keeps a number inside it.
-`useState` gives you **two things**:
-
-1. The **current number** in the piggy bank (`count`).
-2. A **friendly robot** called `setCount` that can change that number.
-
-Two ways to tell the robot what to do:
-
-| Way                  | What you say           | What it means                                                                                  |
-| -------------------- | ---------------------- | ---------------------------------------------------------------------------------------------- |
-| **Direct value**     | `setCount(count + 1)`  | “Hey robot, write THIS exact number into the piggy bank.”                                      |
-| **Updater function** | `setCount(c => c + 1)` | “Hey robot, when you get the piggy bank, add 1 to whatever number is in there **right then**.” |
-
-Why the second way is safer:
-
-- **The robot works from a queue.** If you yell instructions twice very quickly, both direct-value orders might be based on the _same_ starting number. The updater form makes the robot re-check the piggy bank each time.
-- **React sometimes waits** (it “batches”) before letting the robot work. During that wait, the number can change. The updater form guarantees you don’t lose those changes.
-
-> **Rule of thumb:**
-> Any time the **new value depends on the old value**, use the updater form.
+> **هوک‌ها چیستند؟** هوک‌ها فقط توابع JavaScript هستند که نامشان با `use*` شروع می‌شود. آن‌ها به شما اجازه می‌دهند تا به ویژگی‌های React از کامپوننت‌های تابعی "متصل شوید".
 
 ---
 
-Tiny example: a **Double Click** button:
+## ۱. هوک‌های بنیادی
+
+این هوک‌ها بیشتر نیازهای روزانه را پوشش می‌دهند.
+
+### ۱.۱ `useState`
+
+تصور کنید کامپوننت شما یک **کوزه پس‌انداز** 🐷 است که یک عدد را درون خود نگه می‌دارد.
+`useState` به شما **دو چیز** می‌دهد:
+
+۱. **عدد فعلی** در کوزه پس‌انداز (`count`).
+۲. یک **ربات دوستانه** به نام `setCount` که می‌تواند آن عدد را تغییر دهد.
+
+دو راه برای گفتن به ربات که چه کاری انجام دهد:
+
+| راه                  | آنچه می‌گویید          | معنای آن                                                                                               |
+| -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------ |
+| **مقدار مستقیم**     | `setCount(count + 1)`  | "هی ربات، این عدد دقیق را در کوزه پس‌انداز بنویس."                                                     |
+| **تابع به‌روزرسانی** | `setCount(c => c + 1)` | "هی ربات، وقتی کوزه پس‌انداز را می‌گیری، ۱ را به هر عددی که در آنجا **درست در آن لحظه** است اضافه کن." |
+
+چرا راه دوم امن‌تر است:
+
+- **ربات از صف کار می‌کند.** اگر شما دستورات را دو بار خیلی سریع فریاد بزنید، هر دو دستور مقدار مستقیم ممکن است بر اساس همان عدد شروع باشند. فرم به‌روزرسانی باعث می‌شود ربات هر بار کوزه پس‌انداز را دوباره بررسی کند.
+- **React گاهی منتظر می‌ماند** (آن را "دسته‌بندی" می‌کند) قبل از اینکه به ربات اجازه کار دهد. در طول آن انتظار، عدد می‌تواند تغییر کند. فرم به‌روزرسانی تضمین می‌کند که شما آن تغییرات را از دست ندهید.
+
+> **قاعده کلی:**
+> هر زمان که **مقدار جدید به مقدار قدیمی بستگی دارد**، از فرم به‌روزرسانی استفاده کنید.
+
+---
+
+مثال کوچک: یک دکمه **کلیک دوبل**:
 
 ```tsx
 import { useState } from "react";
 
 export default function DoubleClick() {
-  const [count, setCount] = useState(0); // 0 is our initial value
+  const [count, setCount] = useState(0); // ۰ مقدار اولیه ما است
 
   const handleClick = () => {
-    // We want +2 each click
+    // ما می‌خواهیم هر کلیک +۲ باشد
     setCount((c) => c + 1);
     setCount((c) => c + 1);
   };
 
-  return <button onClick={handleClick}>You clicked {count} times</button>;
+  return <button onClick={handleClick}>شما {count} بار کلیک کردید</button>;
 }
 ```
 
-- Click once → **2**
-- Click again → **4**
-  If we had used `setCount(count + 1)` twice, we’d only get **1 → 2 → 3 …** (because both calls use the same stale `count`).
+- یک بار کلیک کنید → **۲**
+- دوباره کلیک کنید → **۴**
+  اگر ما از `setCount(count + 1)` دو بار استفاده کرده بودیم، فقط **۱ → ۲ → ۳ …** می‌گرفتیم (چون هر دو فراخوانی از همان `count` قدیمی استفاده می‌کنند).
 
 ---
 
-This is an example for Controlled inputs with useState:
+این یک مثال برای ورودی‌های کنترل شده با useState است:
 
 ```tsx
-const [query, setQuery] = useState<string>(""); // what happened if we set undefined as initial value ?
+const [query, setQuery] = useState<string>(""); // اگر undefined را به عنوان مقدار اولیه تنظیم کنیم چه اتفاقی می‌افتد؟
 
 <input
   className="border p-1 rounded-sm"
@@ -78,97 +78,97 @@ const [query, setQuery] = useState<string>(""); // what happened if we set undef
 
 ---
 
-Best-practice cheatsheet:
+راهنمای بهترین شیوه‌ها:
 
-1. **Keep state small.** Store _only_ what you can’t compute.
-2. **Use functional (updater) form** when the new value depends on the old.
-3. **Group related updates** in one call:
+۱. **حالت را کوچک نگه دارید.** فقط آنچه را که نمی‌توانید محاسبه کنید ذخیره کنید.
+۲. **از فرم تابعی (به‌روزرسانی) استفاده کنید** وقتی مقدار جدید به مقدار قدیمی بستگی دارد.
+۳. **به‌روزرسانی‌های مرتبط را گروه‌بندی کنید** در یک فراخوانی:
 
-   ```tsx
-   setUser((u) => ({ ...u, age: u.age + 1 }));
-   ```
+```tsx
+setUser((u) => ({ ...u, age: u.age + 1 }));
+```
 
-4. **Don’t read state right after calling `setX`.** It hasn’t updated yet.
-5. **For very complex state** (lots of fields), consider `useReducer`.
-
----
-
-Homework 🏠
-
-1. **Single-step counter**
-
-   - Build `Stepper.tsx`.
-   - Start at **0**.
-   - Add **+1**, **−1**, and **Reset** buttons.
-   - Use the updater form for +1 and −1.
-
-2. **Time machine counter**
-
-   - Add another button **“+5”** that loops five times with the updater form
-
-     ```tsx
-     for (let i = 0; i < 5; i++) {
-       setCount((c) => c + 1);
-     }
-     ```
-
-   - Prove to yourself that it jumps by 5 every click.
-
-3. **Explain it to a friend** (or rubber duck 🦆)
-
-   - In one short paragraph, describe **why** `setCount(c => c + 1)` is safer than `setCount(count + 1)`.
-   - If they can repeat it back, you’ve mastered the concept!
-
-Happy coding — and remember: **tell the robot _how_ to change the value, not _what_ value to write.**
-
-- [First project in class - My Library](/docs/projects/hooks/use-state/first)
-- [Second project in class - Pet list](/docs/projects/hooks/use-state/second)
+۴. **بلافاصله پس از فراخوانی `setX` حالت را نخوانید.** هنوز به‌روزرسانی نشده است.
+۵. **برای حالت بسیار پیچیده** (تعداد زیادی فیلد)، `useReducer` را در نظر بگیرید.
 
 ---
 
-Here is a complete, **step‑by‑step teaching guide** for `useReducer` in React, written as if I’m teaching a beginner from zero knowledge — with clear explanation, best practices, real‑world examples (beginner, intermediate, advanced), and a homework at the end.
+تمرین خانگی 🏠
+
+۱. **شمارنده تک‌مرحله‌ای**
+
+- `Stepper.tsx` را بسازید.
+- از **۰** شروع کنید.
+- دکمه‌های **+۱**، **−۱**، و **بازنشانی** را اضافه کنید.
+- از فرم به‌روزرسانی برای +۱ و −۱ استفاده کنید.
+
+۲. **شمارنده ماشین زمان**
+
+- دکمه دیگری **"+۵"** اضافه کنید که پنج بار با فرم به‌روزرسانی حلقه می‌زند
+
+  ```tsx
+  for (let i = 0; i < 5; i++) {
+    setCount((c) => c + 1);
+  }
+  ```
+
+- ثابت کنید که هر کلیک ۵ واحد می‌پرد.
+
+۳. **آن را برای یک دوست توضیح دهید** (یا اردک لاستیکی 🦆)
+
+- در یک پاراگراف کوتاه، توضیح دهید که **چرا** `setCount(c => c + 1)` از `setCount(count + 1)` امن‌تر است.
+- اگر آن‌ها بتوانند آن را تکرار کنند، شما مفهوم را تسلط یافته‌اید!
+
+کدگذاری شاد — و به یاد داشته باشید: **به ربات بگویید _چگونه_ مقدار را تغییر دهد، نه _چه_ مقداری بنویسد.**
+
+- [اولین پروژه در کلاس - کتابخانه من](/docs/projects/hooks/use-state/first)
+- [دومین پروژه در کلاس - لیست حیوانات خانگی](/docs/projects/hooks/use-state/second)
 
 ---
 
-### 1.2 `useReducer`
-
-#### 1.2.1 What is useReducer ?
-
-When your component’s state becomes **too complex for `useState`**, you need something better to organize your logic.
-
-✅ `useReducer` lets you write **predictable state transitions** using a reducer function.
-✅ You “dispatch” an action, and the reducer calculates the new state.
-✅ This is very similar to Redux, but built into React.
+در اینجا یک **راهنمای آموزشی گام به گام** برای `useReducer` در React وجود دارد، نوشته شده به گونه‌ای که گویی من یک مبتدی را از دانش صفر آموزش می‌دهم — با توضیح واضح، بهترین شیوه‌ها، مثال‌های دنیای واقعی (مبتدی، متوسط، پیشرفته)، و یک تمرین خانگی در پایان.
 
 ---
 
-#### 1.2.2 Syntax
+### ۱.۲ `useReducer`
+
+#### ۱.۲.۱ useReducer چیست؟
+
+وقتی حالت کامپوننت شما **برای `useState` خیلی پیچیده می‌شود**، شما به چیزی بهتر برای سازماندهی منطق خود نیاز دارید.
+
+✅ `useReducer` به شما اجازه می‌دهد **انتقالات حالت قابل پیش‌بینی** را با استفاده از یک تابع reducer بنویسید.
+✅ شما یک "action" را "dispatch" می‌کنید، و reducer حالت جدید را محاسبه می‌کند.
+✅ این بسیار شبیه Redux است، اما در React ساخته شده است.
+
+---
+
+#### ۱.۲.۲ نحو
 
 ```tsx
 const [state, dispatch] = useReducer(reducer, initialArg, init?);
 ```
 
-| Term         | Meaning                                   |
+| اصطلاح       | معنی                                      |
 | ------------ | ----------------------------------------- |
-| `state`      | current state                             |
-| `dispatch`   | function you call to trigger a change     |
-| `reducer`    | pure function that decides the next state |
-| `initialArg` | initial state                             |
-| `init`       | optional lazy initializer                 |
+| `state`      | حالت فعلی                                 |
+| `dispatch`   | تابعی که برای شروع تغییر فراخوانی می‌کنید |
+| `reducer`    | تابع خالصی که حالت بعدی را تصمیم می‌گیرد  |
+| `initialArg` | حالت اولیه                                |
+| `init`       | مقداردهی اولیه تنبل اختیاری               |
 
 ---
 
-#### 1.2.3 When to use it?
+#### ۱.۲.۳ چه زمانی از آن استفاده کنیم؟
 
-- When you have **complex state logic**, e.g., an object or multiple values.
-- When the **next state depends on the previous state**.
-- When you want to **centralize state updates**, like a mini‑Redux.
+- وقتی **منطق حالت پیچیده** دارید، مثلاً یک شیء یا چندین مقدار.
+- وقتی **حالت بعدی به حالت قبلی بستگی دارد**.
+- وقتی می‌خواهید **به‌روزرسانی‌های حالت را متمرکز کنید**، مثل یک Redux کوچک.
 
 ---
 
-#### 1.2.4 Beginner Example — Counter
+#### ۱.۲.۴ مثال مبتدی — شمارنده
 
-This is the most classic and simplest example.
+این کلاسیک‌ترین و ساده‌ترین مثال است.
 
 ```tsx
 type Action = { type: "inc" } | { type: "dec" } | { type: "reset" };
@@ -194,32 +194,32 @@ function Counter() {
       <p>{count}</p>
       <button onClick={() => dispatch({ type: "inc" })}>+</button>
       <button onClick={() => dispatch({ type: "dec" })}>−</button>
-      <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+      <button onClick={() => dispatch({ type: "reset" })}>بازنشانی</button>
     </>
   );
 }
 ```
 
-📝 Notes:
+📝 یادداشت‌ها:
 
-- `reducer` is a **pure function** → it takes `state` & `action` → returns **new state**.
-- `dispatch` sends an action.
-
----
-
-#### 1.2.5 Best Practices
-
-✅ Keep the reducer **pure** → No API calls, no timers, no side effects.
-✅ Always handle **all actions**.
-✅ Co‑locate the reducer with the component unless shared.
-✅ Use TypeScript to ensure exhaustive action handling.
-✅ Do not mutate the state — always return a **new copy**.
+- `reducer` یک **تابع خالص** است → حالت `state` و `action` را می‌گیرد → **حالت جدید** را برمی‌گرداند.
+- `dispatch` یک action را ارسال می‌کند.
 
 ---
 
-#### 1.2.6 Real‑world Examples
+#### ۱.۲.۵ بهترین شیوه‌ها
 
-- **Beginner** — `Toggle theme`
+✅ reducer را **خالص** نگه دارید → هیچ فراخوانی API، تایمر، یا اثر جانبی.
+✅ همیشه **تمام action ها** را مدیریت کنید.
+✅ reducer را با کامپوننت هم‌مکان کنید مگر اینکه مشترک باشد.
+✅ از TypeScript استفاده کنید تا مدیریت جامع action تضمین شود.
+✅ حالت را تغییر ندهید — همیشه یک **کپی جدید** برگردانید.
+
+---
+
+#### ۱.۲.۶ مثال‌های دنیای واقعی
+
+- **مبتدی** — `تغییر تم\*\*
 
 ```tsx
 type ThemeAction = { type: "light" } | { type: "dark" };
@@ -240,9 +240,9 @@ function ThemeToggle() {
 
   return (
     <div>
-      <p>Current theme: {theme}</p>
-      <button onClick={() => dispatch({ type: "light" })}>Light</button>
-      <button onClick={() => dispatch({ type: "dark" })}>Dark</button>
+      <p>تم فعلی: {theme}</p>
+      <button onClick={() => dispatch({ type: "light" })}>روشن</button>
+      <button onClick={() => dispatch({ type: "dark" })}>تاریک</button>
     </div>
   );
 }
@@ -250,9 +250,9 @@ function ThemeToggle() {
 
 ---
 
-- **Intermediate** — `Form State`
+- **متوسط** — `حالت فرم`
 
-Suppose you’re managing a form with multiple fields:
+فرض کنید شما یک فرم با چندین فیلد را مدیریت می‌کنید:
 
 ```tsx
 type FormState = { name: string; email: string };
@@ -285,17 +285,17 @@ function MyForm() {
       <input
         value={state.name}
         onChange={(e) => dispatch({ type: "setName", payload: e.target.value })}
-        placeholder="Name"
+        placeholder="نام"
       />
       <input
         value={state.email}
         onChange={(e) =>
           dispatch({ type: "setEmail", payload: e.target.value })
         }
-        placeholder="Email"
+        placeholder="ایمیل"
       />
       <button type="button" onClick={() => dispatch({ type: "reset" })}>
-        Reset
+        بازنشانی
       </button>
     </form>
   );
@@ -304,9 +304,9 @@ function MyForm() {
 
 ---
 
-- **Advanced** — `Shopping Cart`
+- **پیشرفته** — `سبد خرید`
 
-Imagine an e‑commerce cart where you can add, remove, or clear items.
+یک سبد خرید تجارت الکترونیک را تصور کنید که می‌توانید موارد را اضافه، حذف، یا پاک کنید.
 
 ```tsx
 type Item = { id: number; name: string };
@@ -335,18 +335,18 @@ function Cart() {
     <div>
       <button
         onClick={() =>
-          dispatch({ type: "add", item: { id: Date.now(), name: "Apple" } })
+          dispatch({ type: "add", item: { id: Date.now(), name: "سیب" } })
         }
       >
-        Add Apple
+        اضافه کردن سیب
       </button>
-      <button onClick={() => dispatch({ type: "clear" })}>Clear</button>
+      <button onClick={() => dispatch({ type: "clear" })}>پاک کردن</button>
       <ul>
         {cart.map((item) => (
           <li key={item.id}>
             {item.name}{" "}
             <button onClick={() => dispatch({ type: "remove", id: item.id })}>
-              Remove
+              حذف
             </button>
           </li>
         ))}
@@ -358,144 +358,128 @@ function Cart() {
 
 ---
 
-#### 1.2.7 Homework
+#### ۱.۲.۷ تمرین خانگی
 
-Here are some real‑world exercises for you to practice.
+در اینجا برخی تمرینات دنیای واقعی برای تمرین شما وجود دارد.
 
-- Beginner
+- مبتدی
 
-  ✅ Build a **theme toggle** with `light | dark | system` using `useReducer`.
-  ✅ Render 3 buttons to switch between these modes.
+  ✅ یک **تغییر تم** با `light | dark | system` با استفاده از `useReducer` بسازید.
+  ✅ ۳ دکمه برای تغییر بین این حالت‌ها رندر کنید.
 
-- Intermediate
+- متوسط
 
-  ✅ Build a **stepper form** (like multi‑step signup).
+  ✅ یک **فرم چندمرحله‌ای** بسازید (مثل ثبت‌نام چندمرحله‌ای).
 
-  ✅ Use `useReducer` to track which step the user is on, and the form data.
+  ✅ از `useReducer` برای پیگیری اینکه کاربر در کدام مرحله است، و داده‌های فرم استفاده کنید.
 
-- Advanced
+- پیشرفته
 
-  ✅ Build a **to‑do list app**:
+  ✅ یک **اپلیکیشن لیست کارها** بسازید:
 
-      - Add a task
-      - Toggle completed
-      - Delete a task
-      - Clear all completed
+      - اضافه کردن یک کار
+      - تغییر وضعیت تکمیل شده
+      - حذف یک کار
+      - پاک کردن همه تکمیل شده‌ها
 
-Use `useReducer` for state management.
-
----
-
-#### 1.2.8 Recap
-
-- `useReducer` is like a mini‑Redux for a single component.
-- Great for **complex or dependent state**.
-- State transitions are predictable and testable.
-- Always keep your reducer pure!
+از `useReducer` برای مدیریت حالت استفاده کنید.
 
 ---
 
-````mdx
-### 1.3 `useContext`
+#### ۱.۲.۸ خلاصه
+
+- `useReducer` مثل یک Redux کوچک برای یک کامپوننت واحد است.
+- عالی برای **حالت پیچیده یا وابسته**.
+- انتقالات حالت قابل پیش‌بینی و قابل آزمایش هستند.
+- همیشه reducer خود را خالص نگه دارید!
+
+---
+
+### ۱.۳ `useContext`
+
+**Context چیست؟** React Context به شما اجازه می‌دهد یک مقدار (هر داده JavaScript) را از طریق درخت کامپوننت خود بدون اینکه مجبور باشید props را به صورت دستی در هر سطح منتقل کنید، به اشتراک بگذارید. هوک `useContext` ساده‌ترین راه برای مصرف آن مقدار مشترک در یک کامپوننت تابعی است.
+
+---
+
+#### ۱.۳.۱ راهنمای گام به گام
+
+۱. **ایجاد یک Context**
 
 ```ts
-const value = useContext(MyContext);
+import { createContext } from "react";
+
+export const MyContext = createContext<ContextType>(defaultValue);
 ```
-````
 
-**When to use**
+- **پارامتر نوع**: شکل مقدار context را تعریف کنید.
+- **مقدار پیش‌فرض**: فقط زمانی استفاده می‌شود که هیچ Provider مطابقی در بالا نباشد.
 
-- Passing data deeply without prop-drilling: theme, i18n, user, settings.
-- Sharing global or app-level state: authenticated user, feature flags.
-- Avoiding cumbersome prop chains across many intermediate components.
+۲. **ارائه Context**
 
----
+```tsx
+import { MyContext } from "./MyContext";
 
-### 1.3 `useContext`
+function App() {
+  const sharedValue: ContextType = {
+    /* … */
+  };
 
-**What is Context ?** React Context lets you share a value (any JavaScript data) through your component tree without having to pass props manually at every level. The `useContext` hook is the simplest way to consume that shared value in a functional component.
+  return (
+    <MyContext.Provider value={sharedValue}>
+      <YourComponentTree />
+    </MyContext.Provider>
+  );
+}
+```
 
----
+- قسمت‌هایی از درخت خود را که نیاز به دسترسی دارند، بپیچید.
 
-#### 1.3.1 Step‐by‐Step Guide
+۳. **مصرف با `useContext`**
 
-1. **Create a Context**
+```tsx
+import { useContext } from "react";
+import { MyContext } from "./MyContext";
 
-   ```ts
-   import { createContext } from "react";
+function Child() {
+  const ctx = useContext(MyContext);
+  return <div>{/* از ctx اینجا استفاده کنید */}</div>;
+}
+```
 
-   export const MyContext = createContext<ContextType>(defaultValue);
-   ```
+۴. **اختیاری: ایجاد یک هوک سفارشی**
+منطق را کپسوله کنید و DX را بهبود دهید:
 
-   - **Type parameter**: define what shape the context value has.
-   - **defaultValue**: used only when no matching Provider is above.
-
-2. **Provide the Context**
-
-   ```tsx
-   import { MyContext } from "./MyContext";
-
-   function App() {
-     const sharedValue: ContextType = {
-       /* … */
-     };
-
-     return (
-       <MyContext.Provider value={sharedValue}>
-         <YourComponentTree />
-       </MyContext.Provider>
-     );
-   }
-   ```
-
-   - Wrap the parts of your tree that need access.
-
-3. **Consume with `useContext`**
-
-   ```tsx
-   import { useContext } from "react";
-   import { MyContext } from "./MyContext";
-
-   function Child() {
-     const ctx = useContext(MyContext);
-     return <div>{/* use ctx here */}</div>;
-   }
-   ```
-
-4. **Optional: Create a Custom Hook**
-   Encapsulate logic & improve DX:
-
-   ```ts
-   export function useMyContext() {
-     const ctx = useContext(MyContext);
-     if (ctx === undefined) {
-       throw new Error("useMyContext must be used within a MyContext.Provider");
-     }
-     return ctx;
-   }
-   ```
+```ts
+export function useMyContext() {
+  const ctx = useContext(MyContext);
+  if (ctx === undefined) {
+    throw new Error("useMyContext باید درون یک MyContext.Provider استفاده شود");
+  }
+  return ctx;
+}
+```
 
 ---
 
-#### 1.3.2 Best Practices
+#### ۱.۳.۲ بهترین شیوه‌ها
 
-- **Avoid Churn for Frequent Updates**
+- **از تغییرات مکرر برای به‌روزرسانی‌های سریع جلوگیری کنید**
 
-  - Don’t put rapidly changing data (e.g. scroll position) in context—use props or local state.
+  - داده‌های سریع‌التغییر (مثل موقعیت اسکرول) را در context قرار ندهید — از props یا حالت محلی استفاده کنید.
 
-- **Split Contexts by Concern**
+- **Context ها را بر اساس نگرانی تقسیم کنید**
 
-  - Instead of one “mega‐context,” create separate contexts for theme, auth, settings.
+  - به جای یک "mega-context"، context های جداگانه برای تم، احراز هویت، تنظیمات ایجاد کنید.
 
-- **Type Safely**
+- **به صورت ایمن تایپ کنید**
 
-  - Always provide a well‐typed default or guard in a custom hook.
+  - همیشه یک مقدار پیش‌فرض خوب تایپ شده ارائه دهید یا در یک هوک سفارشی محافظت کنید.
 
 ---
 
-#### 1.3.3 Real‐World Examples
+#### ۱.۳.۳ مثال‌های دنیای واقعی
 
-- Beginner: Theme Toggle
+- مبتدی: تغییر تم
 
   ```tsx
   // theme-context.tsx
@@ -529,7 +513,7 @@ const value = useContext(MyContext);
     const { theme, toggle } = useTheme();
     return (
       <button className={theme} onClick={toggle}>
-        Toggle to {theme === "light" ? "dark" : "light"}
+        تغییر به {theme === "light" ? "تاریک" : "روشن"}
       </button>
     );
   }
@@ -545,7 +529,7 @@ const value = useContext(MyContext);
 
 ---
 
-- Intermediate: Language Switcher
+- متوسط: تغییردهنده زبان
 
   ```tsx
   // language-context.tsx
@@ -582,7 +566,7 @@ const value = useContext(MyContext);
     return <h1>{lang === "en" ? "Hello" : "سلام"}</h1>;
   }
 
-  // Usage in App.tsx
+  // استفاده در App.tsx
   import { LanguageProvider } from "./language-context";
   import { Greeting } from "./Greeting";
 
@@ -590,7 +574,7 @@ const value = useContext(MyContext);
     return (
       <LanguageProvider>
         <Greeting />
-        {/* Add a selector somewhere */}
+        {/* یک انتخاب‌کننده جایی اضافه کنید */}
       </LanguageProvider>
     );
   }
@@ -598,7 +582,7 @@ const value = useContext(MyContext);
 
 ---
 
-- Advanced: Auth + Data Fetching + Memo
+- پیشرفته: احراز هویت + دریافت داده + Memo
 
 ```tsx
 // auth-context.tsx
@@ -654,7 +638,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth باید درون یک AuthProvider استفاده شود");
   }
   return ctx;
 }
@@ -662,62 +646,62 @@ export function useAuth() {
 
 ---
 
-#### 1.3.4 Homework
+#### ۱.۳.۴ تمرین خانگی
 
-1. **Beginner**
+۱. **مبتدی**
 
-   - Create a `CounterContext` that holds a number and an `increment()` function.
-   - Consume it in two sibling components: one displays the count, the other has a button to increment.
+- یک `CounterContext` ایجاد کنید که یک عدد و یک تابع `increment()` را نگه می‌دارد.
+- آن را در دو کامپوننت هم‌سطح مصرف کنید: یکی تعداد را نمایش می‌دهد، دیگری دکمه‌ای برای افزایش دارد.
 
-2. **Intermediate**
+۲. **متوسط**
 
-   - Extend the **Language Switcher**: add a dropdown to pick `en | fa | es`, update `Greeting` to handle all three, and persist selection in `localStorage`.
+- **تغییردهنده زبان** را گسترش دهید: یک dropdown برای انتخاب `en | fa | es` اضافه کنید، `Greeting` را برای مدیریت هر سه به‌روزرسانی کنید، و انتخاب را در `localStorage` ذخیره کنید.
 
-3. **Advanced**
+۳. **پیشرفته**
 
-   - Build an **AuthFlow**:
+- یک **AuthFlow** بسازید:
 
-     1. Create `AuthContext` with `login`, `logout`, `user`.
-     2. On login, fetch a user profile from a mock API.
-     3. Protect certain routes (use React Router).
-     4. Ensure `AuthContext` value is memoized.
-     5. Add a custom hook `useRequireAuth` that redirects if not authenticated.
-
----
-
-### 1.4 `useRef`
-
-`useRef` is a React Hook that gives you a **mutable value that persists across renders but doesn’t cause a re-render when it changes.**
-
-You can also use it to get a **reference to a DOM element**, which is the most common use case.
+  ۱. `AuthContext` با `login`، `logout`، `user` ایجاد کنید.
+  ۲. در ورود، یک پروفایل کاربر از یک API جعلی دریافت کنید.
+  ۳. مسیرهای خاصی را محافظت کنید (از React Router استفاده کنید).
+  ۴. اطمینان حاصل کنید که مقدار `AuthContext` memoized است.
+  ۵. یک هوک سفارشی `useRequireAuth` اضافه کنید که اگر احراز هویت نشده باشد، redirect کند.
 
 ---
 
-#### 1.4.1 Syntax
+### ۱.۴ `useRef`
+
+`useRef` یک هوک React است که به شما یک **مقدار قابل تغییر می‌دهد که در طول رندرها باقی می‌ماند اما باعث re-render نمی‌شود وقتی تغییر می‌کند.**
+
+شما همچنین می‌توانید از آن برای گرفتن یک **مرجع به یک عنصر DOM** استفاده کنید، که رایج‌ترین مورد استفاده است.
+
+---
+
+#### ۱.۴.۱ نحو
 
 ```tsx
 const ref = useRef<T | null>(initialValue);
 ```
 
-Here:
+اینجا:
 
-- `T` is the type of the value (like `HTMLInputElement`, `number`, etc.).
-- `initialValue` is usually `null` if you’re working with DOM elements.
-
----
-
-#### 1.4.2 When to use
-
-    ✅ When you need to:
-
-    - Store **mutable data** that **does NOT affect rendering**.
-    - Get direct **DOM access** (like focusing an input, scrolling a div, etc.).
+- `T` نوع مقدار است (مثل `HTMLInputElement`، `number`، و غیره).
+- `initialValue` معمولاً `null` است اگر با عناصر DOM کار می‌کنید.
 
 ---
 
-#### 1.4.3 Beginner Example – Focus Input
+#### ۱.۴.۲ چه زمانی استفاده کنیم
 
-A classic example of accessing a DOM element and calling its `.focus()` method.
+    ✅ وقتی نیاز دارید:
+
+    - داده **قابل تغییر** را ذخیره کنید که **بر رندر کردن تأثیر نمی‌گذارد**.
+    - دسترسی **مستقیم DOM** بگیرید (مثل فوکوس کردن یک ورودی، اسکرول کردن یک div، و غیره).
+
+---
+
+#### ۱.۴.۳ مثال مبتدی – فوکوس ورودی
+
+یک مثال کلاسیک از دسترسی به یک عنصر DOM و فراخوانی متد `.focus()` آن.
 
 ```tsx
 import { useRef } from "react";
@@ -732,7 +716,7 @@ function FocusInput() {
   return (
     <>
       <input ref={inputRef} />
-      <button onClick={handleFocus}>Focus</button>
+      <button onClick={handleFocus}>فوکوس</button>
     </>
   );
 }
@@ -740,32 +724,32 @@ function FocusInput() {
 export default FocusInput;
 ```
 
-    **What happens?**
+    **چه اتفاقی می‌افتد؟**
 
-    1️⃣ On first render, `inputRef.current` is `null`.
-    2️⃣ After React renders the `<input />`, it assigns the DOM node to `inputRef.current`.
-    3️⃣ Clicking the button calls `.focus()` on that DOM node.
-
----
-
-#### 1.4.4 Best Practices
-
-✅ Use `useRef`:
-
-- For DOM access (`inputRef`, `scrollRef`, etc.).
-- For **mutable values** that don’t need to trigger a re-render.
-
-❌ Don’t use `useRef` for:
-
-- State that affects what you see in the UI → use `useState` instead.
-
-🎯 Initialize DOM refs with `null`, and always check with optional chaining (`?.`) before using them.
+    ۱️⃣ در اولین رندر، `inputRef.current` برابر `null` است.
+    ۲️⃣ پس از اینکه React `<input />` را رندر کرد، گره DOM را به `inputRef.current` اختصاص می‌دهد.
+    ۳️⃣ کلیک کردن روی دکمه متد `.focus()` را روی آن گره DOM فراخوانی می‌کند.
 
 ---
 
-#### 1.4.5 Intermediate Example — Scroll To Top
+#### ۱.۴.۴ بهترین شیوه‌ها
 
-A longer page where you can scroll back to the top.
+✅ از `useRef` استفاده کنید:
+
+- برای دسترسی DOM (`inputRef`، `scrollRef`، و غیره).
+- برای **مقادیر قابل تغییر** که نیازی به شروع re-render ندارند.
+
+❌ از `useRef` برای موارد زیر استفاده نکنید:
+
+- حالتی که بر آنچه در UI می‌بینید تأثیر می‌گذارد → به جای آن از `useState` استفاده کنید.
+
+🎯 ref های DOM را با `null` مقداردهی اولیه کنید، و همیشه قبل از استفاده از آن‌ها با optional chaining (`?.`) بررسی کنید.
+
+---
+
+#### ۱.۴.۵ مثال متوسط — اسکرول به بالا
+
+یک صفحه طولانی که می‌توانید به بالای آن اسکرول کنید.
 
 ```tsx
 import { useRef } from "react";
@@ -779,7 +763,7 @@ function ScrollToTop() {
 
   return (
     <div>
-      <button onClick={handleScrollTop}>Scroll to top</button>
+      <button onClick={handleScrollTop}>اسکرول به بالا</button>
       <div
         ref={containerRef}
         style={{
@@ -790,7 +774,7 @@ function ScrollToTop() {
         }}
       >
         <div style={{ height: "800px" }}>
-          <p>Lots of content here. Keep scrolling...</p>
+          <p>محتوای زیادی اینجا. به اسکرول کردن ادامه دهید...</p>
         </div>
       </div>
     </div>
@@ -802,9 +786,9 @@ export default ScrollToTop;
 
 ---
 
-#### 1.4.6 Advanced Example — Store History of Clicks Without Re-render
+#### ۱.۴.۶ مثال پیشرفته — ذخیره تاریخچه کلیک‌ها بدون Re-render
 
-You can use `useRef` to store data **across renders**, even if it’s not shown on screen, and it won’t cause re-renders.
+شما می‌توانید از `useRef` برای ذخیره داده **در طول رندرها** استفاده کنید، حتی اگر روی صفحه نمایش داده نشود، و باعث re-render نمی‌شود.
 
 ```tsx
 import { useRef, useState } from "react";
@@ -816,20 +800,20 @@ function ClickHistory() {
   const handleClick = () => {
     setCount((prev) => {
       const newCount = prev + 1;
-      historyRef.current.push(newCount); // save to history
+      historyRef.current.push(newCount); // ذخیره در تاریخچه
       return newCount;
     });
   };
 
   const showHistory = () => {
-    alert(`History: ${historyRef.current.join(", ")}`);
+    alert(`تاریخچه: ${historyRef.current.join(", ")}`);
   };
 
   return (
     <>
-      <p>Current Count: {count}</p>
-      <button onClick={handleClick}>Increment</button>
-      <button onClick={showHistory}>Show History</button>
+      <p>تعداد فعلی: {count}</p>
+      <button onClick={handleClick}>افزایش</button>
+      <button onClick={showHistory}>نمایش تاریخچه</button>
     </>
   );
 }
@@ -839,186 +823,186 @@ export default ClickHistory;
 
 ---
 
-What’s happening?
+چه اتفاقی می‌افتد؟
 
-✅ Every time you click **Increment**, we increase `count`.
-✅ At the same time, we store the new count in the `historyRef.current` array.
-✅ This history does **not** cause a re-render — it’s just a quiet storage.
-✅ When you press **Show History**, it shows you all previous counts.
-
----
-
-Why this is good:
-
-- You learn how `useRef` keeps data across renders.
-- You don’t need to use `useEffect`.
-- It shows that `useRef` is _not reactive_ — it just stores data quietly.
+✅ هر بار که روی **افزایش** کلیک می‌کنید، `count` را افزایش می‌دهیم.
+✅ در همان زمان، تعداد جدید را در آرایه `historyRef.current` ذخیره می‌کنیم.
+✅ این تاریخچه **باعث** re-render نمی‌شود — فقط یک ذخیره‌سازی آرام است.
+✅ وقتی روی **نمایش تاریخچه** فشار می‌دهید، تمام تعدادهای قبلی را نشان می‌دهد.
 
 ---
 
-Real-world Scenarios
+چرا این خوب است:
 
-✅ Focusing an input when a modal opens.
-✅ Scrolling a chat window to the bottom when a new message arrives.
-✅ Storing interval IDs or timers.
-✅ Measuring element dimensions with `getBoundingClientRect`.
-
----
-
-#### 1.4.7 Summary Table
-
-| Feature                | `useRef`               |
-| ---------------------- | ---------------------- |
-| Triggers render?       | ❌ No                  |
-| Stores DOM element?    | ✅ Yes                 |
-| Stores mutable values? | ✅ Yes                 |
-| Best for UI state?     | ❌ No (use `useState`) |
+- شما یاد می‌گیرید که `useRef` چگونه داده را در طول رندرها نگه می‌دارد.
+- نیازی به استفاده از `useEffect` ندارید.
+- نشان می‌دهد که `useRef` _واکنشی نیست_ — فقط داده را آرام ذخیره می‌کند.
 
 ---
 
-#### 1.4.8 Homework
+سناریوهای دنیای واقعی
 
-- Beginner:
-
-  - Build a form where clicking a button focuses the first empty field.
-
-- Intermediate:
-
-  - Create a scrolling `div` with many items and a button to scroll to bottom or top smoothly.
-
-- Advanced:
-
-  - Make a component that tracks the previous and current mouse position, updating the previous only via `useRef`.
+✅ فوکوس کردن یک ورودی وقتی یک modal باز می‌شود.
+✅ اسکرول کردن یک پنجره چت به پایین وقتی پیام جدیدی می‌رسد.
+✅ ذخیره ID های interval یا تایمرها.
+✅ اندازه‌گیری ابعاد عنصر با `getBoundingClientRect`.
 
 ---
 
-#### 1.4.9 Recap
+#### ۱.۴.۷ جدول خلاصه
 
-✨ `useRef` is:
-
-- A way to keep a persistent value without causing a re-render.
-- The go-to method for accessing DOM nodes.
-
----
-
-### 1.5 `useEffect`
-
-#### 1.5.1 What is a Side Effect?
-
-**Definition**:
-In programming (specifically React), a **side effect** is anything a function does that affects something outside the immediate scope of the function itself.
-
-**Simple examples of Side Effects**:
-
-    - Fetching data from a server.
-    - Manually updating the DOM.
-    - Setting timers (setTimeout, setInterval).
-    - Subscribing to events.
-    - Logging something to the console.
-
-**Easy-to-understand Example**:
-
-Imagine you go to an ATM machine:
-
-- **Main Effect**: Withdraw money.
-- **Side Effect**: Bank sends you a notification SMS.
-
-The primary job was withdrawing money, but an additional task—sending SMS—occurred outside of the primary job.
+| ویژگی                           | `useRef`                            |
+| ------------------------------- | ----------------------------------- |
+| باعث رندر می‌شود؟               | ❌ خیر                              |
+| عنصر DOM ذخیره می‌کند؟          | ✅ بله                              |
+| مقادیر قابل تغییر ذخیره می‌کند؟ | ✅ بله                              |
+| بهترین برای حالت UI؟            | ❌ خیر (از `useState` استفاده کنید) |
 
 ---
 
-#### 1.5.2 Why React Needs useEffect?
+#### ۱.۴.۸ تمرین خانگی
 
-React components must be pure and predictable. However, to deal with real-world apps, you sometimes need to perform side effects like data fetching, DOM manipulation, and timers.
+- مبتدی:
 
-**Flowchart Diagram**:
+  - یک فرم بسازید که کلیک کردن روی دکمه اولین فیلد خالی را فوکوس کند.
+
+- متوسط:
+
+  - یک `div` اسکرول‌شونده با موارد زیاد بسازید و دکمه‌ای برای اسکرول به پایین یا بالا به صورت نرم.
+
+- پیشرفته:
+
+  - کامپوننتی بسازید که موقعیت قبلی و فعلی ماوس را پیگیری کند، موقعیت قبلی را فقط از طریق `useRef` به‌روزرسانی کند.
+
+---
+
+#### ۱.۴.۹ خلاصه
+
+✨ `useRef` عبارت است از:
+
+- راهی برای نگه داشتن یک مقدار پایدار بدون اینکه باعث re-render شود.
+- روش اصلی برای دسترسی به گره‌های DOM.
+
+---
+
+### ۱.۵ `useEffect`
+
+#### ۱.۵.۱ اثر جانبی چیست؟
+
+**تعریف**:
+در برنامه‌نویسی (به طور خاص React)، یک **اثر جانبی** هر چیزی است که یک تابع انجام می‌دهد که بر چیزی خارج از محدوده فوری خود تابع تأثیر می‌گذارد.
+
+**مثال‌های ساده اثرات جانبی**:
+
+    - دریافت داده از یک سرور.
+    - به‌روزرسانی دستی DOM.
+    - تنظیم تایمرها (setTimeout، setInterval).
+    - اشتراک در رویدادها.
+    - ثبت چیزی در کنسول.
+
+**مثال آسان‌فهم**:
+
+تصور کنید به یک دستگاه ATM می‌روید:
+
+- **اثر اصلی**: برداشت پول.
+- **اثر جانبی**: بانک برای شما یک پیامک SMS ارسال می‌کند.
+
+کار اصلی برداشت پول بود، اما یک کار اضافی — ارسال SMS — خارج از کار اصلی رخ داد.
+
+---
+
+#### ۱.۵.۲ چرا React به useEffect نیاز دارد؟
+
+کامپوننت‌های React باید خالص و قابل پیش‌بینی باشند. با این حال، برای مقابله با اپلیکیشن‌های دنیای واقعی، گاهی اوقات نیاز به انجام اثرات جانبی مانند دریافت داده، دستکاری DOM، و تایمرها دارید.
+
+**نمودار جریان**:
 
 ```
-React Component
+کامپوننت React
        |
-       |----> Render UI (No Side Effects!)
+       |----> رندر UI (بدون اثرات جانبی!)
        |
-       |----> Perform Side Effects after rendering (useEffect)
+       |----> انجام اثرات جانبی پس از رندر (useEffect)
                     |
-                    |-- Fetching Data
-                    |-- Timer / Intervals
-                    |-- Updating DOM directly
+                    |-- دریافت داده
+                    |-- تایمر / فواصل
+                    |-- به‌روزرسانی مستقیم DOM
 ```
 
 ---
 
-#### 1.5.3 useEffect Hook in React
+#### ۱.۵.۳ هوک useEffect در React
 
-React provides a built-in hook called `useEffect` to handle these side effects.
+React یک هوک داخلی به نام `useEffect` برای مدیریت این اثرات جانبی ارائه می‌دهد.
 
-**Syntax**:
+**نحو**:
 
 ```jsx
 useEffect(() => {
-  // Side effect code here
+  // کد اثر جانبی اینجا
 
   return () => {
-    // Cleanup code (optional)
+    // کد پاکسازی (اختیاری)
   };
 }, [dependencies]);
 ```
 
-**useEffect Parameters Explained:**
+**پارامترهای useEffect توضیح داده شده:**
 
-- **Effect function**: Executed after render.
-- **Dependency array**: Determines when the effect runs.
-- **Cleanup function**: Optional, runs before next effect or on unmount.
+- **تابع اثر**: پس از رندر اجرا می‌شود.
+- **آرایه وابستگی**: تعیین می‌کند که چه زمانی اثر اجرا می‌شود.
+- **تابع پاکسازی**: اختیاری، قبل از اثر بعدی یا در unmount اجرا می‌شود.
 
 ---
 
-#### 1.5.4 useEffect Lifecycle Flowchart
+#### ۱.۵.۴ نمودار جریان چرخه حیات useEffect
 
 ```
-Component Mounts (first render)
+کامپوننت Mount می‌شود (اولین رندر)
        |
-       |--> useEffect Runs
+       |--> useEffect اجرا می‌شود
        |        |
-       |        --> Side effect executed
+       |        --> اثر جانبی اجرا می‌شود
        |
-State or Props Change
+تغییر حالت یا Props
        |
-       |--> React checks dependency array
+       |--> React آرایه وابستگی را بررسی می‌کند
                 |
-                |--> [Changed?]
+                |--> [تغییر کرده؟]
                         |
-                        |--> YES: Cleanup Previous Effect (if any), then re-run effect
-                        |--> NO: Skip
+                        |--> بله: پاکسازی اثر قبلی (اگر وجود دارد)، سپس اثر را دوباره اجرا کن
+                        |--> خیر: رد کن
        |
-Component Unmounts
+کامپوننت Unmount می‌شود
        |
-       |--> Cleanup runs (if provided)
+       |--> پاکسازی اجرا می‌شود (اگر ارائه شده باشد)
 ```
 
 ---
 
-#### 1.5.5 useEffect Examples (Beginner, Intermediate, Advanced)
+#### ۱.۵.۵ مثال‌های useEffect (مبتدی، متوسط، پیشرفته)
 
 ---
 
-- **Beginner Example: Simple useEffect**
+- **مثال مبتدی: useEffect ساده**
 
-  Just log "Hello" when the component loads:
+  فقط "سلام" را وقتی کامپوننت بارگذاری می‌شود ثبت کنید:
 
   ```jsx
   import { useEffect } from "react";
 
   function HelloWorld() {
     useEffect(() => {
-      console.log("Hello, side effect!");
+      console.log("سلام، اثر جانبی!");
     }, []);
 
-    return <h1>Hello World</h1>;
+    return <h1>سلام دنیا</h1>;
   }
   ```
 
-- **Intermediate Example: Fetching Data**
+- **مثال متوسط: دریافت داده**
 
-  Fetching data from API when the component first renders:
+  دریافت داده از API وقتی کامپوننت برای اولین بار رندر می‌شود:
 
   ```jsx
   import { useEffect, useState } from "react";
@@ -1042,9 +1026,9 @@ Component Unmounts
   }
   ```
 
-- **Advanced Example: Timer with Cleanup**
+- **مثال پیشرفته: تایمر با پاکسازی**
 
-  A countdown timer that cleans itself up:
+  یک تایمر شمارش معکوس که خودش را پاک می‌کند:
 
   ```jsx
   import { useEffect, useState } from "react";
@@ -1057,54 +1041,54 @@ Component Unmounts
         setSeconds((s) => s - 1);
       }, 1000);
 
-      // Cleanup interval on unmount
+      // پاکسازی interval در unmount
       return () => clearInterval(timerId);
     }, []);
 
-    return <h1>{seconds} seconds left!</h1>;
+    return <h1>{seconds} ثانیه باقی مانده!</h1>;
   }
   ```
 
 ---
 
-#### 1.5.6 Best Practices
+#### ۱.۵.۶ بهترین شیوه‌ها
 
-- **Dependencies:** Always specify clearly. Leaving empty means run once on mount.
-- **Cleanup:** Always cleanup intervals, subscriptions to avoid memory leaks.
-- **Splitting:** Split unrelated side effects into separate `useEffect` hooks for clarity.
+- **وابستگی‌ها:** همیشه به وضوح مشخص کنید. خالی گذاشتن یعنی یک بار در mount اجرا شود.
+- **پاکسازی:** همیشه interval ها، اشتراک‌ها را پاک کنید تا از نشت حافظه جلوگیری کنید.
+- **تقسیم:** اثرات جانبی غیرمرتبط را در هوک‌های `useEffect` جداگانه برای وضوح تقسیم کنید.
 
-**Good:**
+**خوب:**
 
 ```jsx
 useEffect(() => {
   fetchData();
 }, []);
 useEffect(() => {
-  document.title = "My App";
+  document.title = "اپ من";
 }, [title]);
 ```
 
 ---
 
-#### 1.5.7 Homework
+#### ۱.۵.۷ تمرین خانگی
 
-**Beginner:**
+**مبتدی:**
 
-- Create a React component that updates the document title to "Hello World" once loaded using `useEffect`.
+- یک کامپوننت React ایجاد کنید که عنوان سند را به "سلام دنیا" یک بار بارگذاری شده با استفاده از `useEffect` به‌روزرسانی کند.
 
-**Intermediate:**
+**متوسط:**
 
-- Create a component fetching and displaying a list of posts from `jsonplaceholder.typicode.com/posts`.
+- کامپوننتی ایجاد کنید که لیستی از پست‌ها را از `jsonplaceholder.typicode.com/posts` دریافت و نمایش دهد.
 
-**Advanced:**
+**پیشرفته:**
 
-- Create a component that listens for window resizing and displays the current window size. Don't forget to clean up!
+- کامپوننتی ایجاد کنید که به تغییر اندازه پنجره گوش دهد و اندازه فعلی پنجره را نمایش دهد. فراموش نکنید که پاک کنید!
 
 ---
 
-#### 1.5.8 **Real-World Example: Notification Bell**
+#### ۱.۵.۸ **مثال دنیای واقعی: زنگ اعلان**
 
-Imagine a notification bell 🔔 showing how many new messages you have.
+یک زنگ اعلان 🔔 را تصور کنید که نشان می‌دهد چند پیام جدید دارید.
 
 ```jsx
 import { useEffect, useState } from "react";
@@ -1126,127 +1110,127 @@ function NotificationBell() {
 }
 ```
 
-**What happened here?**
+**چه اتفاقی اینجا افتاد؟**
 
-- Component fetches unread notifications every 5 seconds.
-- If you leave or close the component, it cleans up the interval automatically.
+- کامپوننت اعلان‌های نخوانده را هر ۵ ثانیه دریافت می‌کند.
+- اگر کامپوننت را ترک کنید یا ببندید، interval را به طور خودکار پاک می‌کند.
 
 ---
 
-#### 1.5.9 **Summary Diagram (All together):**
+#### ۱.۵.۹ **نمودار خلاصه (همه با هم):**
 
 ```
-React Component
+کامپوننت React
   |
-  | Render
+  | رندر
   |
-  |---> Side Effects (useEffect)
+  |---> اثرات جانبی (useEffect)
           |
-          |-- Data Fetching
-          |-- DOM Manipulation
-          |-- Event listeners/Subscriptions
+          |-- دریافت داده
+          |-- دستکاری DOM
+          |-- گوش‌دهندگان رویداد/اشتراک‌ها
           |
-          |--- Optional Cleanup (return function)
+          |--- پاکسازی اختیاری (تابع return)
 ```
 
 ---
 
-📝 **Key Takeaways**
+📝 **نکات کلیدی**
 
-- Side effects happen after render.
-- React provides `useEffect` to handle these side effects cleanly.
-- Dependency arrays control when effects run.
-- Always cleanup to avoid bugs and memory leaks.
+- اثرات جانبی پس از رندر رخ می‌دهند.
+- React `useEffect` را برای مدیریت تمیز این اثرات جانبی ارائه می‌دهد.
+- آرایه‌های وابستگی کنترل می‌کنند که چه زمانی اثرات اجرا می‌شوند.
+- همیشه پاکسازی کنید تا از باگ‌ها و نشت حافظه جلوگیری کنید.
 
-#### 1.5.10 Deep Dive: Cleanup in useEffect (Unmounting Phase)
+#### ۱.۵.۱۰ غور عمیق: پاکسازی در useEffect (فاز Unmounting)
 
-- **Step 1: What is Cleanup in React?**
+- **گام ۱: پاکسازی در React چیست؟**
 
-When you run side effects in React, sometimes you need to "clean them up" after you're done using them, especially when your component **unmounts** (is removed from the screen).
+وقتی اثرات جانبی را در React اجرا می‌کنید، گاهی اوقات نیاز دارید آن‌ها را "پاک کنید" پس از اینکه کارتان تمام شد، به خصوص وقتی کامپوننت **unmount** می‌شود (از صفحه حذف می‌شود).
 
-The cleanup function helps avoid:
+تابع پاکسازی کمک می‌کند از موارد زیر جلوگیری کنید:
 
-- Memory leaks
-- Unwanted behaviors
-- Errors due to operations on non-existent elements
+- نشت حافظه
+- رفتارهای ناخواسته
+- خطاها به دلیل عملیات روی عناصر غیرموجود
 
 ---
 
-- **Step 2: Component Lifecycle & Cleanup**
+- **گام ۲: چرخه حیات کامپوننت و پاکسازی**
 
-Here's a simple visual flowchart:
+در اینجا یک نمودار جریان ساده بصری وجود دارد:
 
 ```
-Component Mount
+Mount کامپوننت
      |
-     |---- useEffect runs
+     |---- useEffect اجرا می‌شود
      |          |
-     |          |---> Side effect started
+     |          |---> اثر جانبی شروع شد
      |
-Component Update (state/props change)
+به‌روزرسانی کامپوننت (تغییر حالت/props)
      |
-     |-- Cleanup (if dependencies changed)
+     |-- پاکسازی (اگر وابستگی‌ها تغییر کرده باشند)
      |      |
-     |      |---> Previous effect cleaned
+     |      |---> اثر قبلی پاک شد
      |
-     |-- Effect runs again (if deps changed)
+     |-- اثر دوباره اجرا می‌شود (اگر deps تغییر کرده باشند)
      |
-Component Unmount (component leaves)
+Unmount کامپوننت (کامپوننت ترک می‌کند)
      |
-     |-- Cleanup function runs
+     |-- تابع پاکسازی اجرا می‌شود
             |
-            |---> Cleanup finished
+            |---> پاکسازی تمام شد
 ```
 
-**Important:**
+**مهم:**
 
-- Cleanup happens **before** the component unmounts.
-- It allows React to gracefully handle resources.
-
----
-
-- **Step 3: When Do You Need Cleanup?**
-
-Common scenarios:
-
-- **Event listeners** (like resizing, scrolling)
-- **Intervals and Timers**
-- **Subscriptions** (like WebSockets, Redux, Firebase listeners)
-- **Abort HTTP Requests**
+- پاکسازی **قبل از** unmount کامپوننت رخ می‌دهد.
+- به React اجازه می‌دهد منابع را به طور مناسب مدیریت کند.
 
 ---
 
-- **Step 4: Basic Cleanup Syntax**
+- **گام ۳: چه زمانی به پاکسازی نیاز دارید؟**
+
+سناریوهای رایج:
+
+- **گوش‌دهندگان رویداد** (مثل تغییر اندازه، اسکرول)
+- **فواصل و تایمرها**
+- **اشتراک‌ها** (مثل WebSockets، Redux، Firebase listeners)
+- **لغو درخواست‌های HTTP**
+
+---
+
+- **گام ۴: نحو پاکسازی پایه**
 
 ```jsx
 useEffect(
   () => {
-    // Side effect
-    console.log("Effect ran!");
+    // اثر جانبی
+    console.log("اثر اجرا شد!");
 
-    // Cleanup function
+    // تابع پاکسازی
     return () => {
-      console.log("Cleaned up!");
+      console.log("پاک شد!");
     };
   },
   [
-    /* dependencies */
+    /* وابستگی‌ها */
   ]
 );
 ```
 
-- If you return a function from your `useEffect`, React will automatically run it when:
+- اگر از `useEffect` خود یک تابع برگردانید، React به طور خودکار آن را اجرا می‌کند وقتی:
 
-  - **Component unmounts**
-  - Dependencies **change** (previous effect cleaned, then new effect runs)
+  - **کامپوننت unmount می‌شود**
+  - وابستگی‌ها **تغییر می‌کنند** (اثر قبلی پاک می‌شود، سپس اثر جدید اجرا می‌شود)
 
 ---
 
-- **Step 5: Practical Examples**
+- **گام ۵: مثال‌های عملی**
 
-  - **Beginner Example: Cleanup with a Timer**
+  - **مثال مبتدی: پاکسازی با تایمر**
 
-  Counting seconds:
+  شمارش ثانیه‌ها:
 
   ```jsx
   import { useEffect, useState } from "react";
@@ -1259,24 +1243,24 @@ useEffect(
         setCount((prev) => prev + 1);
       }, 1000);
 
-      // Cleanup function
+      // تابع پاکسازی
       return () => clearInterval(timerId);
     }, []);
 
-    return <div>Seconds passed: {count}</div>;
+    return <div>ثانیه‌های گذشته: {count}</div>;
   }
   ```
 
-  **Explanation:**
+  **توضیح:**
 
-  - Starts a timer on mount.
-  - Clears timer on unmount to avoid memory leak or state update on unmounted component.
+  - تایمر در mount شروع می‌شود.
+  - تایمر در unmount پاک می‌شود تا از نشت حافظه یا به‌روزرسانی حالت در کامپوننت unmounted جلوگیری کند.
 
 ---
 
-    - **Intermediate Example: Window Resize Listener**
+    - **مثال متوسط: گوش‌دهنده تغییر اندازه پنجره**
 
-    Listening to the browser window size:
+    گوش دادن به اندازه پنجره مرورگر:
 
 ```jsx
 import { useEffect, useState } from "react";
@@ -1294,55 +1278,55 @@ function WindowSize() {
 
     window.addEventListener("resize", handleResize);
 
-    // Cleanup listener on unmount
+    // پاکسازی گوش‌دهنده در unmount
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <div>
-      Window size: {size.width}px x {size.height}px
+      اندازه پنجره: {size.width}px x {size.height}px
     </div>
   );
 }
 ```
 
-**Explanation:**
+**توضیح:**
 
-- Adds resize listener.
-- Removes listener on unmount to avoid leaks.
-
----
-
-- **Quick Reference (Summary Flowchart):**
-
-```
-React Component
-       |
-       | Mounts
-       |
- useEffect() Side Effect Starts
-       |
-       | Update (dependency changes)
-       |
-       +-- Cleanup previous Effect
-       +-- Run new Effect
-       |
- Component Unmounts
-       |
- Cleanup Side Effects (final cleanup)
-```
+- گوش‌دهنده تغییر اندازه اضافه می‌شود.
+- گوش‌دهنده در unmount حذف می‌شود تا از نشت جلوگیری کند.
 
 ---
 
-### 1.6 `useLayoutEffect`
+- **مرجع سریع (خلاصه نمودار جریان):**
 
-Runs **synchronously** after DOM mutations but **before** the browser paints.
+```
+کامپوننت React
+       |
+       | Mount می‌شود
+       |
+ useEffect() اثر جانبی شروع می‌شود
+       |
+       | به‌روزرسانی (تغییر وابستگی)
+       |
+       +-- پاکسازی اثر قبلی
+       +-- اجرای اثر جدید
+       |
+ Unmount کامپوننت
+       |
+ پاکسازی اثرات جانبی (پاکسازی نهایی)
+```
 
-**When to use**
+---
 
-- Measuring layout (e.g. element size) **before** the user sees flicker.
+### ۱.۶ `useLayoutEffect`
 
-**Example – Measure height**
+**به صورت همزمان** پس از تغییرات DOM اما **قبل از** نقاشی مرورگر اجرا می‌شود.
+
+**چه زمانی استفاده کنیم**
+
+- اندازه‌گیری layout (مثل اندازه عنصر) **قبل از** اینکه کاربر فلیکر ببیند.
+
+**مثال – اندازه‌گیری ارتفاع**
 
 ```tsx
 const boxRef = useRef<HTMLDivElement>(null);
@@ -1355,23 +1339,23 @@ useLayoutEffect(() => {
 }, []);
 ```
 
-**Exercise – Sticky header**
+**تمرین – هدر چسبان**
 
-> Measure a header’s height and add that value as top padding to the main content so it never hides behind the header.
+> ارتفاع یک هدر را اندازه‌گیری کنید و آن مقدار را به عنوان padding بالایی به محتوای اصلی اضافه کنید تا هرگز پشت هدر پنهان نشود.
 
 ---
 
-### 1.7 `useInsertionEffect`
+### ۱.۷ `useInsertionEffect`
 
 ```ts
 useInsertionEffect(effect, deps?);
 ```
 
-**Purpose**
+**هدف**
 
-Inject critical styles **before** layout and paint, avoiding FOUC (flash of unstyled content).
+استایل‌های بحرانی را **قبل از** layout و نقاشی تزریق کنید، از FOUC (فلش محتوای بدون استایل) جلوگیری کنید.
 
-**Example – Dynamic CSS**
+**مثال – CSS پویا**
 
 ```tsx
 useInsertionEffect(() => {
@@ -1382,22 +1366,22 @@ useInsertionEffect(() => {
 }, []);
 ```
 
-**Exercise**
+**تمرین**
 
-> Create a component that picks a random accent color on mount and injects a rule like `.accent { color: <color>; }`.
+> کامپوننتی ایجاد کنید که یک رنگ accent تصادفی در mount انتخاب کند و قاعده‌ای مثل `.accent { color: <color>; }` تزریق کند.
 
 ---
 
-### 1.8 `useCallback` & 1.9 `useMemo`
+### ۱.۸ `useCallback` & ۱.۹ `useMemo`
 
-- `useCallback(fn, deps)` returns a **memoized function**.
-- `useMemo(factory, deps)` returns a **memoized value**.
+- `useCallback(fn, deps)` یک **تابع memoized** برمی‌گرداند.
+- `useMemo(factory, deps)` یک **مقدار memoized** برمی‌گرداند.
 
-**When to use**
+**چه زمانی استفاده کنیم**
 
-- Prevent expensive re‑computations / re‑creations that cause child re‑renders.
+- جلوگیری از محاسبات / بازسازی‌های گران‌قیمت که باعث re-render فرزندان می‌شوند.
 
-**Example – Stable handlers**
+**مثال – handlers پایدار**
 
 ```tsx
 const addTodo = useCallback((text: string) => {
@@ -1405,28 +1389,28 @@ const addTodo = useCallback((text: string) => {
 }, []);
 ```
 
-**Best practices**
+**بهترین شیوه‌ها**
 
-- Reach for them **after** verifying perf issues.
-- Keep dependency arrays small by lifting stable values up.
+- پس از تأیید مشکلات عملکرد به سراغ آن‌ها بروید.
+- آرایه‌های وابستگی را با بالا بردن مقادیر پایدار کوچک نگه دارید.
 
-**Exercise – Fibonacci viewer**
+**تمرین – نمایش‌دهنده فیبوناچی**
 
-> Show the `n`th Fibonacci number where `n` comes from an input. Memoize the calculation so it only runs when `n` changes.
+> عدد فیبوناچی `n` را نشان دهید که `n` از یک ورودی می‌آید. محاسبه را memoize کنید تا فقط وقتی `n` تغییر می‌کند اجرا شود.
 
 ---
 
-### 1.10 `useImperativeHandle`
+### ۱.۱۰ `useImperativeHandle`
 
 ```ts
 useImperativeHandle(ref, createHandle, deps?);
 ```
 
-**Purpose**
+**هدف**
 
-Expose a controlled subset of imperative methods to parent components.
+یک زیرمجموعه کنترل شده از متدهای imperative را برای کامپوننت‌های والد آشکار کنید.
 
-**Example – Custom input API**
+**مثال – API ورودی سفارشی**
 
 ```tsx
 const FancyInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -1439,79 +1423,79 @@ const FancyInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
 });
 ```
 
-**Exercise**
+**تمرین**
 
-> Build a `Stopwatch` component with `start()`, `stop()`, `reset()` methods exposed via `useImperativeHandle`.
+> کامپوننت `Stopwatch` با متدهای `start()`، `stop()`، `reset()` بسازید که از طریق `useImperativeHandle` آشکار می‌شوند.
 
 ---
 
-### 1.11 `useDebugValue`
+### ۱.۱۱ `useDebugValue`
 
-Add labels visible in React DevTools.
+برچسب‌های قابل مشاهده در React DevTools اضافه کنید.
 
 ```ts
 useDebugValue(value, formatFn?);
 ```
 
-Example:
+مثال:
 
 ```ts
-useDebugValue(user, (u) => `User: ${u.name}`);
+useDebugValue(user, (u) => `کاربر: ${u.name}`);
 ```
 
 ---
 
-## <a id="additional">2. Additional hooks</a>
+## ۲. هوک‌های اضافی
 
-### 2.1 `useId`
+### ۲.۱ `useId`
 
-Generate unique IDs that match between server and client.
+ID های منحصر به فرد تولید کنید که بین سرور و کلاینت مطابقت دارند.
 
 ```ts
 const id = useId();
-<label htmlFor={id}>Name</label>
+<label htmlFor={id}>نام</label>
 <input id={id} />
 ```
 
-### 2.2 `useSyncExternalStore`
+### ۲.۲ `useSyncExternalStore`
 
-Subscribe to an external store with consistency during concurrent rendering.
+در یک store خارجی با سازگاری در طول رندر همزمان اشتراک کنید.
 
 ```tsx
 const time = useSyncExternalStore(subscribe, getSnapshot);
 ```
 
-### 2.3 `useDeferredValue`
+### ۲.۳ `useDeferredValue`
 
-Defer a non‑urgent value until the browser is idle.
+یک مقدار غیرضروری را تا زمانی که مرورگر بیکار است، به تعویق بیندازید.
 
 ```tsx
 const deferred = useDeferredValue(value);
 ```
 
-**Exercise – Filter list**
+**تمرین – فیلتر لیست**
 
-> Defer the search query so the list UI stays responsive for long inputs.
+> جستجوی جستجو را به تعویق بیندازید تا UI لیست برای ورودی‌های طولانی پاسخگو بماند.
 
-### 2.4 `useTransition`
+### ۲.۴ `useTransition`
 
-Start a low‑priority transition.
+یک transition کم‌اولویت شروع کنید.
 
 ```ts
 const [isPending, startTransition] = useTransition();
 ```
 
-Example – Type‑ahead search that doesn’t lock the UI.
+مثال – جستجوی type-ahead که UI را قفل نمی‌کند.
 
 ---
 
-## <a id="react19">3. New in React 19</a>
+## ۳. جدید در React ۱۹
 
-React 19 focuses on **forms** and **data‑mutations**, introducing three new hooks plus the new `use()` function.
+React ۱۹ بر **فرم‌ها** و **تغییرات داده** تمرکز دارد، سه هوک جدید به علاوه تابع جدید `use()` را معرفی می‌کند.
 
-### 3.1 `useOptimistic`
+### ۳.۱ `useOptimistic`
 
-Optimistically update the UI **before** the server confirms.
+UI را **قبل از** تأیید سرور به‌طور خوش‌بینانه به‌روزرسانی کنید.
 
 ```tsx
 const [optimisticTodos, addOptimisticTodo] = useOptimistic<Todo[], Todo>(
@@ -1525,47 +1509,47 @@ async function handleAdd(text: string) {
 }
 ```
 
-**Exercise – Chat input**
+**تمرین – ورودی چت**
 
-> Show messages instantly with an _optimistic_ label, then replace once saved.
+> پیام‌ها را فوراً با برچسب _خوش‌بینانه_ نشان دهید، سپس پس از ذخیره جایگزین کنید.
 
-### 3.2 `useActionState`
+### ۳.۲ `useActionState`
 
-Handle form `action`s and update component state with the result.
+فرم `action` ها را مدیریت کنید و حالت کامپوننت را با نتیجه به‌روزرسانی کنید.
 
 ```tsx
 const [error, formAction, pending] = useActionState(async (prev, formData) => {
   try {
     await submit(formData);
-    return null; // no error
+    return null; // خطایی نیست
   } catch (e) {
     return (e as Error).message;
   }
 }, null);
 
-<form action={formAction}>{/* inputs */}</form>;
+<form action={formAction}>{/* ورودی‌ها */}</form>;
 ```
 
-**Exercise – Rename profile**
+**تمرین – تغییر نام پروفایل**
 
-> Build a profile rename form that reports server‑side errors through `error`.
+> فرم تغییر نام پروفایل بسازید که خطاهای سمت سرور را از طریق `error` گزارش دهد.
 
-### 3.3 `useFormStatus`
+### ۳.۳ `useFormStatus`
 
-Read status of the closest parent `<form>`.
+وضعیت نزدیک‌ترین `<form>` والد را بخوانید.
 
 ```tsx
 const { pending } = useFormStatus();
-<button disabled={pending}>Save</button>;
+<button disabled={pending}>ذخیره</button>;
 ```
 
-**Exercise – Disable on submit**
+**تمرین – غیرفعال در submit**
 
-> In the rename form above, disable the submit button while `pending` is true.
+> در فرم تغییر نام بالا، دکمه submit را در حالی که `pending` true است غیرفعال کنید.
 
-### 3.4 `use()`
+### ۳.۴ `use()`
 
-Although not technically a hook, `use()` lets you _await_ promises inside a component during rendering.
+اگرچه از نظر فنی یک هوک نیست، `use()` به شما اجازه می‌دهد _await_ promise ها را درون یک کامپوننت در طول رندر انجام دهید.
 
 ```tsx
 function User({ id }: { id: string }) {
@@ -1574,20 +1558,16 @@ function User({ id }: { id: string }) {
 }
 ```
 
-**Caveats**
+**هشدارها**
 
-- Only supported in **Server Components** or with the React compiler.
-- Throws a promise under the hood – rely on Suspense boundaries.
-
----
-
-## <a id="glossary">4. Glossary & further resources</a>
-
-- [React 19 release post](https://react.dev/blog/2024/12/05/react-19)
-- [Official Hooks API reference](https://react.dev/reference/react)
-- [Kent C. Dodds – Epic React](https://epicreact.dev/) – deep‑dives & exercises
-- [React Docs – Forms & Actions](https://react.dev/learn/forms)
+- فقط در **Server Components** یا با کامپایلر React پشتیبانی می‌شود.
+- یک promise زیر هود پرتاب می‌کند – به مرزهای Suspense تکیه کنید.
 
 ---
 
-Made with ❤️ and [Fumadocs](https://fumadocs.org).
+## ۴. واژه‌نامه و منابع بیشتر
+
+- [پست انتشار React ۱۹](https://react.dev/blog/2024/12/05/react-19)
+- [مرجع رسمی API هوک‌ها](https://react.dev/reference/react)
+- [Kent C. Dodds – Epic React](https://epicreact.dev/) – غور عمیق و تمرینات
+- [React Docs – فرم‌ها و Actions](https://react.dev/learn/forms)
