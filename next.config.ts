@@ -11,11 +11,16 @@ const config: NextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  // Ensure proper output for Vercel
+  output: "standalone",
 };
 
-export default bundleAnalyzer({
-  enabled: process.env.ANALYZE === "true",
-})(withMDX(config));
+// Only apply bundle analyzer when explicitly enabled and not in Vercel
+const isVercel = process.env.VERCEL === "1";
+const finalConfig = isVercel
+  ? withMDX(config)
+  : bundleAnalyzer({
+      enabled: process.env.ANALYZE === "true",
+    })(withMDX(config));
 
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-initOpenNextCloudflareForDev();
+export default finalConfig;
