@@ -481,104 +481,100 @@ export function useMyContext() {
 
 - مبتدی: تغییر تم
 
-  ```tsx
-  // theme-context.tsx
-  import { createContext, useContext, useState } from "react";
+```tsx
+// theme-context.tsx
+import { createContext, useContext, useState } from "react";
 
-  type Theme = "light" | "dark";
-  const ThemeContext = createContext<{
-    theme: Theme;
-    toggle: () => void;
-  }>({ theme: "light", toggle: () => {} });
+type Theme = "light" | "dark";
+const ThemeContext = createContext<{
+  theme: Theme;
+  toggle: () => void;
+}>({ theme: "light", toggle: () => {} });
 
-  export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>("light");
-    const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("light");
+  const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
-    return (
-      <ThemeContext.Provider value={{ theme, toggle }}>
-        {children}
-      </ThemeContext.Provider>
-    );
-  }
+  return (
+    <ThemeContext.Provider value={{ theme, toggle }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
 
-  export function useTheme() {
-    return useContext(ThemeContext);
-  }
+export function useTheme() {
+  return useContext(ThemeContext);
+}
 
-  // App.tsx
-  import { ThemeProvider, useTheme } from "./theme-context";
+// App.tsx
+import { ThemeProvider, useTheme } from "./theme-context";
 
-  function Toolbar() {
-    const { theme, toggle } = useTheme();
-    return (
-      <button className={theme} onClick={toggle}>
-        تغییر به {theme === "light" ? "تاریک" : "روشن"}
-      </button>
-    );
-  }
+function Toolbar() {
+  const { theme, toggle } = useTheme();
+  return (
+    <button className={theme} onClick={toggle}>
+      تغییر به {theme === "light" ? "تاریک" : "روشن"}
+    </button>
+  );
+}
 
-  export default function App() {
-    return (
-      <ThemeProvider>
-        <Toolbar />
-      </ThemeProvider>
-    );
-  }
-  ```
+export default function App() {
+  return (
+    <ThemeProvider>
+      <Toolbar />
+    </ThemeProvider>
+  );
+}
+```
 
 ---
 
 - متوسط: تغییردهنده زبان
 
-  ```tsx
-  // language-context.tsx
-  import { createContext, useContext, useState } from "react";
+```tsx
+// language-context.tsx
+import { createContext, useContext, useState } from "react";
 
-  type Lang = "en" | "fa";
-  const LanguageContext = createContext<{
-    lang: Lang;
-    setLang: (l: Lang) => void;
-  }>({ lang: "en", setLang: () => {} });
+type Lang = "en" | "fa";
+const LanguageContext = createContext<{
+  lang: Lang;
+  setLang: (l: Lang) => void;
+}>({ lang: "en", setLang: () => {} });
 
-  export function LanguageProvider({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
-    const [lang, setLang] = useState<Lang>("en");
-    return (
-      <LanguageContext.Provider value={{ lang, setLang }}>
-        {children}
-      </LanguageContext.Provider>
-    );
-  }
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [lang, setLang] = useState<Lang>("en");
+  return (
+    <LanguageContext.Provider value={{ lang, setLang }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
 
-  export function useLanguage() {
-    return useContext(LanguageContext);
-  }
+export function useLanguage() {
+  return useContext(LanguageContext);
+}
 
-  // Greeting.tsx
-  import { useLanguage } from "./language-context";
+// Greeting.tsx
+import { useLanguage } from "./language-context";
 
-  export function Greeting() {
-    const { lang } = useLanguage();
-    return <h1>{lang === "en" ? "Hello" : "سلام"}</h1>;
-  }
+export function Greeting() {
+  const { lang } = useLanguage();
+  return <h1>{lang === "en" ? "Hello" : "سلام"}</h1>;
+}
 
-  // استفاده در App.tsx
-  import { LanguageProvider } from "./language-context";
-  import { Greeting } from "./Greeting";
+// استفاده در App.tsx
+import { LanguageProvider } from "./language-context";
+import { Greeting } from "./Greeting";
 
-  function App() {
-    return (
-      <LanguageProvider>
-        <Greeting />
-        {/* یک انتخاب‌کننده جایی اضافه کنید */}
-      </LanguageProvider>
-    );
-  }
-  ```
+function App() {
+  return (
+    <LanguageProvider>
+      <Greeting />
+      {/* یک انتخاب‌کننده جایی اضافه کنید */}
+    </LanguageProvider>
+  );
+}
+```
 
 ---
 
@@ -887,433 +883,305 @@ export default ClickHistory;
 
 ### ۱.۵ `useEffect`
 
-#### ۱.۵.۱ اثر جانبی چیست؟
+#### ۱.۵.۱ useEffect دقیقاً چیه؟ (در یک نگاهِ تصویری)
 
-**تعریف**:
-در برنامه‌نویسی (به طور خاص React)، یک **اثر جانبی** هر چیزی است که یک تابع انجام می‌دهد که بر چیزی خارج از محدوده فوری خود تابع تأثیر می‌گذارد.
+وقتی رابط کاربری (UI) رندر می‌شود، گاهی لازم است کارهایی انجام دهیم که خارج از منطق داخلی React هستند. به این کارها **Side Effect** گفته می‌شود.
 
-**مثال‌های ساده اثرات جانبی**:
+- **fetch** تعامل با api
+- **setTimeout / setInterval** برای مدیریت زمان‌بندی
+- **window\.addEventListener** برای گوش دادن به رخدادهای مرورگر
+- **localStorage.setItem / getItem** برای ذخیره یا خواندن داده‌ها از حافظه مرورگر
 
-    - دریافت داده از یک سرور.
-    - به‌روزرسانی دستی DOM.
-    - تنظیم تایمرها (setTimeout، setInterval).
-    - اشتراک در رویدادها.
-    - ثبت چیزی در کنسول.
+تمام این کارها را باید با **`useEffect`** انجام دهیم.
 
-**مثال آسان‌فهم**:
+<Mermaid
+  chart="
+sequenceDiagram
+  autonumber
+  participant R as 🖌️ Render()
+  participant C as 📄 Commit (DOM)
+  participant E as ⚡ useEffect(callback, deps)
+  participant CL as 🧹 Cleanup (return)
 
-تصور کنید به یک دستگاه ATM می‌روید:
-
-- **اثر اصلی**: برداشت پول.
-- **اثر جانبی**: بانک برای شما یک پیامک SMS ارسال می‌کند.
-
-کار اصلی برداشت پول بود، اما یک کار اضافی — ارسال SMS — خارج از کار اصلی رخ داد.
-
----
-
-#### ۱.۵.۲ چرا React به useEffect نیاز دارد؟
-
-کامپوننت‌های React باید خالص و قابل پیش‌بینی باشند. با این حال، برای مقابله با اپلیکیشن‌های دنیای واقعی، گاهی اوقات نیاز به انجام اثرات جانبی مانند دریافت داده، دستکاری DOM، و تایمرها دارید.
-
-**نمودار جریان**:
-
-```
-کامپوننت React
-       |
-       |----> رندر UI (بدون اثرات جانبی!)
-       |
-       |----> انجام اثرات جانبی پس از رندر (useEffect)
-                    |
-                    |-- دریافت داده
-                    |-- تایمر / فواصل
-                    |-- به‌روزرسانی مستقیم DOM
-```
+R->>C: مرحله‌ی رندر و commit شدن UI
+C->>E: اجرای useEffect (بعد از paint صفحه)
+E-->>CL: برگرداندن تابع cleanup (اختیاری)
+Note over E,CL: وقتی وابستگی‌ها تغییر کنند یا <br/>کامپوننت unmount شود
+CL->>E: اجرای cleanup قبلی
+E->>E: اجرای اثر جدید
+"
+/>
 
 ---
 
-#### ۱.۵.۳ هوک useEffect در React
+#### ۱.۵.۲ رفتار useEffect بسته به dependency array
 
-React یک هوک داخلی به نام `useEffect` برای مدیریت این اثرات جانبی ارائه می‌دهد.
+- **وقتی آرایه خالی باشد: `[]`**
 
-**نحو**:
+      - اثر (Effect) فقط **یک بار** بعد از mount شدن کامپوننت اجرا می‌شود.
+      - در محیط **StrictMode**، React یک‌بار **اجرای اثر ← پاکسازی ← اجرای دوباره اثر** را شبیه‌سازی می‌کند.
 
-```jsx
-useEffect(() => {
-  // کد اثر جانبی اینجا
+این کار برای کمک به پیدا کردن باگ‌هاست و در نسخه‌ی نهایی (production) فقط یک‌بار اجرا خواهد شد.
 
-  return () => {
-    // کد پاکسازی (اختیاری)
-  };
-}, [dependencies]);
-```
+- **وقتی وابستگی‌ها مشخص باشند: `[a, b]`**
 
-**پارامترهای useEffect توضیح داده شده:**
+  - اثر فقط وقتی دوباره اجرا می‌شود که **یکی از مقادیر `a` یا `b` تغییر کند**.
+  - این حالت رایج‌ترین کاربرد `useEffect` است، چون دقیقاً کنترل می‌کنیم چه زمانی دوباره اجرا شود.
 
-- **تابع اثر**: پس از رندر اجرا می‌شود.
-- **آرایه وابستگی**: تعیین می‌کند که چه زمانی اثر اجرا می‌شود.
-- **تابع پاکسازی**: اختیاری، قبل از اثر بعدی یا در unmount اجرا می‌شود.
+- **وقتی هیچ آرایه‌ای داده نشود: (بدون deps)**
+
+- اثر بعد از **هر بار رندر شدن** کامپوننت اجرا می‌شود.
+- استفاده از این حالت معمولاً توصیه نمی‌شود، چون می‌تواند باعث **حلقه‌ی بی‌نهایت** شود مگر این‌که دقیقاً بدانیم چه می‌کنیم.
 
 ---
 
-#### ۱.۵.۴ نمودار جریان چرخه حیات useEffect
+**نکته‌ی مهم (Best Practice)**
 
-```
-کامپوننت Mount می‌شود (اولین رندر)
-       |
-       |--> useEffect اجرا می‌شود
-       |        |
-       |        --> اثر جانبی اجرا می‌شود
-       |
-تغییر حالت یا Props
-       |
-       |--> React آرایه وابستگی را بررسی می‌کند
-                |
-                |--> [تغییر کرده؟]
-                        |
-                        |--> بله: پاکسازی اثر قبلی (اگر وجود دارد)، سپس اثر را دوباره اجرا کن
-                        |--> خیر: رد کن
-       |
-کامپوننت Unmount می‌شود
-       |
-       |--> پاکسازی اجرا می‌شود (اگر ارائه شده باشد)
-```
+برای اینکه فراموش نکنید تمام وابستگی‌ها را در آرایه قرار دهید، حتماً **قانون ESLint به نام `react-hooks/exhaustive-deps`** را فعال کنید. این قانون به‌طور خودکار به شما هشدار می‌دهد اگر چیزی را جا انداخته باشید.
 
 ---
 
-#### ۱.۵.۵ مثال‌های useEffect (مبتدی، متوسط، پیشرفته)
+#### ۱.۵.۳ مثال ۱ — آسان: همگام‌سازی عنوان صفحه با شمارنده
 
----
+کاری که می‌خواهیم: وقتی عدد تغییر کرد، عنوان تب مرورگر هم به‌روز شود.
 
-- **مثال مبتدی: useEffect ساده**
-
-  فقط "سلام" را وقتی کامپوننت بارگذاری می‌شود ثبت کنید:
-
-  ```jsx
-  import { useEffect } from "react";
-
-  function HelloWorld() {
-    useEffect(() => {
-      console.log("سلام، اثر جانبی!");
-    }, []);
-
-    return <h1>سلام دنیا</h1>;
-  }
-  ```
-
-- **مثال متوسط: دریافت داده**
-
-  دریافت داده از API وقتی کامپوننت برای اولین بار رندر می‌شود:
-
-  ```jsx
-  import { useEffect, useState } from "react";
-
-  function UserList() {
-    const [users, setUsers] = useState([]);
-
-    useEffect(() => {
-      fetch("https://jsonplaceholder.typicode.com/users")
-        .then((res) => res.json())
-        .then((data) => setUsers(data));
-    }, []);
-
-    return (
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    );
-  }
-  ```
-
-- **مثال پیشرفته: تایمر با پاکسازی**
-
-  یک تایمر شمارش معکوس که خودش را پاک می‌کند:
-
-  ```jsx
-  import { useEffect, useState } from "react";
-
-  function Timer() {
-    const [seconds, setSeconds] = useState(10);
-
-    useEffect(() => {
-      const timerId = setInterval(() => {
-        setSeconds((s) => s - 1);
-      }, 1000);
-
-      // پاکسازی interval در unmount
-      return () => clearInterval(timerId);
-    }, []);
-
-    return <h1>{seconds} ثانیه باقی مانده!</h1>;
-  }
-  ```
-
----
-
-#### ۱.۵.۶ بهترین شیوه‌ها
-
-- **وابستگی‌ها:** همیشه به وضوح مشخص کنید. خالی گذاشتن یعنی یک بار در mount اجرا شود.
-- **پاکسازی:** همیشه interval ها، اشتراک‌ها را پاک کنید تا از نشت حافظه جلوگیری کنید.
-- **تقسیم:** اثرات جانبی غیرمرتبط را در هوک‌های `useEffect` جداگانه برای وضوح تقسیم کنید.
-
-**خوب:**
-
-```jsx
-useEffect(() => {
-  fetchData();
-}, []);
-useEffect(() => {
-  document.title = "اپ من";
-}, [title]);
-```
-
----
-
-#### ۱.۵.۷ تمرین خانگی
-
-**مبتدی:**
-
-- یک کامپوننت React ایجاد کنید که عنوان سند را به "سلام دنیا" یک بار بارگذاری شده با استفاده از `useEffect` به‌روزرسانی کند.
-
-**متوسط:**
-
-- کامپوننتی ایجاد کنید که لیستی از پست‌ها را از `jsonplaceholder.typicode.com/posts` دریافت و نمایش دهد.
-
-**پیشرفته:**
-
-- کامپوننتی ایجاد کنید که به تغییر اندازه پنجره گوش دهد و اندازه فعلی پنجره را نمایش دهد. فراموش نکنید که پاک کنید!
-
----
-
-#### ۱.۵.۸ **مثال دنیای واقعی: زنگ اعلان**
-
-یک زنگ اعلان 🔔 را تصور کنید که نشان می‌دهد چند پیام جدید دارید.
-
-```jsx
+```tsx
 import { useEffect, useState } from "react";
 
-function NotificationBell() {
+export default function CounterTitle() {
   const [count, setCount] = useState(0);
 
+  // Effect: update the tab title whenever count changes
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetch("https://api.example.com/notifications/unread-count")
-        .then((res) => res.json())
-        .then((data) => setCount(data.count));
-    }, 5000);
+    document.title = `Counter: ${count}`;
+  }, [count]); // ← Dependency: only when count changes
 
-    return () => clearInterval(intervalId);
-  }, []);
-
-  return <button>🔔 {count}</button>;
+  return (
+    <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
+  );
 }
 ```
 
-**چه اتفاقی اینجا افتاد؟**
-
-- کامپوننت اعلان‌های نخوانده را هر ۵ ثانیه دریافت می‌کند.
-- اگر کامپوننت را ترک کنید یا ببندید، interval را به طور خودکار پاک می‌کند.
+**چرا درست است؟** چون ما در این اثر با «دنیای بیرون» (DOM سراسری: `document.title`) همگام می‌شویم و فقط به `count` نیاز داریم.
 
 ---
 
-#### ۱.۵.۹ **نمودار خلاصه (همه با هم):**
+#### ۱.۵.۴ مثال ۲ — متوسط: جست‌وجوی دی‌بونس + درخواست شبکه با لغو
 
-```
-کامپوننت React
-  |
-  | رندر
-  |
-  |---> اثرات جانبی (useEffect)
-          |
-          |-- دریافت داده
-          |-- دستکاری DOM
-          |-- گوش‌دهندگان رویداد/اشتراک‌ها
-          |
-          |--- پاکسازی اختیاری (تابع return)
-```
+هدف: وقتی کاربر تایپ می‌کند، ۳۰۰ms صبر کنیم؛ اگر چیزی تایپ نشد، درخواست بزنیم؛ اگر کاربر عوض کرد/صفحه بسته شد، تایمر و درخواست قبلی **لغو** شوند.
 
----
-
-📝 **نکات کلیدی**
-
-- اثرات جانبی پس از رندر رخ می‌دهند.
-- React `useEffect` را برای مدیریت تمیز این اثرات جانبی ارائه می‌دهد.
-- آرایه‌های وابستگی کنترل می‌کنند که چه زمانی اثرات اجرا می‌شوند.
-- همیشه پاکسازی کنید تا از باگ‌ها و نشت حافظه جلوگیری کنید.
-
-#### ۱.۵.۱۰ غور عمیق: پاکسازی در useEffect (فاز Unmounting)
-
-- **گام ۱: پاکسازی در React چیست؟**
-
-وقتی اثرات جانبی را در React اجرا می‌کنید، گاهی اوقات نیاز دارید آن‌ها را "پاک کنید" پس از اینکه کارتان تمام شد، به خصوص وقتی کامپوننت **unmount** می‌شود (از صفحه حذف می‌شود).
-
-تابع پاکسازی کمک می‌کند از موارد زیر جلوگیری کنید:
-
-- نشت حافظه
-- رفتارهای ناخواسته
-- خطاها به دلیل عملیات روی عناصر غیرموجود
-
----
-
-- **گام ۲: چرخه حیات کامپوننت و پاکسازی**
-
-در اینجا یک نمودار جریان ساده بصری وجود دارد:
-
-```
-Mount کامپوننت
-     |
-     |---- useEffect اجرا می‌شود
-     |          |
-     |          |---> اثر جانبی شروع شد
-     |
-به‌روزرسانی کامپوننت (تغییر حالت/props)
-     |
-     |-- پاکسازی (اگر وابستگی‌ها تغییر کرده باشند)
-     |      |
-     |      |---> اثر قبلی پاک شد
-     |
-     |-- اثر دوباره اجرا می‌شود (اگر deps تغییر کرده باشند)
-     |
-Unmount کامپوننت (کامپوننت ترک می‌کند)
-     |
-     |-- تابع پاکسازی اجرا می‌شود
-            |
-            |---> پاکسازی تمام شد
-```
-
-**مهم:**
-
-- پاکسازی **قبل از** unmount کامپوننت رخ می‌دهد.
-- به React اجازه می‌دهد منابع را به طور مناسب مدیریت کند.
-
----
-
-- **گام ۳: چه زمانی به پاکسازی نیاز دارید؟**
-
-سناریوهای رایج:
-
-- **گوش‌دهندگان رویداد** (مثل تغییر اندازه، اسکرول)
-- **فواصل و تایمرها**
-- **اشتراک‌ها** (مثل WebSockets، Redux، Firebase listeners)
-- **لغو درخواست‌های HTTP**
-
----
-
-- **گام ۴: نحو پاکسازی پایه**
-
-```jsx
-useEffect(
-  () => {
-    // اثر جانبی
-    console.log("اثر اجرا شد!");
-
-    // تابع پاکسازی
-    return () => {
-      console.log("پاک شد!");
-    };
-  },
-  [
-    /* وابستگی‌ها */
-  ]
-);
-```
-
-- اگر از `useEffect` خود یک تابع برگردانید، React به طور خودکار آن را اجرا می‌کند وقتی:
-
-  - **کامپوننت unmount می‌شود**
-  - وابستگی‌ها **تغییر می‌کنند** (اثر قبلی پاک می‌شود، سپس اثر جدید اجرا می‌شود)
-
----
-
-- **گام ۵: مثال‌های عملی**
-
-  - **مثال مبتدی: پاکسازی با تایمر**
-
-  شمارش ثانیه‌ها:
-
-  ```jsx
-  import { useEffect, useState } from "react";
-
-  function Timer() {
-    const [count, setCount] = useState(0);
-
-    useEffect(() => {
-      const timerId = setInterval(() => {
-        setCount((prev) => prev + 1);
-      }, 1000);
-
-      // تابع پاکسازی
-      return () => clearInterval(timerId);
-    }, []);
-
-    return <div>ثانیه‌های گذشته: {count}</div>;
-  }
-  ```
-
-  **توضیح:**
-
-  - تایمر در mount شروع می‌شود.
-  - تایمر در unmount پاک می‌شود تا از نشت حافظه یا به‌روزرسانی حالت در کامپوننت unmounted جلوگیری کند.
-
----
-
-    - **مثال متوسط: گوش‌دهنده تغییر اندازه پنجره**
-
-    گوش دادن به اندازه پنجره مرورگر:
-
-```jsx
+```tsx
 import { useEffect, useState } from "react";
 
-function WindowSize() {
-  const [size, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+type Item = { id: string; name: string };
 
+export default function DebouncedSearch(): JSX.Element {
+  const [query, setQuery] = useState(""); // user typing input
+  const [debounced, setDebounced] = useState(""); // debounced value after 300ms
+  const [data, setData] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // 1) Debounce input
   useEffect(() => {
-    const handleResize = () => {
-      setSize({ width: window.innerWidth, height: window.innerHeight });
-    };
+    const timer = setTimeout(() => setDebounced(query.trim()), 300);
+    return () => clearTimeout(timer); // cleanup timer on input change/unmount
+  }, [query]);
 
-    window.addEventListener("resize", handleResize);
+  // 2) Fetch when debounced value changes
+  useEffect(() => {
+    if (!debounced) {
+      setData([]);
+      setError(null);
+      return;
+    }
 
-    // پاکسازی گوش‌دهنده در unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    const controller = new AbortController(); // to cancel request
+    setLoading(true);
+    setError(null);
+
+    (async () => {
+      try {
+        const res = await fetch(
+          `/api/search?q=${encodeURIComponent(debounced)}`,
+          { signal: controller.signal }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json: Item[] = await res.json();
+        setData(json);
+      } catch (e: unknown) {
+        if ((e as any).name === "AbortError") return; // ignore if aborted
+        setError((e as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+
+    return () => controller.abort(); // cancel request on dependency change/unmount
+  }, [debounced]);
 
   return (
-    <div>
-      اندازه پنجره: {size.width}px x {size.height}px
+    <div className="space-y-2">
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+        className="border p-2 rounded"
+      />
+      {loading && <p>Loading...</p>}
+      {error && <p role="alert">Error: {error}</p>}
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
 ```
 
-**توضیح:**
+<Mermaid
+  chart="
+flowchart TD
+  A[onChange] -->|update query| B[useEffect debounce]
+  B -->|300ms| C[set debounced]
+  C --> D[useEffect fetch]
+  D -->|Abort on change/unmount| E[cleanup]
+"
+/>
 
-- گوش‌دهنده تغییر اندازه اضافه می‌شود.
-- گوش‌دهنده در unmount حذف می‌شود تا از نشت جلوگیری کند.
+**نکته‌های کلیدی**
+
+- همیشه برای IO از **AbortController** یا روش لغوِ کتابخانهٔ خودت استفاده کن.
+- اثرها باید **تحملِ راه‌اندازی دوباره** در توسعه را داشته باشند (StrictMode).
 
 ---
 
-- **مرجع سریع (خلاصه نمودار جریان):**
+#### ۱.۵.۵ مثال ۳ — حرفه‌ای ولی قابل‌هضم: همگام‌سازی تم با localStorage + همگام‌سازی بین تب‌ها
 
+این مثال هم حرفه‌ای است و هم ملموس: با کلیک کاربر، **تم (روشن/تاریک)** را ذخیره می‌کنیم و بین تب‌های بازِ مرورگر همگام نگه می‌داریم. علاوه بر آن، تم را روی **DOM خارج از React** هم اعمال می‌کنیم (side-effect واقعی).
+
+```tsx
+import { useEffect, useState } from "react";
+
+// A small custom hook to keep state in localStorage and sync it across tabs
+function useLocalStorageState<T>(key: string, initial: T) {
+  // Lazily read the initial value from localStorage (to avoid SSR issues)
+  const [value, setValue] = useState<T>(() => {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? (JSON.parse(raw) as T) : initial;
+    } catch {
+      return initial;
+    }
+  });
+
+  // Side effect: whenever the value changes, write it to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {}
+  }, [key, value]);
+
+  // Cross-tab synchronization: if another tab changes the value,
+  // update this tab’s state as well
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== key) return;
+      try {
+        setValue(e.newValue ? (JSON.parse(e.newValue) as T) : initial);
+      } catch {}
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [key, initial]);
+
+  return [value, setValue] as const;
+}
+
+export default function ThemeToggle() {
+  const [theme, setTheme] = useLocalStorageState<"light" | "dark">(
+    "theme",
+    "light"
+  );
+
+  // Apply the theme directly to the DOM (outside React)
+  useEffect(() => {
+    // Alternatively, you could use classList instead
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+
+  return (
+    <div>
+      <p>Current theme: {theme}</p>
+      <button
+        onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
+      >
+        Switch to {theme === "light" ? "dark" : "light"}
+      </button>
+    </div>
+  );
+}
 ```
-کامپوننت React
-       |
-       | Mount می‌شود
-       |
- useEffect() اثر جانبی شروع می‌شود
-       |
-       | به‌روزرسانی (تغییر وابستگی)
-       |
-       +-- پاکسازی اثر قبلی
-       +-- اجرای اثر جدید
-       |
- Unmount کامپوننت
-       |
- پاکسازی اثرات جانبی (پاکسازی نهایی)
+
+<Mermaid
+  chart="
+flowchart TD
+  U[User Click] -->|setTheme| S[State تغییر می‌کند]
+  S --> E1[Effect نوشتن در localStorage]
+  E1 --> LS[(localStorage)]
+  LS -->|storage event| E2[Effect لیسنر تب دیگر]
+  S --> E3[Effect اعمال روی DOM]
+  E3 --> D[document.documentElement]
+"
+/>
+
+**چرا این الگو خوب است؟**
+
+- دو اثرِ واضح و مستقل: یکی برای **نوشتن در localStorage**، یکی برای **لیسنر storage**.
+- `cleanup` لیسنر را برمی‌دارد → **memory leak** نداریم.
+- اعمال تم روی DOM نمونه‌ی واضحی از side-effect خارج از React است.
+
+---
+
+#### ۱.۵.۶ اشتباهات پرتکرار (و نسخهٔ کوتاهِ درمان)
+
+- وابستگی ناقص (Missing Dependencies)
+
+  - **مشکل:** اثر (effect) با **داده‌ی قدیمی** اجرا می‌شود چون همه‌ی متغیرهای لازم در آرایه‌ی وابستگی‌ها (`deps`) نیستند.
+
+    هر چیزی را که داخل اثر استفاده می‌کنی باید در `deps` بنویسی. - اگر نمی‌خواهی مقدارش در هر تغییر باعث اجرای دوباره شود، از `useRef` یا یک **callback پایدار** (مثل `useCallback`) استفاده کن.
+
+- نشت حافظه (Memory Leak)
+
+  - **مشکل:** یک تایمر (`setInterval` / `setTimeout`)، لیسنر رویداد (`addEventListener`) یا درخواست async ایجاد کرده‌ای، اما در زمان مناسب پاک نمی‌شود. این کار باعث مصرف اضافه‌ی حافظه و باگ می‌شود.
+
+    همیشه از `useEffect` یک **تابع پاکسازی** (`cleanup`) برگردان تا کارهای نیمه‌تمام را لغو یا پاک کند.
+
+```js
+useEffect(() => {
+  const id = setInterval(tick, 1000);
+  return () => clearInterval(id); // cleanup
+}, []);
+```
+
+- حلقه‌ی بی‌انتها (Infinite Loop)
+
+  - **مشکل:** داخل اثر `setState` صدا زده‌ای و همان state هم در `deps` وجود دارد → هر تغییر state دوباره effect را اجرا می‌کند → لوپ بی‌نهایت.
+
+    - وابستگی را حذف نکن! این فقط مشکل را پنهان می‌کند.
+    - به‌جای آن، **معماری کد** را تغییر بده یا یک **شرط/guard** بگذار تا فقط در شرایط خاص state را تغییر دهد.
+
+- بسته‌ی کهنه (Stale Closure)
+
+  - **مشکل:** اثر به state یا props قدیمی دسترسی دارد (به‌دلیل اینکه در زمان تعریف اثر، آن مقادیر گرفته شده‌اند).
+
+    - آرایه‌ی وابستگی‌ها را کامل کن تا همیشه مقادیر تازه بیایند.
+    - اگر فقط به آخرین مقدار نیاز داری، آن را در `useRef` نگه دار.
+    - برای به‌روزرسانی state بر اساس مقدار قبلی، از فرم **تابعی** `setState` استفاده کن:
+
+```js
+setCount((prev) => prev + 1);
 ```
 
 ---

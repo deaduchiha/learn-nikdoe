@@ -1,0 +1,4 @@
+- 3 term
+  - html + css + github -> 3mil (6-7)
+  - javascript + typescript + nodejs -> 6mil (12-13)
+  - react tsx [axios,tanstack,shadcn,tailwindcss] -> 10mil (20)
