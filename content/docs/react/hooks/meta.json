@@ -1,0 +1,17 @@
+{
+  "title": "هوک‌ها",
+  "icon": "Webhook",
+  "defaultOpen": false,
+  "pages": [
+    "use-state",
+    "useEffect",
+    "useContext",
+    "useReducer",
+    "useCallback",
+    "useMemo",
+    "useRef",
+    "useImperativeHandle",
+    "useLayoutEffect",
+    "useDebugValue"
+  ]
+}

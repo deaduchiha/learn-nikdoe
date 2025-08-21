@@ -2,5 +2,5 @@
   "title": "شروع React",
   "icon": "Flower2",
   "defaultOpen": true,
-  "pages": ["react", "Technologies", "react-hooks"]
+  "pages": ["react", "Technologies", "about-hooks", "hooks"]
 }
