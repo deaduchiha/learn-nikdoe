@@ -6,10 +6,10 @@
     "use-state",
     "use-reducer",
     "use-context",
-    "useEffect",
+    "use-ref",
+    "use-effect",
     "useCallback",
     "useMemo",
-    "useRef",
     "useImperativeHandle",
     "useLayoutEffect",
     "useDebugValue"

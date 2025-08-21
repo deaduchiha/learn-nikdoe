@@ -1,0 +1,350 @@
+---
+title: useEffect
+icon: Sparkles
+description: useEffect چیست، کی اجرا می‌شود، آرایهٔ وابستگی‌ها، پاک‌سازی، الگوی صحیح کدهای async، و ۳ الگوی آمادهٔ fetch با APIهای فیک."
+---
+
+# useEffect چیست؟
+
+`useEffect` ابزاری است برای انجام کارهای بیرون از React بعد از رندر شدن UI. نمونه‌ها:
+
+- درخواست شبکه با `fetch`
+- تایمرها با `setTimeout` یا `setInterval`
+- لیسنرهای مرورگر با `addEventListener`
+- کار با `localStorage`
+
+> اسکریپت مدرس: «تابع کامپوننت فقط UI را می‌سازد. هر کاری که خارج از این منطق است، باید در useEffect قرار بگیرد.»
+
+---
+
+# شکل و زمان اجرا
+
+امضای تابع:
+
+```ts
+useEffect(effectCallback, dependencyArray?);
+```
+
+الگوی استاندارد:
+
+```ts
+useEffect(() => {
+  // کار جانبی (side effect)
+
+  return () => {
+    // پاک‌سازی: حذف لیسنر، لغو درخواست، پاک کردن تایمر
+  };
+}, [dep1, dep2]);
+```
+
+- اجرای effect همیشه بعد از رندر و commit DOM است.
+- پاک‌سازی در دو زمان اجرا می‌شود:
+
+  - قبل از اجرای دوبارهٔ همان effect وقتی وابستگی‌ها تغییر کرده‌اند
+  - هنگام خروج کامپوننت از صفحه
+
+> اسکریپت مدرس: «این return به‌نوعی بیمهٔ عمر ماست. هر چیزی را که شروع کردیم، اینجا می‌بندیم.»
+
+---
+
+# آرایهٔ وابستگی‌ها
+
+- بدون آرایه: بعد از هر رندر اجرا می‌شود. برای مبتدی‌ها معمولاً مناسب نیست.
+- آرایهٔ خالی `[]`: فقط یک‌بار بعد از mount اجرا می‌شود.
+- آرایهٔ مشخص `[a, b]`: فقط وقتی a یا b تغییر کند، اجرا می‌شود.
+
+قانون طلایی: هر چیزی که داخل effect استفاده می‌کنی و ممکن است تغییر کند، باید در آرایهٔ وابستگی‌ها باشد. قانون ESLint `react-hooks/exhaustive-deps` را فعال نگه دار.
+
+> اسکریپت مدرس: «اگر داخل effect از چیزی استفاده کردید، ولی در فهرست وابستگی‌ها نیاوردید، اثر با دادهٔ کهنه اجرا می‌شود.»
+
+---
+
+# الگوی صحیح برای کدهای async
+
+خود useEffect نباید `async` باشد. یکی از این دو روش را بنویس:
+
+```ts
+useEffect(() => {
+  const run = async () => {
+    // await ...
+  };
+  run();
+}, []);
+```
+
+یا:
+
+```ts
+useEffect(() => {
+  (async () => {
+    // await ...
+  })();
+}, []);
+```
+
+**لغو درخواست شبکه:**
+
+```ts
+useEffect(() => {
+  const ctrl = new AbortController();
+
+  (async () => {
+    const res = await fetch(url, { signal: ctrl.signal });
+    // ...
+  })();
+
+  return () => ctrl.abort();
+}, [url]);
+```
+
+> اسکریپت مدرس: «بدون لغو، وقتی صفحه عوض شود ممکن است setState دیر برسد و هشدار حافظه‌نشت بگیریم.»
+
+---
+
+# سه مثال ساده با APIهای فیک قابل‌اعتماد
+
+## بارگذاری اولیهٔ داده (یک‌بار بعد از mount)
+
+API: `https://jsonplaceholder.typicode.com/todos`
+
+```tsx
+import { useEffect, useState } from "react";
+
+type Todo = { id: number; title: string; completed: boolean };
+
+export default function TodosBasic() {
+  const [todos, setTodos] = useState<Todo[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+
+    (async () => {
+      try {
+        const res = await fetch("https://jsonplaceholder.typicode.com/todos", {
+          signal: ctrl.signal,
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data: Todo[] = await res.json();
+        setTodos(data.slice(0, 10)); // فقط ۱۰ مورد برای سادگی
+      } catch (e) {
+        if ((e as any).name !== "AbortError") setErr((e as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+
+    return () => ctrl.abort();
+  }, []);
+
+  if (loading) return <p>در حال بارگذاری…</p>;
+  if (err) return <p role="alert">خطا: {err}</p>;
+  if (!todos) return null;
+
+  return (
+    <ul>
+      {todos.map((t) => (
+        <li key={t.id}>
+          {t.completed ? "✅" : "⬜️"} {t.title}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+> اسکریپت مدرس: «سه حالت را خیلی واضح نشان بدهیم: لود، خطا، داده. تمیز و قابل درک.»
+
+---
+
+## جست‌وجو با دی‌بونس و لغو
+
+API: `https://dummyjson.com/products/search?q=QUERY`
+
+```tsx
+import { useEffect, useState } from "react";
+
+type Product = { id: number; title: string };
+
+export default function SearchProducts() {
+  const [q, setQ] = useState("");
+  const [debounced, setDebounced] = useState("");
+  const [list, setList] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  // دی‌بونس ورودی
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(q.trim()), 300);
+    return () => clearTimeout(t);
+  }, [q]);
+
+  // fetch بر اساس مقدار تثبیت‌شده
+  useEffect(() => {
+    if (debounced.length < 2) {
+      setList([]);
+      setErr(null);
+      return;
+    }
+    const ctrl = new AbortController();
+    setLoading(true);
+    setErr(null);
+
+    (async () => {
+      try {
+        const url = `https://dummyjson.com/products/search?q=${encodeURIComponent(
+          debounced
+        )}`;
+        const res = await fetch(url, { signal: ctrl.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        setList(json.products as Product[]);
+      } catch (e) {
+        if ((e as any).name !== "AbortError") setErr((e as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+
+    return () => ctrl.abort();
+  }, [debounced]);
+
+  return (
+    <div className="space-y-2">
+      <input
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        placeholder="نام محصول…"
+      />
+      {loading && <p>در حال جست‌وجو…</p>}
+      {err && <p role="alert">خطا: {err}</p>}
+      <ul>
+        {list.map((p) => (
+          <li key={p.id}>{p.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+> اسکریپت مدرس: «دی‌بونس و fetch را جدا می‌نویسیم تا ذهن ساده بماند: هر effect یک مسئولیت.»
+
+---
+
+## وابسته به انتخاب کاربر
+
+API: `https://jsonplaceholder.typicode.com/users/:id`
+
+```tsx
+import { useEffect, useState } from "react";
+
+type User = { id: number; name: string };
+
+export default function PickUser() {
+  const [userId, setUserId] = useState(1);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+    setLoading(true);
+    setErr(null);
+
+    (async () => {
+      try {
+        const res = await fetch(
+          `https://jsonplaceholder.typicode.com/users/${userId}`,
+          { signal: ctrl.signal }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data: User = await res.json();
+        setUser(data);
+      } catch (e) {
+        if ((e as any).name !== "AbortError") setErr((e as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    })();
+
+    return () => ctrl.abort();
+  }, [userId]);
+
+  return (
+    <div className="space-y-2">
+      <select
+        value={userId}
+        onChange={(e) => setUserId(Number(e.target.value))}
+      >
+        {[1, 2, 3, 4, 5].map((id) => (
+          <option key={id} value={id}>
+            کاربر {id}
+          </option>
+        ))}
+      </select>
+
+      {loading && <p>بارگذاری کاربر…</p>}
+      {err && <p role="alert">خطا: {err}</p>}
+      {user && (
+        <div className="border rounded p-2">
+          <p>شناسه: {user.id}</p>
+          <p>نام: {user.name}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+> اسکریپت مدرس: «وابستگی را واضح بنویسیم. هر وقت userId عوض شد، اثر اجرا می‌شود.»
+
+---
+
+# خطاهای رایج و نسخهٔ درمان
+
+- **حلقهٔ بی‌نهایت**
+  setState در اثری که به همان state وابسته است و شرط ندارد.
+  درمان: شرط بگذار یا از فرم تابعی استفاده کن و معماری را ساده کن.
+
+- **وابستگی ناقص**
+  از value داخل اثر استفاده کرده‌ای ولی در deps ننوشته‌ای.
+  درمان: deps کامل. قانون ESLint را فعال کن.
+
+- **بستهٔ کهنه (Stale Closure)**
+  تایمر یا لیسنر به state قدیمی دسترسی دارد.
+  درمان: فرم تابعی `setX(prev => …)` یا نگهداری مقدار آخر در `useRef`.
+
+- **فراموشی پاک‌سازی**
+  هر چیزی که شروع می‌کنی را در return ببند: تایمر، لیسنر، fetch با abort.
+
+> اسکریپت مدرس: «هر مشکل را با یک جملهٔ درمانی به شاگردان بسپارید تا حفظ کنند.»
+
+---
+
+# چک‌لیست قبل از نوشتن effect
+
+- آیا واقعاً side effect است؟ اگر فقط محاسبه است، effect لازم نیست.
+- آیا همهٔ وابستگی‌ها نوشته شده‌اند؟
+- آیا پاک‌سازی لازم دارم و نوشته‌ام؟
+- آیا بهتر نیست effect را به دو effect کوچک‌تر تقسیم کنم؟
+- برای fetch: آیا AbortController اضافه شده است؟
+
+---
+
+# تمرین‌های کوتاه کلاسی
+
+1. الگوی بارگذاری اولیه را برای `https://jsonplaceholder.typicode.com/posts` بنویس و فقط ۵ پست نشان بده.
+2. در جست‌وجو شرط بگذار که اگر طول عبارت کمتر از ۲ بود، اصلاً fetch نزن.
+3. به مثال انتخاب کاربر، یک دکمهٔ «بازخوانی» اضافه کن که با یک state کمکی، همان effect را دوباره اجرا کند.
+
+> اسکریپت مدرس: «هر هنرجو یکی از تمرین‌ها را اجرا کند، ۵ دقیقه زمان، سپس نمایش نتیجه و بازخورد.»
+
+---
+
+# مرجع APIهای فیک
+
+- JSONPlaceholder: `https://jsonplaceholder.typicode.com/todos`, `/users/1`, `/posts`
+- DummyJSON (جست‌وجو): `https://dummyjson.com/products/search?q=phone`
+- ReqRes (صفحه‌بندی): `https://reqres.in/api/users?page=2`
