@@ -1,0 +1,258 @@
+---
+title: ‍‍‍useReducer
+icon: Workflow
+description: "useReducer وقتی به کار می‌آید که state شما پیچیده‌تر از آن است که با useState مدیریت شود. این هوک منطق به‌روزرسانی state را در یک تابع خالص به نام reducer متمرکز می‌کند و تغییرات را قابل پیش‌بینی و سازمان‌یافته می‌سازد."
+---
+
+## 📖 مقدمه: چرا به useReducer نیاز داریم؟
+
+فرض کن یک پروژه‌ی واقعی داری:
+
+- یک فرم ثبت‌نام با چندین فیلد (نام، ایمیل، پسورد، تایید پسورد).
+- یک سبد خرید که باید بتوانی آیتم اضافه یا حذف کنی.
+- یک اپلیکیشن Todo که باید بتواند کارها را اضافه، تکمیل یا حذف کند.
+
+مدیریت همه‌ی این وضعیت‌ها با `useState` به‌تنهایی باعث شلوغی شدید کد می‌شود. اینجاست که `useReducer` مثل یک **مدیر پروژه** وارد می‌شود: تمام تغییرات state را متمرکز می‌کند و می‌گوید _برای هر درخواست، دقیقاً چه اتفاقی باید بیفتد_.
+
+---
+
+## useReducer چیست؟
+
+`useReducer` یک هوک React است که به شما اجازه می‌دهد state و منطق تغییر آن را در یک تابع خالص به نام **reducer** نگه دارید.
+
+- شما یک **action** (دستور) را dispatch می‌کنید.
+- reducer بر اساس آن دستور، **state جدید** را برمی‌گرداند.
+
+---
+
+## نحو استفاده
+
+```tsx
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+- `state`: مقدار فعلی وضعیت.
+- `dispatch`: تابعی برای ارسال یک action.
+- `reducer`: تابعی که state و action را می‌گیرد و state جدید را برمی‌گرداند.
+- `initialState`: مقدار اولیه state.
+
+---
+
+## چه زمانی از useReducer استفاده کنیم؟
+
+- وقتی state شما **چندین بخش مختلف** دارد (یک شیء یا آرایه بزرگ).
+- وقتی تغییرات state به **state قبلی وابسته‌اند**.
+- وقتی می‌خواهید منطق به‌روزرسانی state را متمرکز و قابل تست نگه دارید.
+
+---
+
+## مثال ساده: شمارنده
+
+```tsx
+type Action = { type: "inc" } | { type: "dec" } | { type: "reset" };
+
+function reducer(state: number, action: Action): number {
+  switch (action.type) {
+    case "inc":
+      return state + 1;
+    case "dec":
+      return state - 1;
+    case "reset":
+      return 0;
+    default:
+      return state;
+  }
+}
+
+export default function Counter() {
+  const [count, dispatch] = useReducer(reducer, 0);
+
+  return (
+    <>
+      <p>شمارش: {count}</p>
+      <button onClick={() => dispatch({ type: "inc" })}>+۱</button>
+      <button onClick={() => dispatch({ type: "dec" })}>−۱</button>
+      <button onClick={() => dispatch({ type: "reset" })}>بازنشانی</button>
+    </>
+  );
+}
+```
+
+🔍 نکات مهم:
+
+- `reducer` همیشه یک تابع **خالص** است (فقط ورودی → خروجی، بدون API call یا side effect).
+- `dispatch` همان دستوری است که به reducer می‌گویید چه کار کند.
+
+---
+
+## مثال واقعی ۱: تغییر تم سایت
+
+```tsx
+type Theme = "light" | "dark";
+type ThemeAction = { type: "light" } | { type: "dark" };
+
+function themeReducer(state: Theme, action: ThemeAction): Theme {
+  switch (action.type) {
+    case "light":
+      return "light";
+    case "dark":
+      return "dark";
+    default:
+      return state;
+  }
+}
+
+function ThemeToggle() {
+  const [theme, dispatch] = useReducer(themeReducer, "light");
+
+  return (
+    <div>
+      <p>تم فعلی: {theme}</p>
+      <button onClick={() => dispatch({ type: "light" })}>روشن</button>
+      <button onClick={() => dispatch({ type: "dark" })}>تاریک</button>
+    </div>
+  );
+}
+```
+
+---
+
+## مثال واقعی ۲: مدیریت فرم
+
+```tsx
+type FormState = { name: string; email: string };
+type FormAction =
+  | { type: "setName"; payload: string }
+  | { type: "setEmail"; payload: string }
+  | { type: "reset" };
+
+function formReducer(state: FormState, action: FormAction): FormState {
+  switch (action.type) {
+    case "setName":
+      return { ...state, name: action.payload };
+    case "setEmail":
+      return { ...state, email: action.payload };
+    case "reset":
+      return { name: "", email: "" };
+    default:
+      return state;
+  }
+}
+
+function MyForm() {
+  const [state, dispatch] = useReducer(formReducer, { name: "", email: "" });
+
+  return (
+    <form>
+      <input
+        value={state.name}
+        onChange={(e) => dispatch({ type: "setName", payload: e.target.value })}
+        placeholder="نام"
+      />
+      <input
+        value={state.email}
+        onChange={(e) =>
+          dispatch({ type: "setEmail", payload: e.target.value })
+        }
+        placeholder="ایمیل"
+      />
+      <button type="button" onClick={() => dispatch({ type: "reset" })}>
+        بازنشانی
+      </button>
+    </form>
+  );
+}
+```
+
+این روش به‌جای چندین `useState` مختلف برای هر فیلد، تمام منطق فرم را در یک جا نگه می‌دارد.
+
+---
+
+## مثال واقعی ۳: سبد خرید فروشگاه
+
+```tsx
+type Item = { id: number; name: string };
+type CartAction =
+  | { type: "add"; item: Item }
+  | { type: "remove"; id: number }
+  | { type: "clear" };
+
+function cartReducer(state: Item[], action: CartAction): Item[] {
+  switch (action.type) {
+    case "add":
+      return [...state, action.item];
+    case "remove":
+      return state.filter((item) => item.id !== action.id);
+    case "clear":
+      return [];
+    default:
+      return state;
+  }
+}
+
+function Cart() {
+  const [cart, dispatch] = useReducer(cartReducer, []);
+
+  return (
+    <div>
+      <button
+        onClick={() =>
+          dispatch({ type: "add", item: { id: Date.now(), name: "سیب" } })
+        }
+      >
+        اضافه کردن سیب
+      </button>
+      <button onClick={() => dispatch({ type: "clear" })}>پاک کردن سبد</button>
+      <ul>
+        {cart.map((item) => (
+          <li key={item.id}>
+            {item.name}{" "}
+            <button onClick={() => dispatch({ type: "remove", id: item.id })}>
+              حذف
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+---
+
+## بهترین شیوه‌ها
+
+- reducer همیشه باید **خالص** باشد: هیچ fetch، هیچ تایمر، فقط محاسبه‌ی state.
+- همیشه همه‌ی actionها را مدیریت کنید، حتی اگر مقدار پیش‌فرض برگردانید.
+- اگر reducer فقط برای همان کامپوننت است، همان‌جا تعریف کنید؛ اگر مشترک است جدا کنید.
+- از TypeScript برای اطمینان از پوشش همه‌ی actionها استفاده کنید.
+
+---
+
+## تمرین عملی
+
+🏠 **تمرین ۱ (مبتدی): تغییر تم**
+
+- یک reducer برای مدیریت سه حالت بسازید: `light | dark | system`.
+- سه دکمه برای تغییر تم رندر کنید.
+
+🏠 **تمرین ۲ (متوسط): فرم چندمرحله‌ای**
+
+- یک فرم ثبت‌نام سه‌مرحله‌ای بسازید (اطلاعات شخصی → آدرس → تایید).
+- از useReducer برای مدیریت مرحله‌ی فعلی و داده‌های فرم استفاده کنید.
+
+🏠 **تمرین ۳ (پیشرفته): Todo App**
+
+- اضافه کردن کار جدید
+- تغییر وضعیت تکمیل‌شده
+- حذف کار
+- پاک کردن همه‌ی کارهای تکمیل‌شده
+- همه‌ی این‌ها را با useReducer مدیریت کنید.
+
+---
+
+## 🎯 جمع‌بندی نهایی
+
+- وقتی state شما ساده است، از `useState` استفاده کنید. وقتی state پیچیده یا وابسته شد، `useReducer` انتخاب بهتری است.
+- reducer منطق تغییر state را در یک مکان متمرکز می‌کند، تغییرات قابل پیش‌بینی و تست‌پذیر می‌شوند.
+- همیشه reducer را **خالص** نگه دارید.

@@ -40,12 +40,12 @@ description: "در این صفحه با مفهوم هوک‌های React، کا�
 | ----------------------------------- | ---------------------- | ------------------------------------------------------------------------------------ |
 | **useState**                        | State Management       | نگهداری و به‌روزرسانی state محلی (مثل شمارنده، فرم، فیلترها)                         |
 | **useReducer**                      | State Management       | مدیریت state پیچیده با الگوی reducer (جایگزین ساده‌ی Redux برای لوکال)               |
+| **useContext**                      | Context                | دسترسی به داده‌ی Context بدون prop drilling (مثل theme، auth، language)              |
 | **useEffect**                       | Side Effects           | اجرای کارهای جانبی بعد از render (مثل fetch دیتا، event listener، تایمر)             |
 | **useLayoutEffect**                 | Side Effects           | مشابه useEffect اما قبل از paint مرورگر اجرا می‌شود (برای هماهنگی DOM و اندازه‌گیری) |
 | **useRef**                          | References             | دسترسی مستقیم به یک عنصر DOM یا نگهداری یک مقدار mutable بدون re-render              |
 | **useMemo**                         | Performance            | کش کردن نتیجه‌ی محاسبات سنگین برای جلوگیری از اجرای دوباره                           |
 | **useCallback**                     | Performance            | کش کردن خود تابع برای جلوگیری از ایجاد تابع جدید در هر render (مخصوصاً برای props)   |
-| **useContext**                      | Context                | دسترسی به داده‌ی Context بدون prop drilling (مثل theme، auth، language)              |
 | **useImperativeHandle**             | Advanced / Forward Ref | کنترل کردن API‌یی که وقتی از forwardRef استفاده می‌کنی به parent داده می‌شود         |
 | **useDebugValue**                   | Debugging              | نمایش اطلاعات سفارشی در React DevTools برای هوک‌های سفارشی                           |
 | **useId** (از React 18)             | Accessibility / IDs    | تولید id یکتا در سمت سرور و کلاینت برای فرم‌ها یا المنت‌های مرتبط                    |
@@ -67,538 +67,9 @@ description: "در این صفحه با مفهوم هوک‌های React، کا�
 
 ---
 
-### ۱.۲ `useReducer`
-
-#### ۱.۲.۱ useReducer چیست؟
-
-وقتی حالت کامپوننت شما **برای `useState` خیلی پیچیده می‌شود**، شما به چیزی بهتر برای سازماندهی منطق خود نیاز دارید.
-
-✅ `useReducer` به شما اجازه می‌دهد **انتقالات حالت قابل پیش‌بینی** را با استفاده از یک تابع reducer بنویسید.
-✅ شما یک "action" را "dispatch" می‌کنید، و reducer حالت جدید را محاسبه می‌کند.
-✅ این بسیار شبیه Redux است، اما در React ساخته شده است.
-
----
-
-#### ۱.۲.۲ نحو
-
-```tsx
-const [state, dispatch] = useReducer(reducer, initialArg, init?);
-```
-
-| اصطلاح       | معنی                                      |
-| ------------ | ----------------------------------------- |
-| `state`      | حالت فعلی                                 |
-| `dispatch`   | تابعی که برای شروع تغییر فراخوانی می‌کنید |
-| `reducer`    | تابع خالصی که حالت بعدی را تصمیم می‌گیرد  |
-| `initialArg` | حالت اولیه                                |
-| `init`       | مقداردهی اولیه تنبل اختیاری               |
-
----
-
-#### ۱.۲.۳ چه زمانی از آن استفاده کنیم؟
-
-- وقتی **منطق حالت پیچیده** دارید، مثلاً یک شیء یا چندین مقدار.
-- وقتی **حالت بعدی به حالت قبلی بستگی دارد**.
-- وقتی می‌خواهید **به‌روزرسانی‌های حالت را متمرکز کنید**، مثل یک Redux کوچک.
-
----
-
-#### ۱.۲.۴ مثال مبتدی — شمارنده
-
-این کلاسیک‌ترین و ساده‌ترین مثال است.
-
-```tsx
-type Action = { type: "inc" } | { type: "dec" } | { type: "reset" };
-
-function reducer(state: number, action: Action) {
-  switch (action.type) {
-    case "inc":
-      return state + 1;
-    case "dec":
-      return state - 1;
-    case "reset":
-      return 0;
-    default:
-      return state;
-  }
-}
-
-function Counter() {
-  const [count, dispatch] = useReducer(reducer, 0);
-
-  return (
-    <>
-      <p>{count}</p>
-      <button onClick={() => dispatch({ type: "inc" })}>+</button>
-      <button onClick={() => dispatch({ type: "dec" })}>−</button>
-      <button onClick={() => dispatch({ type: "reset" })}>بازنشانی</button>
-    </>
-  );
-}
-```
-
-📝 یادداشت‌ها:
-
-- `reducer` یک **تابع خالص** است → حالت `state` و `action` را می‌گیرد → **حالت جدید** را برمی‌گرداند.
-- `dispatch` یک action را ارسال می‌کند.
-
----
-
-#### ۱.۲.۵ بهترین شیوه‌ها
-
-✅ reducer را **خالص** نگه دارید → هیچ فراخوانی API، تایمر، یا اثر جانبی.
-✅ همیشه **تمام action ها** را مدیریت کنید.
-✅ reducer را با کامپوننت هم‌مکان کنید مگر اینکه مشترک باشد.
-✅ از TypeScript استفاده کنید تا مدیریت جامع action تضمین شود.
-✅ حالت را تغییر ندهید — همیشه یک **کپی جدید** برگردانید.
-
----
-
-#### ۱.۲.۶ مثال‌های دنیای واقعی
-
-- **مبتدی** — `تغییر تم\*\*
-
-```tsx
-type ThemeAction = { type: "light" } | { type: "dark" };
-
-function themeReducer(state: "light" | "dark", action: ThemeAction) {
-  switch (action.type) {
-    case "light":
-      return "light";
-    case "dark":
-      return "dark";
-    default:
-      return state;
-  }
-}
-
-function ThemeToggle() {
-  const [theme, dispatch] = useReducer(themeReducer, "light");
-
-  return (
-    <div>
-      <p>تم فعلی: {theme}</p>
-      <button onClick={() => dispatch({ type: "light" })}>روشن</button>
-      <button onClick={() => dispatch({ type: "dark" })}>تاریک</button>
-    </div>
-  );
-}
-```
-
----
-
-- **متوسط** — `حالت فرم`
-
-فرض کنید شما یک فرم با چندین فیلد را مدیریت می‌کنید:
-
-```tsx
-type FormState = { name: string; email: string };
-type FormAction =
-  | { type: "setName"; payload: string }
-  | { type: "setEmail"; payload: string }
-  | { type: "reset" };
-
-function formReducer(state: FormState, action: FormAction): FormState {
-  switch (action.type) {
-    case "setName":
-      return { ...state, name: action.payload };
-    case "setEmail":
-      return { ...state, email: action.payload };
-    case "reset":
-      return { name: "", email: "" };
-    default:
-      return state;
-  }
-}
-
-function MyForm() {
-  const [state, dispatch] = useReducer(formReducer, {
-    name: "",
-    email: "",
-  });
-
-  return (
-    <form>
-      <input
-        value={state.name}
-        onChange={(e) => dispatch({ type: "setName", payload: e.target.value })}
-        placeholder="نام"
-      />
-      <input
-        value={state.email}
-        onChange={(e) =>
-          dispatch({ type: "setEmail", payload: e.target.value })
-        }
-        placeholder="ایمیل"
-      />
-      <button type="button" onClick={() => dispatch({ type: "reset" })}>
-        بازنشانی
-      </button>
-    </form>
-  );
-}
-```
-
----
-
-- **پیشرفته** — `سبد خرید`
-
-یک سبد خرید تجارت الکترونیک را تصور کنید که می‌توانید موارد را اضافه، حذف، یا پاک کنید.
-
-```tsx
-type Item = { id: number; name: string };
-type CartAction =
-  | { type: "add"; item: Item }
-  | { type: "remove"; id: number }
-  | { type: "clear" };
-
-function cartReducer(state: Item[], action: CartAction): Item[] {
-  switch (action.type) {
-    case "add":
-      return [...state, action.item];
-    case "remove":
-      return state.filter((item) => item.id !== action.id);
-    case "clear":
-      return [];
-    default:
-      return state;
-  }
-}
-
-function Cart() {
-  const [cart, dispatch] = useReducer(cartReducer, []);
-
-  return (
-    <div>
-      <button
-        onClick={() =>
-          dispatch({ type: "add", item: { id: Date.now(), name: "سیب" } })
-        }
-      >
-        اضافه کردن سیب
-      </button>
-      <button onClick={() => dispatch({ type: "clear" })}>پاک کردن</button>
-      <ul>
-        {cart.map((item) => (
-          <li key={item.id}>
-            {item.name}{" "}
-            <button onClick={() => dispatch({ type: "remove", id: item.id })}>
-              حذف
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-```
-
----
-
-#### ۱.۲.۷ تمرین خانگی
-
-در اینجا برخی تمرینات دنیای واقعی برای تمرین شما وجود دارد.
-
-- مبتدی
-
-  ✅ یک **تغییر تم** با `light | dark | system` با استفاده از `useReducer` بسازید.
-  ✅ ۳ دکمه برای تغییر بین این حالت‌ها رندر کنید.
-
-- متوسط
-
-  ✅ یک **فرم چندمرحله‌ای** بسازید (مثل ثبت‌نام چندمرحله‌ای).
-
-  ✅ از `useReducer` برای پیگیری اینکه کاربر در کدام مرحله است، و داده‌های فرم استفاده کنید.
-
-- پیشرفته
-
-  ✅ یک **اپلیکیشن لیست کارها** بسازید:
-
-      - اضافه کردن یک کار
-      - تغییر وضعیت تکمیل شده
-      - حذف یک کار
-      - پاک کردن همه تکمیل شده‌ها
-
-از `useReducer` برای مدیریت حالت استفاده کنید.
-
----
-
-#### ۱.۲.۸ خلاصه
-
-- `useReducer` مثل یک Redux کوچک برای یک کامپوننت واحد است.
-- عالی برای **حالت پیچیده یا وابسته**.
-- انتقالات حالت قابل پیش‌بینی و قابل آزمایش هستند.
-- همیشه reducer خود را خالص نگه دارید!
-
----
-
 ### ۱.۳ `useContext`
 
 **Context چیست؟** React Context به شما اجازه می‌دهد یک مقدار (هر داده JavaScript) را از طریق درخت کامپوننت خود بدون اینکه مجبور باشید props را به صورت دستی در هر سطح منتقل کنید، به اشتراک بگذارید. هوک `useContext` ساده‌ترین راه برای مصرف آن مقدار مشترک در یک کامپوننت تابعی است.
-
----
-
-#### ۱.۳.۱ راهنمای گام به گام
-
-۱. **ایجاد یک Context**
-
-```ts
-import { createContext } from "react";
-
-export const MyContext = createContext<ContextType>(defaultValue);
-```
-
-- **پارامتر نوع**: شکل مقدار context را تعریف کنید.
-- **مقدار پیش‌فرض**: فقط زمانی استفاده می‌شود که هیچ Provider مطابقی در بالا نباشد.
-
-۲. **ارائه Context**
-
-```tsx
-import { MyContext } from "./MyContext";
-
-function App() {
-  const sharedValue: ContextType = {
-    /* … */
-  };
-
-  return (
-    <MyContext.Provider value={sharedValue}>
-      <YourComponentTree />
-    </MyContext.Provider>
-  );
-}
-```
-
-- قسمت‌هایی از درخت خود را که نیاز به دسترسی دارند، بپیچید.
-
-۳. **مصرف با `useContext`**
-
-```tsx
-import { useContext } from "react";
-import { MyContext } from "./MyContext";
-
-function Child() {
-  const ctx = useContext(MyContext);
-  return <div>{/* از ctx اینجا استفاده کنید */}</div>;
-}
-```
-
-۴. **اختیاری: ایجاد یک هوک سفارشی**
-منطق را کپسوله کنید و DX را بهبود دهید:
-
-```ts
-export function useMyContext() {
-  const ctx = useContext(MyContext);
-  if (ctx === undefined) {
-    throw new Error("useMyContext باید درون یک MyContext.Provider استفاده شود");
-  }
-  return ctx;
-}
-```
-
----
-
-#### ۱.۳.۲ بهترین شیوه‌ها
-
-- **از تغییرات مکرر برای به‌روزرسانی‌های سریع جلوگیری کنید**
-
-  - داده‌های سریع‌التغییر (مثل موقعیت اسکرول) را در context قرار ندهید — از props یا حالت محلی استفاده کنید.
-
-- **Context ها را بر اساس نگرانی تقسیم کنید**
-
-  - به جای یک "mega-context"، context های جداگانه برای تم، احراز هویت، تنظیمات ایجاد کنید.
-
-- **به صورت ایمن تایپ کنید**
-
-  - همیشه یک مقدار پیش‌فرض خوب تایپ شده ارائه دهید یا در یک هوک سفارشی محافظت کنید.
-
----
-
-#### ۱.۳.۳ مثال‌های دنیای واقعی
-
-- مبتدی: تغییر تم
-
-```tsx
-// theme-context.tsx
-import { createContext, useContext, useState } from "react";
-
-type Theme = "light" | "dark";
-const ThemeContext = createContext<{
-  theme: Theme;
-  toggle: () => void;
-}>({ theme: "light", toggle: () => {} });
-
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
-  const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggle }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-
-export function useTheme() {
-  return useContext(ThemeContext);
-}
-
-// App.tsx
-import { ThemeProvider, useTheme } from "./theme-context";
-
-function Toolbar() {
-  const { theme, toggle } = useTheme();
-  return (
-    <button className={theme} onClick={toggle}>
-      تغییر به {theme === "light" ? "تاریک" : "روشن"}
-    </button>
-  );
-}
-
-export default function App() {
-  return (
-    <ThemeProvider>
-      <Toolbar />
-    </ThemeProvider>
-  );
-}
-```
-
----
-
-- متوسط: تغییردهنده زبان
-
-```tsx
-// language-context.tsx
-import { createContext, useContext, useState } from "react";
-
-type Lang = "en" | "fa";
-const LanguageContext = createContext<{
-  lang: Lang;
-  setLang: (l: Lang) => void;
-}>({ lang: "en", setLang: () => {} });
-
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
-  return (
-    <LanguageContext.Provider value={{ lang, setLang }}>
-      {children}
-    </LanguageContext.Provider>
-  );
-}
-
-export function useLanguage() {
-  return useContext(LanguageContext);
-}
-
-// Greeting.tsx
-import { useLanguage } from "./language-context";
-
-export function Greeting() {
-  const { lang } = useLanguage();
-  return <h1>{lang === "en" ? "Hello" : "سلام"}</h1>;
-}
-
-// استفاده در App.tsx
-import { LanguageProvider } from "./language-context";
-import { Greeting } from "./Greeting";
-
-function App() {
-  return (
-    <LanguageProvider>
-      <Greeting />
-      {/* یک انتخاب‌کننده جایی اضافه کنید */}
-    </LanguageProvider>
-  );
-}
-```
-
----
-
-- پیشرفته: احراز هویت + دریافت داده + Memo
-
-```tsx
-// auth-context.tsx
-import { createContext, useContext, useReducer, ReactNode } from "react";
-
-interface User {
-  id: string;
-  name: string;
-}
-
-type State = { user: User | null };
-type Action = { type: "LOGIN"; payload: User } | { type: "LOGOUT" };
-
-const initialState: State = { user: null };
-
-function authReducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "LOGIN":
-      return { user: action.payload };
-    case "LOGOUT":
-      return { user: null };
-    default:
-      return state;
-  }
-}
-
-interface AuthContextType {
-  user: User | null;
-  login: (u: User) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(authReducer, initialState);
-
-  const login = (u: User) => {
-    dispatch({ type: "LOGIN", payload: u });
-  };
-
-  const logout = () => {
-    dispatch({ type: "LOGOUT" });
-  };
-
-  return (
-    <AuthContext.Provider value={{ user: state.user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error("useAuth باید درون یک AuthProvider استفاده شود");
-  }
-  return ctx;
-}
-```
-
----
-
-#### ۱.۳.۴ تمرین خانگی
-
-۱. **مبتدی**
-
-- یک `CounterContext` ایجاد کنید که یک عدد و یک تابع `increment()` را نگه می‌دارد.
-- آن را در دو کامپوننت هم‌سطح مصرف کنید: یکی تعداد را نمایش می‌دهد، دیگری دکمه‌ای برای افزایش دارد.
-
-۲. **متوسط**
-
-- **تغییردهنده زبان** را گسترش دهید: یک dropdown برای انتخاب `en | fa | es` اضافه کنید، `Greeting` را برای مدیریت هر سه به‌روزرسانی کنید، و انتخاب را در `localStorage` ذخیره کنید.
-
-۳. **پیشرفته**
-
-- یک **AuthFlow** بسازید:
-
-  ۱. `AuthContext` با `login`، `logout`، `user` ایجاد کنید.
-  ۲. در ورود، یک پروفایل کاربر از یک API جعلی دریافت کنید.
-  ۳. مسیرهای خاصی را محافظت کنید (از React Router استفاده کنید).
-  ۴. اطمینان حاصل کنید که مقدار `AuthContext` memoized است.
-  ۵. یک هوک سفارشی `useRequireAuth` اضافه کنید که اگر احراز هویت نشده باشد، redirect کند.
 
 ---
 

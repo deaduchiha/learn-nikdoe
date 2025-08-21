@@ -1,0 +1,256 @@
+---
+title: ‍‍‍useContext
+icon: Network
+description: "useContext ابزاری در React است برای به‌اشتراک‌گذاری داده‌ها بین لایه‌های مختلف درخت کامپوننت بدون نیاز به prop drilling. این هوک باعث می‌شود داده‌های مشترک مثل theme، زبان، یا کاربر لاگین شده، به‌سادگی در کل برنامه در دسترس باشند."
+---
+
+## 📖 مقدمه: چرا به Context نیاز داریم؟
+
+تصور کن یک اپلیکیشن داری با این نیازها:
+
+- کاربر می‌خواهد بین **تم روشن و تاریک** سوییچ کند.
+- چندین کامپوننت درختی نیاز به دانستن **زبان انتخاب‌شده** دارند.
+- برخی بخش‌ها باید بدانند **چه کسی لاگین کرده است**.
+
+اگر بخواهی این داده‌ها را با `props` رد کنی، باید آن‌ها را از بالاترین سطح تا پایین‌ترین سطح پاس بدهی. به این مشکل می‌گویند **prop drilling** (حفاری props).
+
+Context مثل یک **ایستگاه پخش رادیویی** است:
+
+- شما در یک نقطه داده‌ها را "پخش" می‌کنی.
+- هر کامپوننتی در زیرشاخه می‌تواند با `useContext` به آن "گوش" بدهد، بدون اینکه نیاز باشد props دستی به همه پاس داده شود.
+
+---
+
+## ایجاد Context
+
+````tsx
+import { createContext } from "react";
+
+export const MyContext = createContext<ContextType>(defaultValue);
+
+
+* `ContextType`: The shape of the data you want to store in the Context.
+* `defaultValue`: Only used when there is no Provider above in the component tree.
+
+---
+
+## ارائه Context
+
+```tsx
+import { MyContext } from "./MyContext";
+
+function App() {
+  const sharedValue: ContextType = {
+    /* … */
+  };
+
+  return (
+    <MyContext.Provider value={sharedValue}>
+      <YourComponentTree />
+    </MyContext.Provider>
+  );
+}
+````
+
+Provider مثل **برج مخابراتی** است که سیگنال را برای همه‌ی فرزندان ارسال می‌کند.
+
+---
+
+## مصرف Context با useContext
+
+```tsx
+import { useContext } from "react";
+import { MyContext } from "./MyContext";
+
+function Child() {
+  const ctx = useContext(MyContext);
+  return <div>{ctx.someValue}</div>;
+}
+```
+
+---
+
+## هوک سفارشی (اختیاری ولی توصیه‌شده)
+
+```tsx
+export function useMyContext() {
+  const ctx = useContext(MyContext);
+  if (!ctx) {
+    throw new Error("useMyContext must be used within a MyContext.Provider");
+  }
+  return ctx;
+}
+```
+
+این روش باعث می‌شود همیشه type-safe و خطایابی آسان باشد.
+
+---
+
+## بهترین شیوه‌ها
+
+✅ **داده‌های سریع‌التغییر** (مثل اسکرول یا موس) را در Context نگذارید. این داده‌ها باید محلی یا در state نزدیک باشند، چون هر تغییر باعث re-render همه مصرف‌کنندگان می‌شود.
+
+✅ **Contextها را جدا نگه دارید**. به جای یک mega-context، برای تم، زبان، و auth جداگانه بسازید.
+
+✅ **همیشه type ایمن داشته باشید**. مقدار پیش‌فرض خوب و یا هوک سفارشی محافظت‌کننده اضافه کنید.
+
+✅ **Memoize کنید**. اگر value شامل object یا function است، با `useMemo` یا `useCallback` از رندرهای غیرضروری جلوگیری کنید.
+
+---
+
+## مثال‌های دنیای واقعی
+
+### ۱. تغییر تم (مبتدی)
+
+```tsx
+import { createContext, useContext, useState } from "react";
+
+type Theme = "light" | "dark";
+
+const ThemeContext = createContext<{
+  theme: Theme;
+  toggle: () => void;
+}>({ theme: "light", toggle: () => {} });
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("light");
+  const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggle }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+export function useTheme() {
+  return useContext(ThemeContext);
+}
+
+function Toolbar() {
+  const { theme, toggle } = useTheme();
+  return (
+    <button className={theme} onClick={toggle}>
+      تغییر به {theme === "light" ? "تاریک" : "روشن"}
+    </button>
+  );
+}
+```
+
+---
+
+### ۲. تغییر زبان (متوسط)
+
+```tsx
+import { createContext, useContext, useState } from "react";
+
+type Lang = "en" | "fa";
+
+const LanguageContext = createContext<{
+  lang: Lang;
+  setLang: (l: Lang) => void;
+}>({ lang: "en", setLang: () => {} });
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [lang, setLang] = useState<Lang>("en");
+  return (
+    <LanguageContext.Provider value={{ lang, setLang }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  return useContext(LanguageContext);
+}
+
+function Greeting() {
+  const { lang } = useLanguage();
+  return <h1>{lang === "en" ? "Hello" : "سلام"}</h1>;
+}
+```
+
+---
+
+### ۳. احراز هویت (پیشرفته)
+
+```tsx
+import { createContext, useContext, useReducer } from "react";
+
+interface User {
+  id: string;
+  name: string;
+}
+
+type State = { user: User | null };
+type Action = { type: "LOGIN"; payload: User } | { type: "LOGOUT" };
+
+function authReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "LOGIN":
+      return { user: action.payload };
+    case "LOGOUT":
+      return { user: null };
+    default:
+      return state;
+  }
+}
+
+const AuthContext = createContext<{
+  user: User | null;
+  login: (u: User) => void;
+  logout: () => void;
+} | null>(null);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(authReducer, { user: null });
+
+  const login = (u: User) => dispatch({ type: "LOGIN", payload: u });
+  const logout = () => dispatch({ type: "LOGOUT" });
+
+  return (
+    <AuthContext.Provider value={{ user: state.user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth باید داخل AuthProvider استفاده شود");
+  return ctx;
+}
+```
+
+---
+
+## تمرین عملی
+
+🏠 **تمرین ۱ (مبتدی)**
+یک `CounterContext` بسازید که شامل `count` و یک تابع `increment()` باشد.
+دو کامپوننت هم‌سطح بسازید: یکی عدد را نمایش دهد، دیگری دکمه‌ی افزایش داشته باشد.
+
+🏠 **تمرین ۲ (متوسط)**
+Context زبان را گسترش دهید:
+
+- یک dropdown اضافه کنید برای انتخاب `en | fa | es`.
+- پیام خوش‌آمد را برای هر سه زبان تغییر دهید.
+- زبان انتخاب‌شده را در `localStorage` ذخیره کنید و در بارگذاری مجدد بازیابی کنید.
+
+🏠 **تمرین ۳ (پیشرفته)**
+یک سیستم Auth بسازید:
+
+- Context با `login`, `logout`, و `user` ایجاد کنید.
+- هنگام ورود، اطلاعات کاربر را از یک API جعلی دریافت کنید.
+- از React Router برای محافظت از مسیرهای خاص استفاده کنید.
+- یک هوک سفارشی `useRequireAuth` اضافه کنید که اگر کاربر لاگین نکرده بود، او را redirect کند.
+
+---
+
+## 🎯 جمع‌بندی نهایی
+
+- Context بهترین راه برای **اشتراک داده‌ی مشترک** بین چندین لایه است بدون prop drilling.
+- Provider داده‌ها را پخش می‌کند، مصرف‌کننده‌ها با useContext به آن گوش می‌دهند.
+- برای داده‌های زیاد و سریع تغییر، Context مناسب نیست (performance hit).
+- Contextها را جدا نگه دارید، امن تایپ کنید، و مقدارشان را memoize کنید.
+- Context برای theme، زبان، و auth سه نمونه‌ی کلاسیک و پرکاربرد است.

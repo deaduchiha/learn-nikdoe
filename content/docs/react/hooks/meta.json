@@ -4,9 +4,9 @@
   "defaultOpen": false,
   "pages": [
     "use-state",
+    "use-reducer",
+    "use-context",
     "useEffect",
-    "useContext",
-    "useReducer",
     "useCallback",
     "useMemo",
     "useRef",
