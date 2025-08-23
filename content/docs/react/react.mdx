@@ -4,7 +4,7 @@ icon: NotebookPen
 description: بیاموزید ری‌اکت چیست، چه فناوری‌هایی پشت آن است و پشت‌صحنه چگونه کار می‌کند.
 ---
 
-## 1 · ری‌اکت چیست؟
+## ری‌اکت چیست؟
 
 ری‌اکت یک **کتابخانهٔ جاوااسکریپت** برای ساخت رابط‌های کاربری است.  
 به شما کمک می‌کند برای وب‌سایت‌ها و وب‌اپ‌ها رابط‌های کاربری سریع و تعاملی بسازید.  
@@ -17,7 +17,7 @@ description: بیاموزید ری‌اکت چیست، چه فناوری‌ها�
 
 ---
 
-## 2 · فناوری‌هایی که ری‌اکت به‌کار می‌گیرد
+## فناوری‌هایی که ری‌اکت به‌کار می‌گیرد
 
 | لایه       | فناوری                          | وظیفه‌اش چیست                                                |
 | ---------- | ------------------------------- | ------------------------------------------------------------ |
@@ -31,13 +31,13 @@ description: بیاموزید ری‌اکت چیست، چه فناوری‌ها�
 
 ---
 
-## 3 · ری‌اکت پشت‌صحنه چگونه کار می‌کند
+## ری‌اکت پشت‌صحنه چگونه کار می‌کند
 
 در این بخش، چرخهٔ رندر را به‌صورت مرحله‌به‌مرحله، ساختاریافته و قابل‌درک توضیح می‌دهیم.
 
 ---
 
-## 🔹 مرحلهٔ ۱: نوشتن JSX
+### نوشتن JSX
 
 JSX خودش جاوااسکریپت معتبر نیست — مرورگر مستقیم آن را متوجه نمی‌شود.
 
@@ -47,31 +47,31 @@ const element = <h1>Hello React!</h1>;
 
 ---
 
-## 🔄 مرحلهٔ ۲: بابل JSX را به جاوااسکریپت تبدیل می‌کند
+### تبدیل JSX به JavaScript با Babel
 
 بابل JSX را به فراخوانی‌های معمولی تابع تبدیل می‌کند (مثل `React.createElement`) تا مرورگر بتواند بفهمد چه باید بسازد.
 
 ---
 
-## 🌳 مرحلهٔ ۳: ساخت درخت Virtual DOM
+### Virtual DOM
 
 به‌جای لمس‌کردن مستقیم DOM واقعی (که هزینه‌بر است)، ری‌اکت یک نمایش سبک از رابط کاربری به‌صورت **درختی از اشیا** می‌سازد — چیزی که به آن **Virtual DOM** می‌گوییم.
 
 ---
 
-## 🧮 مرحلهٔ ۴: محاسبهٔ تفاوت‌ها (Diffing)
+### Diffing
 
 ری‌اکت نسخهٔ قبلی و جدید درخت را مقایسه می‌کند تا **کمترین تغییرات لازم** برای رسیدن به وضعیت جدید را پیدا کند.
 
 ---
 
-## 🧱 مرحلهٔ ۵: ری‌کانسیلیشن (آشتی‌دادن)
+### React Reconciliation
 
 بر اساس تفاوت‌ها، ری‌اکت تصمیم می‌گیرد کدام گره‌ها ایجاد/به‌روزرسانی/حذف شوند — بدون نیاز به بازسازی همه‌چیز.
 
 ---
 
-## ⏱️ مرحلهٔ ۶: زمان‌بندی با Fiber
+### Fibr
 
 موتور **Fiber** در ری‌اکت به‌روزرسانی‌ها را به قطعات کوچکی به‌نام **واحدهای کار** تقسیم می‌کند.
 
@@ -85,7 +85,7 @@ const element = <h1>Hello React!</h1>;
 
 ---
 
-## ✅ مرحلهٔ ۸: اِعمال تغییرات DOM
+### اِعمال تغییرات DOM
 
 در نهایت، ری‌اکت با استفاده از **APIهای استاندارد DOM** تغییرات را اِعمال می‌کند:
 
@@ -101,60 +101,64 @@ element.textContent = "Hello World!";
 
 ---
 
-## 🔁 جریان دیداری
+### مرور کلی
 
-```
-JSX
-▼
-Babel → React.createElement()
-▼
-Virtual DOM Tree
-▼
-Diff (Old vs New)
-▼
-Reconciliation (what to add/update/remove)
-▼
-Commit to Real DOM
-```
+<Mermaid
+  chart="
+graph TD;
+A[JSX];
+B[Babel → React.createElement];
+C[Virtual DOM Tree];
+D[Diff: Old vs New];
+E[Reconciliation: Add / Update / Remove];
+F[Commit to Real DOM];
+
+A --> B;
+B --> C;
+C --> D;
+D --> E;
+E --> F;
+"
+/>
 
 ---
 
-## 4 · یک «مینی‌ری‌اکت» ۲۰ خطی برای درک شهودی
+#### یک «مینی‌ری‌اکت» ۲۰ خطی برای درک شهودی
 
 کد زیر یک نسخهٔ **بسیار کوچک و آموزشی** از ایدهٔ اصلی ری‌اکت است (برای تولید مناسب نیست!)؛ هدف صرفاً روشن کردن مفهوم **Virtual DOM** و **رندر درختی** است:
 
 ```js
-// 1. ایجاد "element"
+// 1. Create an "element"
 function h(type, props, ...children) {
   return { type, props: props || {}, children };
 }
 
 /**
- * یک «گرهٔ مجازی» را به DOM واقعی تبدیل کن و داخل یک والد قرار بده.
- * @param {Object|string} node   گرهٔ مجازی یا متن ساده.
- * @param {HTMLElement}   parent عنصر DOM والد که محتوای جدید را دریافت می‌کند.
+ * Convert a “virtual node” into a real DOM node and insert it into a parent.
+ * @param {Object|string} node   Virtual node or plain text.
+ * @param {HTMLElement}   parent DOM parent element that receives the new content.
  */
 function render(node, parent) {
-  // اگر مقدار متنی است، یک TextNode بساز و اضافه کن، سپس تمام.
+  // If the value is text, create a TextNode and append it, then finish.
   if (typeof node === "string") {
     parent.appendChild(document.createTextNode(node));
     return;
   }
 
-  // 2️⃣ ساخت یک عنصر واقعی DOM مثل <div>، <button> و...
+  // 2️⃣ Create a real DOM element such as <div>, <button>, etc.
   const el = document.createElement(node.type);
 
-  // 3️⃣ کپی‌کردن هر پراپ (className، onclick و...) روی عنصر جدید
+  // 3️⃣ Copy each prop (className, onclick, etc.) onto the new element
   Object.entries(node.props).forEach(([k, v]) => (el[k] = v));
 
-  // 4️⃣ پیمایش همهٔ فرزندان، تخت‌کردن آرایه‌های تو‌در‌تو، و رندر آن‌ها
+  // 4️⃣ Traverse all children, flatten nested arrays, and render them
   node.children.flat().forEach((child) => render(child, el));
 
-  // 5️⃣ پس از آماده‌شدن همهٔ فرزندان، این عنصر را به والدش اضافه کن
+  // 5️⃣ After all children are ready, append this element to its parent
   parent.appendChild(el);
 }
 
-// استفاده
+// Usage
 const tree = h(
   "ul",
   { className: "list" },
@@ -175,7 +179,7 @@ render(tree, document.getElementById("root"));
 
 ---
 
-## 5 · تمرین خانگی 🏡
+#### تمرین خانگی
 
 1. **بازی با Virtual DOM**
 
