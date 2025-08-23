@@ -1,7 +1,7 @@
 {
   "title": "هوک‌ها",
   "icon": "Webhook",
-  "defaultOpen": false,
+  "defaultOpen": true,
   "pages": [
     "use-state",
     "use-reducer",
