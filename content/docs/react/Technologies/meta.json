@@ -1,6 +1,6 @@
 {
   "title": "تکنولوژی ها",
   "icon": "Computer",
-  "defaultOpen": false,
+  "defaultOpen": true,
   "pages": ["es6", "jsx", "babel", "bundler", "runtime", "scheduler", "events"]
 }

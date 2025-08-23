@@ -1,0 +1,679 @@
+---
+title: تایپ‌اسکریپت
+icon: Type
+description: TypeScript یک زبان برنامه‌نویسی با تایپ استاتیک است که یک فوق‌مجموعه از JavaScript محسوب می‌شود. این زبان توسط مایکروسافت توسعه یافته و نگهداری می‌شود. TypeScript برای حل چالش‌های ساخت برنامه‌های JavaScript در مقیاس بزرگ ایجاد شده و ویژگی‌هایی مانند تایپ‌های اختیاری، کلاس‌ها، رابط‌ها و سایر قابلیت‌ها را به زبان اضافه می‌کند. یادگیری TypeScript به شما کمک می‌کند تا کدهای JavaScript خود را با اطمینان بیشتری بنویسید و از خطاهای رایج در زمان توسعه جلوگیری کنید.
+---
+
+> **مزایای اصلی استفاده از TypeScript عبارتند از:**
+>
+> - Type Safety
+> - ابزارهای بهبود‌یافته
+> - قابلیت نگهداری بهتر
+> - سازگاری با نسخه‌های قبلی
+
+## مقدمه
+
+TypeScript یک زبان برنامه‌نویسی قدرتمند است که JavaScript را با سیستم تایپ استاتیک تقویت می‌کند. این زبان به شما امکان می‌دهد تا کدهای JavaScript خود را با اطمینان بیشتری بنویسید و از خطاهای رایج در زمان توسعه جلوگیری کنید.
+
+## پیش‌نیازها
+
+قبل از شروع یادگیری TypeScript، شما باید:
+
+- **JavaScript**: آشنایی کامل با مفاهیم JavaScript
+- **ES6+ Features**: آشنایی با ویژگی‌های جدید JavaScript
+- **Node.js**: نصب Node.js و npm
+- **Editor**: یک ویرایشگر کد مناسب (VS Code توصیه می‌شود)
+
+## نصب و راه‌اندازی
+
+### نصب TypeScript
+
+```bash
+# Global installation of TypeScript
+bun add -g typescript
+
+# Or install locally in your project
+bun add -D typescript
+```
+
+### فایل پیکربندی (tsconfig.json)
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
+```
+
+## مفاهیم پایه
+
+### 1. تایپ‌های پایه
+
+```typescript
+// Basic types
+let name: string = "Alireza";
+let age: number = 25;
+let isStudent: boolean = true;
+let hobbies: string[] = ["read", "write"];
+let tuple: [string, number] = ["Alireza", 25];
+
+// The 'any' type (avoid using unless absolutely necessary)
+let anything: any = "anything";
+
+// The 'unknown' type (safer than 'any')
+let userInput: unknown;
+```
+
+### 2. Union Types
+
+```typescript
+let id: string | number;
+id = "abc123";
+id = 123;
+
+// Literal types
+type Status = "pending" | "approved" | "rejected";
+let currentStatus: Status = "pending";
+```
+
+### 3. Optional and Null Types
+
+```typescript
+// Optional type
+interface User {
+  name: string;
+  email?: string; // optional
+  age: number | null; // can be null
+}
+
+// Non-null assertion operator
+let userInput: string | null = getUserInput();
+let userInputLength = userInput!.length; // ! means we are sure it's not null
+```
+
+## رابط‌ها (Interfaces)
+
+### تعریف رابط‌ها
+
+```typescript
+interface Person {
+  readonly id: number;
+  name: string;
+  age: number;
+  email?: string;
+
+  // Methods
+  greet(): string;
+}
+
+// Interface implementation
+class Student implements Person {
+  constructor(
+    public readonly id: number,
+    public name: string,
+    public age: number
+  ) {}
+
+  greet(): string {
+    return `Hello, I am ${this.name}`;
+  }
+}
+```
+
+### گسترش رابط‌ها
+
+```typescript
+interface Animal {
+  name: string;
+  makeSound(): void;
+}
+
+interface Dog extends Animal {
+  breed: string;
+  bark(): void;
+}
+
+class GermanShepherd implements Dog {
+  constructor(public name: string, public breed: string) {}
+
+  makeSound(): void {
+    console.log("Woof!");
+  }
+
+  bark(): void {
+    this.makeSound();
+  }
+}
+```
+
+## کلاس‌ها
+
+### تعریف کلاس
+
+```typescript
+class Vehicle {
+  // Properties
+  private brand: string;
+  protected model: string;
+  public year: number;
+
+  // constructor
+  constructor(brand: string, model: string, year: number) {
+    this.brand = brand;
+    this.model = model;
+    this.year = year;
+  }
+
+  // Methods
+  public getInfo(): string {
+    return `${this.brand} ${this.model} ${this.year}`;
+  }
+
+  // Static Methods
+  static createFromYear(year: number): Vehicle {
+    return new Vehicle("Unknown", "Unknown", year);
+  }
+}
+
+// Inheritance
+class Car extends Vehicle {
+  private color: string;
+
+  constructor(brand: string, model: string, year: number, color: string) {
+    super(brand, model, year);
+    this.color = color;
+  }
+
+  getInfo(): string {
+    return `${super.getInfo()} - Color: ${this.color}`;
+  }
+}
+```
+
+### Access Modifiers
+
+```typescript
+class Example {
+  public publicProperty: string; // accessible from everywhere
+  private privateProperty: string; // only accessible within the class
+  protected protectedProperty: string; // accessible within the class and subclasses
+  readonly readonlyProperty: string; // read-only
+}
+```
+
+## Generics
+
+### تعریف Generic Functions
+
+```typescript
+// Simple generic function
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+// Usage
+let output1 = identity<string>("hello");
+let output2 = identity("hello"); // type inference
+
+// Generic Interface
+interface GenericIdentityFn<T> {
+  (arg: T): T;
+}
+
+// Generic Class
+class GenericNumber<T> {
+  zeroValue: T;
+  add: (x: T, y: T) => T;
+}
+
+// Generic Constraints
+interface Lengthwise {
+  length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+```
+
+## Advanced Types
+
+### 1. Intersection Types
+
+```typescript
+interface HasName {
+  name: string;
+}
+
+interface HasAge {
+  age: number;
+}
+
+type Person = HasName & HasAge;
+
+let person: Person = {
+  name: "Alireza",
+  age: 25,
+};
+```
+
+### 2. Conditional Types
+
+```typescript
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+type T0 = NonNullable<string | number | null>; // string | number
+type T1 = NonNullable<string[] | null | undefined>; // string[]
+```
+
+### 3. Mapped Types
+
+```typescript
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
+// Usage
+interface Todo {
+  title: string;
+  description: string;
+}
+
+type ReadonlyTodo = Readonly<Todo>;
+type PartialTodo = Partial<Todo>;
+```
+
+### 4. Template Literal Types
+
+```typescript
+type EmailLocaleIDs = "welcome_email" | "email_heading";
+type FooterLocaleIDs = "footer_title" | "footer_sendoff";
+
+type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`;
+// "welcome_email_id" | "email_heading_id" | "footer_title_id" | "footer_sendoff_id"
+```
+
+## Utility Types
+
+### تایپ‌های پرکاربرد
+
+```typescript
+// Partial<T> - all properties optional
+interface Todo {
+  title: string;
+  description: string;
+}
+
+type PartialTodo = Partial<Todo>;
+// { title?: string; description?: string; }
+
+// Required<T> - all properties required
+type RequiredTodo = Required<PartialTodo>;
+
+// Pick<T, K> - select specific properties
+type TodoTitle = Pick<Todo, "title">;
+
+// Omit<T, K> - remove specific properties
+type TodoWithoutDescription = Omit<Todo, "description">;
+
+// Record<K, T> - create an object with specific keys
+type CatInfo = {
+  age: number;
+  breed: string;
+};
+
+type CatName = "miffy" | "boris" | "mordred";
+const cats: Record<CatName, CatInfo> = {
+  miffy: { age: 10, breed: "Persian" },
+  boris: { age: 5, breed: "Maine Coon" },
+  mordred: { age: 16, breed: "British Shorthair" },
+};
+```
+
+## Decorators
+
+### تعریف و استفاده از Decorators
+
+```typescript
+// Decorator Factory
+function log(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  const method = descriptor.value;
+
+  descriptor.value = function (...args: any[]) {
+    console.log(`Calling ${propertyKey} with:`, args);
+    const result = method.apply(this, args);
+    console.log(`Result:`, result);
+    return result;
+  };
+
+  return descriptor;
+}
+
+class Calculator {
+  @log
+  add(a: number, b: number): number {
+    return a + b;
+  }
+}
+
+// Class Decorator
+function sealed(constructor: Function) {
+  Object.seal(constructor);
+  Object.seal(constructor.prototype);
+}
+
+@sealed
+class Greeter {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+  greet() {
+    return "Hello, " + this.greeting;
+  }
+}
+```
+
+## Modules
+
+### Export/Import
+
+```typescript
+// math.ts
+export const PI = 3.14159;
+export function add(a: number, b: number): number {
+  return a + b;
+}
+
+export default class Calculator {
+  add(a: number, b: number): number {
+    return a + b;
+  }
+}
+
+// main.ts
+import Calculator, { PI, add } from "./math";
+import * as MathUtils from "./math";
+
+// Usage
+const calc = new Calculator();
+const result = add(5, 3);
+console.log(PI);
+```
+
+## Namespaces
+
+### تعریف Namespace
+
+```typescript
+namespace Validation {
+  export interface StringValidator {
+    isValid(s: string): boolean;
+  }
+
+  export class LettersOnlyValidator implements StringValidator {
+    isValid(s: string): boolean {
+      return /^[A-Za-z]+$/.test(s);
+    }
+  }
+}
+
+// Usage
+let validators: { [s: string]: Validation.StringValidator } = {};
+validators["Letters only"] = new Validation.LettersOnlyValidator();
+```
+
+## Type Guards
+
+### بررسی تایپ در زمان اجرا
+
+```typescript
+// typeof type guard
+function processValue(value: string | number) {
+  if (typeof value === "string") {
+    return value.toUpperCase();
+  } else {
+    return value.toFixed(2);
+  }
+}
+
+// instanceof type guard
+function processVehicle(vehicle: Vehicle | Car) {
+  if (vehicle instanceof Car) {
+    return vehicle.getInfo();
+  } else {
+    return vehicle.getInfo();
+  }
+}
+
+// Custom type guard
+function isString(value: any): value is string {
+  return typeof value === "string";
+}
+
+function processInput(input: unknown) {
+  if (isString(input)) {
+    return input.toUpperCase();
+  }
+  return "Invalid input";
+}
+```
+
+## Error Handling
+
+### مدیریت خطاها
+
+```typescript
+class CustomError extends Error {
+  constructor(
+    message: string,
+    public statusCode: number,
+    public code?: string
+  ) {
+    super(message);
+    this.name = "CustomError";
+  }
+}
+
+function divide(a: number, b: number): number {
+  if (b === 0) {
+    throw new CustomError("Division by zero", 400, "DIVIDE_BY_ZERO");
+  }
+  return a / b;
+}
+
+// Usage with try-catch
+try {
+  const result = divide(10, 0);
+} catch (error) {
+  if (error instanceof CustomError) {
+    console.error(`Error ${error.code}: ${error.message}`);
+  } else {
+    console.error("Unknown error occurred");
+  }
+}
+```
+
+## Best Practices
+
+### 1. تایپ‌های دقیق
+
+```typescript
+// ❌ Bad
+let data: any = getData();
+
+// ✅ Good
+interface UserData {
+  id: number;
+  name: string;
+  email: string;
+}
+let data: UserData = getData();
+```
+
+### 2. استفاده از const assertions
+
+```typescript
+// ❌ Bad
+const colors = ["red", "green", "blue"]; // string[]
+
+// ✅ Good
+const colors = ["red", "green", "blue"] as const; // readonly ["red", "green", "blue"]
+```
+
+### 3. Strict Mode
+
+```typescript
+// in tsconfig.json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
+  }
+}
+```
+
+## پروژه‌های عملی
+
+### 1. Todo App with TypeScript
+
+```typescript
+interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  createdAt: Date;
+}
+
+class TodoManager {
+  private todos: Todo[] = [];
+
+  addTodo(title: string): Todo {
+    const todo: Todo = {
+      id: Date.now(),
+      title,
+      completed: false,
+      createdAt: new Date(),
+    };
+    this.todos.push(todo);
+    return todo;
+  }
+
+  getTodos(): Todo[] {
+    return [...this.todos];
+  }
+
+  toggleTodo(id: number): void {
+    const todo = this.todos.find((t) => t.id === id);
+    if (todo) {
+      todo.completed = !todo.completed;
+    }
+  }
+
+  deleteTodo(id: number): boolean {
+    const index = this.todos.findIndex((t) => t.id === id);
+    if (index !== -1) {
+      this.todos.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+}
+```
+
+### 2. API Client با TypeScript
+
+```typescript
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message: string;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+class ApiClient {
+  private baseUrl: string;
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+
+  async get<T>(endpoint: string): Promise<ApiResponse<T>> {
+    const response = await fetch(`${this.baseUrl}${endpoint}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async post<T>(endpoint: string, data: any): Promise<ApiResponse<T>> {
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  }
+}
+
+// Usage
+const apiClient = new ApiClient("https://api.example.com");
+const users = await apiClient.get<User[]>("/users");
+```
+
+## منابع یادگیری
+
+### 1. مستندات رسمی
+
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [TypeScript Playground](https://www.typescriptlang.org/play)
+
+### 2. دوره‌های آنلاین
+
+- TypeScript Fundamentals
+- Advanced TypeScript Patterns
+- TypeScript for React Developers
+
+### 3. کتاب‌ها
+
+- "Programming TypeScript" by Boris Cherny
+- "TypeScript in 50 Lessons" by Stefan Baumgartner
+
+### 4. پروژه‌های تمرینی
+
+- تبدیل پروژه‌های JavaScript موجود به TypeScript
+- ساخت API با Express.js و TypeScript
+- توسعه اپلیکیشن React با TypeScript
+
+## نتیجه‌گیری
+
+TypeScript یک ابزار قدرتمند برای توسعه‌دهندگان JavaScript است که با اضافه کردن سیستم تایپ استاتیک، کدهای شما را ایمن‌تر و قابل نگهداری‌تر می‌کند. یادگیری TypeScript نه تنها مهارت‌های برنامه‌نویسی شما را بهبود می‌بخشد، بلکه فرصت‌های شغلی جدیدی نیز برای شما فراهم می‌آورد.
+
+با تمرین مداوم و کار بر روی پروژه‌های عملی، می‌توانید به سرعت در TypeScript مهارت پیدا کنید و از مزایای آن در پروژه‌های واقعی بهره‌مند شوید.

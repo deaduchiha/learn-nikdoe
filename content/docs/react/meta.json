@@ -1,6 +1,6 @@
 {
   "title": "شروع ری‌اکت",
   "icon": "Flower2",
-  "defaultOpen": true,
+  "defaultOpen": false,
   "pages": ["react", "Technologies", "about-hooks", "hooks", "projects"]
 }

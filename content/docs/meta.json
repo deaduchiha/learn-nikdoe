@@ -1,3 +1,11 @@
 {
-  "pages": ["index", "roots", "trunk", "big-branch", "branches", "react"]
+  "pages": [
+    "index",
+    "introduction",
+    "html",
+    "cascading-style-sheets",
+    "javascript",
+    "typescript",
+    "react"
+  ]
 }
