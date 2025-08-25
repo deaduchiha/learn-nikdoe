@@ -1,0 +1,6 @@
+# Goals
+
+I want to have a SaaS web application for student management, and this are my And these are my current goals: Better management of student tuition fees, Management of completed student assignments, Management of class schedules and their status (whether the class was held or not), Student feedback, Ability to send automated/introductory SMS messages to the student, Class schedule list; managing which students are enrolled in which class, View student history/records, The ability to donate to the teacher.
+The technologies I want to use are Hono, SQLite D1, and Drizzle ORM. The website currently has only one role, which is "teacher," but it must be designed to be flexible enough to allow for the addition of other roles in the future. I want the website to be built in a way that allows for the possibility of adding new features in the future. And it should be set up so that there are plans available for customers to purchase. I also want there to a free three-month plan. In total, there should be two types of paid plans: a six-month plan and a yearly plan. Additionally, there should be a plan that offers three months free for users who are signing up for the first time.
+
+Based on what I've mentioned, outline the structure for building this SaaS system for me.
