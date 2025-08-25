@@ -1,5 +1,6 @@
 {
   "title": "جاوا اسکریپت",
   "icon": "Blend",
-  "defaultOpen": false
+  "defaultOpen": false,
+  "pages": ["javascript", "fetch-apis-network", "package-manager"]
 }
