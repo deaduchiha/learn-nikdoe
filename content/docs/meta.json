@@ -2,7 +2,7 @@
   "pages": [
     "index",
     "tools",
-    "html",
+    "allyHTML",
     "cascading-style-sheets",
     "javascript",
     "typescript",

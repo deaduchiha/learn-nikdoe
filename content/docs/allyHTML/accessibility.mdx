@@ -1,0 +1,733 @@
+---
+title: Accessibility
+icon: Accessibility
+description: راهنمای کامل و دوستانه برای ساخت وب‌سایت‌هایی که همه افراد می‌توانند استفاده کنند
+---
+
+> **هدف ما**  
+> از مفاهیم پایه شروع کنید، گام به گام پیش بروید، و در نهایت وب‌سایت‌هایی بسازید که برای _همه_ افراد قابل دسترسی باشد.
+
+---
+
+## دسترسی‌پذیری چیست و چرا مهم است؟
+
+دسترسی‌پذیری یعنی طراحی وب‌سایت‌ها به گونه‌ای که افراد با توانایی‌های مختلف بتوانند از آن‌ها استفاده کنند. این شامل افرادی است که:
+
+- از صفحه‌خوان‌ها استفاده می‌کنند
+- فقط با کیبورد کار می‌کنند
+- مشکلات بینایی دارند
+- مشکلات شنوایی دارند
+- مشکلات حرکتی دارند
+- مشکلات شناختی دارند
+
+**چرا این موضوع مهم است؟**
+
+- **انسانیت**: از هر ۵ کاربر، ۱ نفر به ابزارهای کمکی نیاز دارد
+- **قانون**: در بسیاری از کشورها، دسترسی‌پذیری اجباری است
+- **تجارت**: سایت‌های قابل دسترس، کاربران بیشتری دارند
+- **سئو**: HTML تمیز و معنادار به موتورهای جستجو کمک می‌کند
+
+---
+
+## مفاهیم پایه که باید بدانید
+
+قبل از شروع، این مفاهیم را درک کنید:
+
+### HTML معنادار (Semantic HTML)
+
+استفاده از تگ‌های مناسب برای محتوا، نه فقط برای ظاهر:
+
+```html
+<!-- Bad: for appearance only -->
+<div class="title">Page Title</div>
+
+<!-- Good: semantic -->
+<h1>Page Title</h1>
+```
+
+### ساختار منطقی
+
+محتوا باید ترتیب منطقی داشته باشد:
+
+```html
+<h1>Main Title</h1>
+<h2>Section One</h2>
+<h3>Subsection</h3>
+<h2>Section Two</h2>
+```
+
+### ناوبری با کیبورد
+
+همه عناصر باید با Tab قابل دسترسی باشند:
+
+```html
+<!-- Bad: Not accessible -->
+<div onclick="submitForm()">send</div>
+
+<!-- Good: Accessible -->
+<button onclick="submitForm()">send</button>
+```
+
+---
+
+## سطح اول: اصول پایه دسترسی‌پذیری
+
+### متن جایگزین برای تصاویر
+
+هر تصویر باید متن جایگزین داشته باشد تا صفحه‌خوان‌ها بتوانند آن را توصیف کنند:
+
+```html
+<!-- Decorative image -->
+<img src="decoration.jpg" alt="" />
+
+<!-- Content image -->
+<img
+  src="chart.jpg"
+  alt="Monthly sales chart showing a 20% increase in revenue"
+/>
+
+<!-- Complex image -->
+<img src="complex-diagram.jpg" alt="Company organizational chart" />
+<figcaption>
+  The organizational structure consists of 5 main departments: Management,
+  Sales, Support, Development, and Finance
+</figcaption>
+```
+
+**نکات مهم:**
+
+- برای تصاویر تزئینی، `alt=""` بگذارید
+- برای تصاویر محتوایی، محتوا را توصیف کنید
+- برای تصاویر پیچیده، از `<figcaption>` استفاده کنید
+
+### عناوین منطقی
+
+عناوین باید ترتیب منطقی داشته باشند:
+
+```html
+<h1>Main Page Title</h1>
+<h2>Section One</h2>
+<h3>Subsection 1</h3>
+<h3>Subsection 2</h3>
+<h2>Section Two</h2>
+<h3>Subsection 3</h3>
+```
+
+**قوانین طلایی:**
+
+- فقط یک `<h1>` در هر صفحه
+- از `<h2>` تا `<h6>` را به ترتیب استفاده کنید
+- هیچ سطحی را نپرید
+
+### برچسب‌های فرم
+
+هر ورودی فرم باید برچسب واضح داشته باشد:
+
+```html
+<!-- Simple method -->
+<label for="username">Username:</label>
+<input id="username" type="text" name="username" />
+
+<!-- Advanced method -->
+<div class="form-group">
+  <label for="email">Email:</label>
+  <input
+    id="email"
+    type="email"
+    name="email"
+    required
+    aria-describedby="email-help"
+  />
+  <small id="email-help">Enter a valid email</small>
+</div>
+```
+
+**ویژگی‌های مهم:**
+
+- `for` در `<label>` باید با `id` در `<input>` مطابقت کند
+- از `aria-describedby` برای توضیحات اضافی استفاده کنید
+- از `required` برای فیلدهای اجباری استفاده کنید
+
+### کنتراست رنگ
+
+متن باید روی پس‌زمینه به اندازه کافی قابل خواندن باشد:
+
+```css
+/* Good contrast */
+.text-dark {
+  color: #333333;
+  background-color: #ffffff;
+}
+
+/* Excellent contrast */
+.text-excellent {
+  color: #000000;
+  background-color: #ffffff;
+}
+```
+
+**نسبت‌های کنتراست:**
+
+- متن معمولی: حداقل ۴.۵:۱
+- متن بزرگ: حداقل ۳:۱
+- از ابزارهای آنلاین برای تست استفاده کنید
+
+### مثال کامل سطح اول
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample Page - Level One Accessibility</title>
+  </head>
+  <body>
+    <header>
+      <h1>Sample Website</h1>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home">
+        <h2>Welcome</h2>
+        <p>This is an example of an accessible page.</p>
+
+        <img
+          src="welcome-image.jpg"
+          alt="Welcome image showing people shaking hands"
+        />
+      </section>
+
+      <section id="contact">
+        <h2>Contact Form</h2>
+        <form>
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input id="name" type="text" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input id="email" type="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Sample Website</p>
+    </footer>
+  </body>
+</html>
+```
+
+---
+
+## سطح دوم: تکنیک‌های پیشرفته
+
+### نشانه‌های صفحه (Landmarks)
+
+از تگ‌های معنادار برای ساختار صفحه استفاده کنید:
+
+```html
+<header>
+  <h1>Site Title</h1>
+  <nav aria-label="Main menu">
+    <!-- Menu -->
+  </nav>
+</header>
+
+<main id="main-content">
+  <!-- Main content -->
+</main>
+
+<aside aria-label="Sidebar information">
+  <!-- Sidebar content -->
+</aside>
+
+<footer>
+  <!-- Footer -->
+</footer>
+```
+
+**مزایای landmarks:**
+
+- صفحه‌خوان‌ها می‌توانند سریع بین بخش‌ها حرکت کنند
+- کاربران کیبورد می‌توانند به بخش‌های مختلف بپرند
+- ساختار صفحه واضح‌تر می‌شود
+
+### لینک پرش (Skip Links)
+
+لینک‌هایی که به کاربران کیبورد کمک می‌کنند مستقیماً به محتوای اصلی بروند:
+
+```html
+<!-- در ابتدای body -->
+<a href="#main-content" class="skip-link">پرش به محتوای اصلی</a>
+
+<!-- استایل CSS -->
+<style>
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+</style>
+```
+
+### فرم‌های پیشرفته
+
+فرم‌های بهتر با گروه‌بندی و اعتبارسنجی:
+
+```html
+<form novalidate>
+  <fieldset>
+    <legend>اطلاعات شخصی</legend>
+
+    <div class="form-group">
+      <label for="first-name">نام:</label>
+      <input
+        id="first-name"
+        type="text"
+        name="firstName"
+        required
+        aria-describedby="name-error"
+      />
+      <div id="name-error" class="error-message" role="alert"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="last-name">نام خانوادگی:</label>
+      <input
+        id="last-name"
+        type="text"
+        name="lastName"
+        required
+        aria-describedby="lastname-error"
+      />
+      <div id="lastname-error" class="error-message" role="alert"></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>اطلاعات تماس</legend>
+
+    <div class="form-group">
+      <label for="phone">تلفن:</label>
+      <input
+        id="phone"
+        type="tel"
+        name="phone"
+        pattern="[0-9]{11}"
+        aria-describedby="phone-help"
+      />
+      <small id="phone-help">شماره ۱۱ رقمی وارد کنید</small>
+    </div>
+  </fieldset>
+
+  <button type="submit">ثبت اطلاعات</button>
+</form>
+```
+
+### مدیریت فوکوس
+
+فوکوس باید همیشه قابل مشاهده باشد:
+
+```css
+/* فوکوس قابل مشاهده */
+:focus-visible {
+  outline: 3px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* حذف فوکوس پیش‌فرض فقط برای موشواره */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* استایل برای دکمه‌ها */
+button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.3);
+}
+```
+
+### مدیریت خطاها
+
+خطاها باید به همه کاربران اعلام شوند:
+
+```html
+<div class="form-group">
+  <label for="email">ایمیل:</label>
+  <input
+    id="email"
+    type="email"
+    name="email"
+    required
+    aria-invalid="false"
+    aria-describedby="email-error"
+  />
+  <div
+    id="email-error"
+    class="error-message"
+    role="alert"
+    aria-live="polite"
+  ></div>
+</div>
+```
+
+```javascript
+// اعتبارسنجی با جاوااسکریپت
+function validateEmail(email) {
+  const emailInput = document.getElementById("email");
+  const errorDiv = document.getElementById("email-error");
+
+  if (!email.validity.valid) {
+    emailInput.setAttribute("aria-invalid", "true");
+    errorDiv.textContent = "لطفاً ایمیل معتبر وارد کنید";
+    errorDiv.classList.add("show");
+  } else {
+    emailInput.setAttribute("aria-invalid", "false");
+    errorDiv.textContent = "";
+    errorDiv.classList.remove("show");
+  }
+}
+```
+
+---
+
+## سطح سوم: تکنیک‌های پیشرفته
+
+### مناطق زنده (Live Regions)
+
+برای اطلاع‌رسانی تغییرات بدون تازه‌سازی صفحه:
+
+```html
+<!-- منطقه زنده برای پیام‌ها -->
+<div
+  id="status-messages"
+  aria-live="polite"
+  aria-atomic="true"
+  class="status-area"
+>
+  <!-- پیام‌ها اینجا نمایش داده می‌شوند -->
+</div>
+
+<!-- منطقه زنده برای اعلان‌ها -->
+<div
+  id="notifications"
+  aria-live="assertive"
+  aria-atomic="false"
+  class="notification-area"
+>
+  <!-- اعلان‌های مهم -->
+</div>
+```
+
+**انواع aria-live:**
+
+- `polite`: تغییرات با تاخیر اعلام می‌شوند
+- `assertive`: تغییرات فوری اعلام می‌شوند
+- `off`: تغییرات اعلام نمی‌شوند
+
+### آکاردئون قابل دسترس
+
+```html
+<div class="accordion">
+  <h3>
+    <button
+      aria-expanded="false"
+      aria-controls="panel1"
+      class="accordion-trigger"
+    >
+      سوال متداول اول
+      <span class="icon" aria-hidden="true">+</span>
+    </button>
+  </h3>
+
+  <div id="panel1" class="accordion-panel" hidden>
+    <p>پاسخ سوال متداول اول در اینجا قرار می‌گیرد.</p>
+  </div>
+</div>
+
+<div class="accordion">
+  <h3>
+    <button
+      aria-expanded="false"
+      aria-controls="panel2"
+      class="accordion-trigger"
+    >
+      سوال متداول دوم
+      <span class="icon" aria-hidden="true">+</span>
+    </button>
+  </h3>
+
+  <div id="panel2" class="accordion-panel" hidden>
+    <p>پاسخ سوال متداول دوم در اینجا قرار می‌گیرد.</p>
+  </div>
+</div>
+```
+
+```javascript
+// جاوااسکریپت آکاردئون
+document.querySelectorAll(".accordion-trigger").forEach((button) => {
+  button.addEventListener("click", () => {
+    const panelId = button.getAttribute("aria-controls");
+    const panel = document.getElementById(panelId);
+    const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+    // تغییر وضعیت
+    button.setAttribute("aria-expanded", !isExpanded);
+    panel.hidden = isExpanded;
+
+    // تغییر آیکون
+    const icon = button.querySelector(".icon");
+    icon.textContent = isExpanded ? "+" : "−";
+  });
+});
+```
+
+### منوهای کشویی قابل دسترس
+
+```html
+<nav aria-label="منوی اصلی">
+  <ul class="main-menu">
+    <li>
+      <button
+        aria-expanded="false"
+        aria-controls="submenu1"
+        class="menu-trigger"
+      >
+        محصولات
+        <span class="dropdown-icon" aria-hidden="true">▼</span>
+      </button>
+
+      <ul id="submenu1" class="submenu" hidden>
+        <li><a href="/products/software">نرم‌افزار</a></li>
+        <li><a href="/products/hardware">سخت‌افزار</a></li>
+        <li><a href="/products/services">خدمات</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+```
+
+```javascript
+// مدیریت منوهای کشویی
+document.querySelectorAll(".menu-trigger").forEach((button) => {
+  button.addEventListener("click", () => {
+    const submenuId = button.getAttribute("aria-controls");
+    const submenu = document.getElementById(submenuId);
+    const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+    // بستن همه منوهای دیگر
+    document.querySelectorAll(".submenu").forEach((menu) => {
+      menu.hidden = true;
+    });
+    document.querySelectorAll(".menu-trigger").forEach((btn) => {
+      btn.setAttribute("aria-expanded", "false");
+    });
+
+    // باز/بسته کردن منوی فعلی
+    if (!isExpanded) {
+      submenu.hidden = false;
+      button.setAttribute("aria-expanded", "true");
+    }
+  });
+});
+
+// بستن منوها با کلیک خارج
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".main-menu")) {
+    document.querySelectorAll(".submenu").forEach((menu) => {
+      menu.hidden = true;
+    });
+    document.querySelectorAll(".menu-trigger").forEach((btn) => {
+      btn.setAttribute("aria-expanded", "false");
+    });
+  }
+});
+```
+
+### جدول‌های قابل دسترس
+
+```html
+<table>
+  <caption>
+    لیست محصولات
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">نام محصول</th>
+      <th scope="col">قیمت</th>
+      <th scope="col">موجودی</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">لپ‌تاپ</th>
+      <td>۱۵,۰۰۰,۰۰۰ تومان</td>
+      <td>۱۰ عدد</td>
+    </tr>
+    <tr>
+      <th scope="row">موشواره</th>
+      <td>۵۰۰,۰۰۰ تومان</td>
+      <td>۵۰ عدد</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+**ویژگی‌های مهم:**
+
+- از `<caption>` برای توضیح جدول استفاده کنید
+- از `scope` برای مشخص کردن سرستون‌ها استفاده کنید
+- از `<thead>` و `<tbody>` برای ساختار استفاده کنید
+
+---
+
+## تست و ارزیابی
+
+### تست با کیبورد
+
+۱. **Tab Navigation**: با Tab بین عناصر حرکت کنید
+۲. **Shift+Tab**: به عقب حرکت کنید
+۳. **Enter/Space**: دکمه‌ها و لینک‌ها را فعال کنید
+۴. **Arrow Keys**: در منوها و آکاردئون‌ها حرکت کنید
+
+### ابزارهای تست خودکار
+
+**Lighthouse (Chrome DevTools):**
+
+- تب Accessibility را بررسی کنید
+- نمره ۹۰+ هدف شما باشد
+
+**axe DevTools:**
+
+- افزونه مرورگر برای تست دقیق‌تر
+- گزارش‌های مفصلی ارائه می‌دهد
+
+**WAVE:**
+
+- ابزار آنلاین برای تست دسترسی‌پذیری
+- تصویر بصری از مشکلات
+
+### تست با صفحه‌خوان
+
+**VoiceOver (macOS):**
+
+- Cmd+F5 برای فعال‌سازی
+- Cmd+Option+U برای منوی Web Rotor
+- Cmd+Option+Right/Left برای حرکت بین عناصر
+
+**NVDA (Windows):**
+
+- Ctrl+Alt+N برای فعال‌سازی
+- H برای حرکت بین عناوین
+- Tab برای حرکت بین لینک‌ها
+
+---
+
+## بهترین شیوه‌ها
+
+### اصول کلی
+
+۱. **ابتدا HTML معنادار**: از تگ‌های مناسب استفاده کنید
+۲. **سپس ARIA**: فقط در صورت نیاز از ARIA استفاده کنید
+۳. **تست زودهنگام**: مشکلات را زود پیدا و حل کنید
+۴. **طراحی فراگیر**: برای همه کاربران طراحی کنید
+
+### نکات مهم
+
+- **یک H1**: فقط یک عنوان اصلی در هر صفحه
+- **فوکوس قابل مشاهده**: هرگز outline را حذف نکنید
+- **کنتراست کافی**: از نسبت‌های استاندارد استفاده کنید
+- **متن جایگزین**: برای همه تصاویر متن جایگزین بنویسید
+- **ساختار منطقی**: عناوین را به ترتیب استفاده کنید
+
+### منابع یادگیری
+
+- [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/WCAG21/quickref/)
+- [MDN Web Docs - Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
+- [A11Y Project](https://www.a11yproject.com/)
+- [WebAIM](https://webaim.org/)
+
+---
+
+## پروژه عملی
+
+### وب‌سایت "درباره من" قابل دسترس
+
+یک وب‌سایت شخصی بسازید که شامل این موارد باشد:
+
+**سطح اول:**
+
+- متن جایگزین برای تصاویر
+- ساختار عناوین منطقی
+- برچسب‌های فرم
+- کنتراست رنگ مناسب
+
+**سطح دوم:**
+
+- نشانه‌های صفحه (header, nav, main, footer)
+- لینک پرش
+- فرم‌های پیشرفته
+- مدیریت فوکوس
+
+**سطح سوم:**
+
+- آکاردئون FAQ
+- منوهای کشویی
+- مناطق زنده برای پیام‌ها
+- جدول‌های قابل دسترس
+
+### مراحل تست
+
+۱. **تست کیبورد**: فقط با Tab و Enter ناوبری کنید
+۲. **تست صفحه‌خوان**: از VoiceOver یا NVDA استفاده کنید
+۳. **تست خودکار**: Lighthouse را اجرا کنید
+۴. **تست دستی**: از دوستان بخواهید سایت را تست کنند
+
+### انتشار
+
+- از GitHub Pages استفاده کنید
+- کد را در GitHub قرار دهید
+- از دوستان بخواهید سایت را تست کنند
+- بازخورد دریافت کنید و بهبود دهید
+
+---
+
+## نتیجه‌گیری
+
+دسترسی‌پذیری یک مهارت ضروری برای توسعه‌دهندگان وب است. با یادگیری این مفاهیم و تمرین مداوم، می‌توانید وب‌سایت‌هایی بسازید که برای همه افراد قابل استفاده باشند.
+
+**یادتان باشد:**
+
+- از مفاهیم پایه شروع کنید
+- گام به گام پیش بروید
+- مداوم تست کنید
+- از بازخورد استفاده کنید
+- همیشه در حال یادگیری باشید
+
+دسترسی‌پذیری یک سفر است، نه یک مقصد. هر روز چیز جدیدی یاد بگیرید و مهارت‌های خود را بهبود دهید.
