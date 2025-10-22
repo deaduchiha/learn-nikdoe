@@ -6,29 +6,29 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen fixed w-full  flex items-center justify-center p-6">
+    <main className="min-h-screen fixed w-full flex items-center justify-center p-6">
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         {/* Hero section */}
         <div>
-          <h1 className="text-5xl md:text-6xl font-bold  mb-6 leading-tight">
+          <h1 className="text-5xl md:text-4xl font-bold  leading-tight">
             NIKODE
           </h1>
 
           <YogaDev />
 
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-1">
             <span className="font-semibold">یکبار یاد بگیر</span>، برای همیشه
             بساز
           </p>
         </div>
 
         {/* Main content card */}
-        <div className=" shadow-xl rounded-3xl p-8 md:p-12 max-w-2xl mx-auto">
+        <div className=" shadow-xl rounded-3xl p-8 max-w-2xl mx-auto">
           {/* <div className="mb-8 flex items-center justify-center">
             <NikodeLogo />
           </div> */}
 
-          <p className="text-lg md:text-xl  leading-relaxed mb-10">
+          <p className="text-lg md:text-xl  leading-relaxed mb-5">
             درس‌های کوچک ما، تمرینات دنیای واقعی، و فلسفه بدون محدودیت ما به شما
             کمک می‌کند تا سایت‌های دسترسی‌پذیر را{" "}
             <span className="font-bold ">سریع</span> بسازید.
