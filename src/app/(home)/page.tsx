@@ -51,7 +51,7 @@ export default function HomePage() {
             <Button
               asChild
               size="lg"
-              className="shadow-lg bg-[#C799C7] hover:bg-[#C799C7]/90 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-black"
+              className="shadow-lg bg-[#C799C7] hover:bg-[#C799C7]/90 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 "
             >
               <Link href="/docs">
                 <Book className="w-5 h-5 mr-2" />
